@@ -1,0 +1,358 @@
+{
+  "schema_version": "credit-pme.pdf.v1",
+  "engine_version": "0.1.0",
+  "document_sha256": "642944cb1d4ff2abd5dd6dcee607a33d9215860ce2a6fcd650835e32ea87721e",
+  "created_at": "2026-11-04T10:47:36.476837+00:00",
+  "document_type": "balance_sheet",
+  "type_selection": "explicit",
+  "type_candidates": [
+    {
+      "document_type": "balance_sheet",
+      "basis": "exact_title_phrase",
+      "matched_title": "Bilan"
+    }
+  ],
+  "page_count": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width": 595.0,
+      "height": 842.0,
+      "text": "SPECIMEN SYNTHETIQUE - AUCUNE VALEUR OFFICIELLE\nBilan\nMontants en milliers de FCFA\nRubrique  2026  2025\nTotal actif  1 200  900\nCapitaux propres  500  400",
+      "evidence_ids": [
+        "p1:l1",
+        "p1:l2",
+        "p1:l3",
+        "p1:l4",
+        "p1:l5",
+        "p1:l6"
+      ],
+      "type_candidates": [
+        {
+          "document_type": "balance_sheet",
+          "basis": "exact_title_phrase",
+          "matched_title": "Bilan"
+        }
+      ],
+      "needs_review": false
+    }
+  ],
+  "evidence": [
+    {
+      "text": "SPECIMEN SYNTHETIQUE - AUCUNE VALEUR OFFICIELLE",
+      "bbox": [
+        40.0,
+        26.299999237060547,
+        322.7999572753906,
+        40.06999969482422
+      ],
+      "method": "native",
+      "ocr_confidence": null,
+      "id": "p1:l1",
+      "page": 1
+    },
+    {
+      "text": "Bilan",
+      "bbox": [
+        40.0,
+        49.15999984741211,
+        69.33999633789062,
+        65.68399810791016
+      ],
+      "method": "native",
+      "ocr_confidence": null,
+      "id": "p1:l2",
+      "page": 1
+    },
+    {
+      "text": "Montants en milliers de FCFA",
+      "bbox": [
+        40.0,
+        81.25,
+        171.6999969482422,
+        94.98999786376953
+      ],
+      "method": "native",
+      "ocr_confidence": null,
+      "id": "p1:l3",
+      "page": 1
+    },
+    {
+      "text": "Rubrique  2026  2025",
+      "bbox": [
+        46.0,
+        126.32499694824219,
+        286.0159912109375,
+        138.6909942626953
+      ],
+      "method": "native",
+      "ocr_confidence": null,
+      "id": "p1:l4",
+      "page": 1
+    },
+    {
+      "text": "Total actif  1 200  900",
+      "bbox": [
+        46.0,
+        144.3249969482422,
+        281.0119934082031,
+        156.6909942626953
+      ],
+      "method": "native",
+      "ocr_confidence": null,
+      "id": "p1:l5",
+      "page": 1
+    },
+    {
+      "text": "Capitaux propres  500  400",
+      "bbox": [
+        46.0,
+        162.3249969482422,
+        281.0119934082031,
+        174.6909942626953
+      ],
+      "method": "native",
+      "ocr_confidence": null,
+      "id": "p1:l6",
+      "page": 1
+    }
+  ],
+  "tables": [
+    {
+      "id": "p1:t1",
+      "page": 1,
+      "bbox": [
+        40.0,
+        124.0,
+        360.0,
+        178.0
+      ],
+      "rows": [
+        [
+          "Rubrique",
+          "2026",
+          "2025"
+        ],
+        [
+          "Total actif",
+          "1 200",
+          "900"
+        ],
+        [
+          "Capitaux propres",
+          "500",
+          "400"
+        ]
+      ],
+      "status": "extracted_unverified",
+      "structured": {
+        "status": "raw_table_requires_mapping",
+        "columns": [],
+        "records": []
+      }
+    }
+  ],
+  "form_fields": [],
+  "fields": {
+    "subject_name": {
+      "kind": "text",
+      "status": "not_found",
+      "candidates": []
+    },
+    "document_date": {
+      "kind": "date",
+      "status": "not_found",
+      "candidates": []
+    },
+    "period": {
+      "kind": "text",
+      "status": "not_found",
+      "candidates": []
+    },
+    "currency": {
+      "kind": "currency",
+      "status": "not_found",
+      "candidates": []
+    },
+    "reference": {
+      "kind": "text",
+      "status": "not_found",
+      "candidates": []
+    },
+    "turnover": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "net_result": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "equity": {
+      "kind": "money",
+      "status": "ambiguous_requires_review",
+      "candidates": [
+        {
+          "raw": "500  400",
+          "normalized": null,
+          "evidence_id": "p1:l6",
+          "page": 1,
+          "bbox": [
+            46.0,
+            162.3249969482422,
+            281.0119934082031,
+            174.6909942626953
+          ],
+          "method": "native",
+          "status": "extracted_unverified",
+          "multiple_values_possible": true
+        },
+        {
+          "raw": "500 | 400",
+          "normalized": null,
+          "cells": [
+            {
+              "column": 1,
+              "raw": "500",
+              "normalized": {
+                "amount_as_printed": "500",
+                "currency": null,
+                "ambiguous": false,
+                "unit_multiplier": null
+              }
+            },
+            {
+              "column": 2,
+              "raw": "400",
+              "normalized": {
+                "amount_as_printed": "400",
+                "currency": null,
+                "ambiguous": false,
+                "unit_multiplier": null
+              }
+            }
+          ],
+          "table_id": "p1:t1",
+          "row": 2,
+          "evidence_id": "p1:t1",
+          "page": 1,
+          "bbox": [
+            40.0,
+            124.0,
+            360.0,
+            178.0
+          ],
+          "method": "native_table",
+          "status": "extracted_unverified"
+        }
+      ]
+    },
+    "total_assets": {
+      "kind": "money",
+      "status": "ambiguous_requires_review",
+      "candidates": [
+        {
+          "raw": "1 200  900",
+          "normalized": null,
+          "evidence_id": "p1:l5",
+          "page": 1,
+          "bbox": [
+            46.0,
+            144.3249969482422,
+            281.0119934082031,
+            156.6909942626953
+          ],
+          "method": "native",
+          "status": "extracted_unverified",
+          "multiple_values_possible": true
+        },
+        {
+          "raw": "1 200 | 900",
+          "normalized": null,
+          "cells": [
+            {
+              "column": 1,
+              "raw": "1 200",
+              "normalized": {
+                "amount_as_printed": "1200",
+                "currency": null,
+                "ambiguous": false,
+                "unit_multiplier": null
+              }
+            },
+            {
+              "column": 2,
+              "raw": "900",
+              "normalized": {
+                "amount_as_printed": "900",
+                "currency": null,
+                "ambiguous": false,
+                "unit_multiplier": null
+              }
+            }
+          ],
+          "table_id": "p1:t1",
+          "row": 1,
+          "evidence_id": "p1:t1",
+          "page": 1,
+          "bbox": [
+            40.0,
+            124.0,
+            360.0,
+            178.0
+          ],
+          "method": "native_table",
+          "status": "extracted_unverified"
+        }
+      ]
+    },
+    "total_liabilities": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "cash": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "receivables": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "payables": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "inventory": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "operating_cash_flow": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "expenses": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    }
+  },
+  "unit_hints": [
+    " SYNTHETIQUE - AUCUNE VALEUR OFFICIELLE",
+    "Montants en milliers de FCFA"
+  ],
+  "warnings": [
+    "extraction_is_not_authenticity_verification",
+    "no_automatic_credit_scoring_or_training_ingestion",
+    "not_found_means_label_not_detected_not_document_absence",
+    "unit_scale_requires_review_amounts_remain_as_printed"
+  ],
+  "review_status": "pending",
+  "ready_for_scoring": false
+}

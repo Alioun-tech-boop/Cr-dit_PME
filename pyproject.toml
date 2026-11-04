@@ -1,0 +1,19 @@
+[project]
+name = "credit-pme"
+version = "0.1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = ["fastapi==0.115.12", "uvicorn==0.34.2", "pydantic==2.11.4", "sqlalchemy==2.0.40", "alembic==1.15.2", "psycopg[binary]==3.2.9", "credit-pme-pdf==0.1.0", "Pillow==13.0.0"]
+[dependency-groups]
+dev = ["pytest==8.3.5", "httpx==0.28.1", "ruff==0.11.8", "reportlab==4.4.9"]
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+[tool.ruff]
+line-length = 100
+extend-exclude = ["modules/credit_pme_pdf"]
+
+[tool.uv.sources]
+credit-pme-pdf = { path = "modules/credit_pme_pdf" }
+
+[tool.uv]
+constraint-dependencies = ["PyMuPDF==1.26.6", "pdfplumber==0.11.9"]

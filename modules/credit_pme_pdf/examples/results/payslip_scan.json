@@ -1,0 +1,316 @@
+{
+  "schema_version": "credit-pme.pdf.v1",
+  "engine_version": "0.1.0",
+  "document_sha256": "5b75ccbf12f47b7cead59284d7a33ee35c3c949c30eba514e7d7471eb89dc0ea",
+  "created_at": "2026-11-04T10:47:36.436061+00:00",
+  "document_type": "payslip",
+  "type_selection": "explicit",
+  "type_candidates": [
+    {
+      "document_type": "payslip",
+      "basis": "exact_title_phrase",
+      "matched_title": "Bulletin de salaire"
+    }
+  ],
+  "page_count": 1,
+  "pages": [
+    {
+      "page": 1,
+      "width": 595.0,
+      "height": 842.0,
+      "text": "SPECIMEN SYNTHETIQUE - AUCUNE VALEUR OFFICIELLE\nBulletin de salaire\nNom du salarié: PERSONNE SPECIMEN\nPériode: octobre 2026\nSalaire brut: 350 000 FCFA\nNet a payer: 280 000 FCFA\nRetenue prét: 20 000 FCFA",
+      "evidence_ids": [
+        "p1:l1",
+        "p1:l2",
+        "p1:l3",
+        "p1:l4",
+        "p1:l5",
+        "p1:l6",
+        "p1:l7"
+      ],
+      "type_candidates": [
+        {
+          "document_type": "payslip",
+          "basis": "exact_title_phrase",
+          "matched_title": "Bulletin de salaire"
+        }
+      ],
+      "needs_review": true
+    }
+  ],
+  "evidence": [
+    {
+      "text": "SPECIMEN SYNTHETIQUE - AUCUNE VALEUR OFFICIELLE",
+      "bbox": [
+        40.5,
+        29.5,
+        322.5,
+        37.5
+      ],
+      "method": "ocr",
+      "ocr_confidence": 92.24,
+      "id": "p1:l1",
+      "page": 1
+    },
+    {
+      "text": "Bulletin de salaire",
+      "bbox": [
+        41.0,
+        53.0,
+        142.5,
+        62.5
+      ],
+      "method": "ocr",
+      "ocr_confidence": 93.76,
+      "id": "p1:l2",
+      "page": 1
+    },
+    {
+      "text": "Nom du salarié: PERSONNE SPECIMEN",
+      "bbox": [
+        40.5,
+        84.5,
+        223.0,
+        92.0
+      ],
+      "method": "ocr",
+      "ocr_confidence": 94.82,
+      "id": "p1:l3",
+      "page": 1
+    },
+    {
+      "text": "Période: octobre 2026",
+      "bbox": [
+        41.0,
+        106.5,
+        138.0,
+        114.0
+      ],
+      "method": "ocr",
+      "ocr_confidence": 95.36,
+      "id": "p1:l4",
+      "page": 1
+    },
+    {
+      "text": "Salaire brut: 350 000 FCFA",
+      "bbox": [
+        40.5,
+        128.5,
+        161.5,
+        136.0
+      ],
+      "method": "ocr",
+      "ocr_confidence": 94.09,
+      "id": "p1:l5",
+      "page": 1
+    },
+    {
+      "text": "Net a payer: 280 000 FCFA",
+      "bbox": [
+        40.5,
+        150.5,
+        162.0,
+        160.0
+      ],
+      "method": "ocr",
+      "ocr_confidence": 90.1,
+      "id": "p1:l6",
+      "page": 1
+    },
+    {
+      "text": "Retenue prét: 20 000 FCFA",
+      "bbox": [
+        41.0,
+        172.5,
+        162.5,
+        182.0
+      ],
+      "method": "ocr",
+      "ocr_confidence": 93.41,
+      "id": "p1:l7",
+      "page": 1
+    }
+  ],
+  "tables": [],
+  "form_fields": [],
+  "fields": {
+    "subject_name": {
+      "kind": "text",
+      "status": "extracted_unverified",
+      "candidates": [
+        {
+          "raw": "PERSONNE SPECIMEN",
+          "normalized": "PERSONNE SPECIMEN",
+          "evidence_id": "p1:l3",
+          "page": 1,
+          "bbox": [
+            40.5,
+            84.5,
+            223.0,
+            92.0
+          ],
+          "method": "ocr",
+          "status": "extracted_unverified"
+        }
+      ]
+    },
+    "document_date": {
+      "kind": "date",
+      "status": "not_found",
+      "candidates": []
+    },
+    "period": {
+      "kind": "text",
+      "status": "extracted_unverified",
+      "candidates": [
+        {
+          "raw": "octobre 2026",
+          "normalized": "octobre 2026",
+          "evidence_id": "p1:l4",
+          "page": 1,
+          "bbox": [
+            41.0,
+            106.5,
+            138.0,
+            114.0
+          ],
+          "method": "ocr",
+          "status": "extracted_unverified"
+        }
+      ]
+    },
+    "currency": {
+      "kind": "currency",
+      "status": "not_found",
+      "candidates": []
+    },
+    "reference": {
+      "kind": "text",
+      "status": "not_found",
+      "candidates": []
+    },
+    "employer": {
+      "kind": "text",
+      "status": "not_found",
+      "candidates": []
+    },
+    "employment_start": {
+      "kind": "date",
+      "status": "not_found",
+      "candidates": []
+    },
+    "contract_type": {
+      "kind": "text",
+      "status": "not_found",
+      "candidates": []
+    },
+    "contract_end": {
+      "kind": "date",
+      "status": "not_found",
+      "candidates": []
+    },
+    "gross_income": {
+      "kind": "money",
+      "status": "extracted_unverified",
+      "candidates": [
+        {
+          "raw": "350 000 FCFA",
+          "normalized": {
+            "amount_as_printed": "350000",
+            "currency": "XOF",
+            "ambiguous": false,
+            "unit_multiplier": null
+          },
+          "evidence_id": "p1:l5",
+          "page": 1,
+          "bbox": [
+            40.5,
+            128.5,
+            161.5,
+            136.0
+          ],
+          "method": "ocr",
+          "status": "extracted_unverified",
+          "multiple_values_possible": false
+        }
+      ]
+    },
+    "net_income": {
+      "kind": "money",
+      "status": "extracted_unverified",
+      "candidates": [
+        {
+          "raw": "280 000 FCFA",
+          "normalized": {
+            "amount_as_printed": "280000",
+            "currency": "XOF",
+            "ambiguous": false,
+            "unit_multiplier": null
+          },
+          "evidence_id": "p1:l6",
+          "page": 1,
+          "bbox": [
+            40.5,
+            150.5,
+            162.0,
+            160.0
+          ],
+          "method": "ocr",
+          "status": "extracted_unverified",
+          "multiple_values_possible": false
+        }
+      ]
+    },
+    "loan_withholding": {
+      "kind": "money",
+      "status": "extracted_unverified",
+      "candidates": [
+        {
+          "raw": "20 000 FCFA",
+          "normalized": {
+            "amount_as_printed": "20000",
+            "currency": "XOF",
+            "ambiguous": false,
+            "unit_multiplier": null
+          },
+          "evidence_id": "p1:l7",
+          "page": 1,
+          "bbox": [
+            41.0,
+            172.5,
+            162.5,
+            182.0
+          ],
+          "method": "ocr",
+          "status": "extracted_unverified",
+          "multiple_values_possible": false
+        }
+      ]
+    },
+    "bonuses": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    },
+    "income_amount": {
+      "kind": "money",
+      "status": "not_found",
+      "candidates": []
+    }
+  },
+  "unit_hints": [
+    " SYNTHETIQUE - AUCUNE VALEUR OFFICIELLE",
+    "Salaire brut: 350 000 FCFA",
+    "Net a payer: 280 000 FCFA",
+    "Retenue prét: 20 000 FCFA"
+  ],
+  "warnings": [
+    "extraction_is_not_authenticity_verification",
+    "no_automatic_credit_scoring_or_training_ingestion",
+    "not_found_means_label_not_detected_not_document_absence",
+    "ocr_tables_preserved_as_lines_no_certified_cell_reconstruction",
+    "page_1:ocr_requires_visual_review"
+  ],
+  "review_status": "pending",
+  "ready_for_scoring": false
+}

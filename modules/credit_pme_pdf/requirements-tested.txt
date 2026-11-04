@@ -1,0 +1,3 @@
+# Versions exécutées pour les tests fournis ; aucun téléchargement automatique.
+PyMuPDF==1.26.6
+pdfplumber==0.11.9

@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16.6-bookworm
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-credit}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-credit_local}
+      POSTGRES_DB: ${POSTGRES_DB:-credit}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - credit_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-credit}:${POSTGRES_PASSWORD:-credit_local}@db:5432/${POSTGRES_DB:-credit}
+      CREDIT_AUTH_JSON: ${CREDIT_AUTH_JSON:-}
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  credit_data:

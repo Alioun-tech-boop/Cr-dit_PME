@@ -1,0 +1,20 @@
+{
+  "version": "quality-1",
+  "calibration": "Param\u00e8tres techniques initiaux \u00e0 calibrer sur corpus autoris\u00e9",
+  "min_side_warning": 600,
+  "min_side_blocking": 32,
+  "blur_variance_warning": 30,
+  "contrast_warning": 15,
+  "blank_ink_fraction": 0.001,
+  "edge_band_fraction": 0.02,
+  "edge_ink_warning": 0.05,
+  "scan_image_coverage": 0.65,
+  "mixed_image_coverage": 0.08,
+  "mixed_scan_min_coverage": 0.3,
+  "native_text_chars": 20,
+  "orientation_timeout_seconds": 3,
+  "uniform_contrast_blocking": 1,
+  "ink_cutoff": 245,
+  "exposure_low": 25,
+  "exposure_high": 250
+}

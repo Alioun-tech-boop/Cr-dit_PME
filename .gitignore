@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+*.db
+
+output/
+.local/
+*.egg-info/
+
+# Métadonnées de la session et documents privés
+.cache/
+.codex-attachments/
+.codex/
+.agents/
+.aws/
+library-files/
+scratch/
+shared/
+client_documents/
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.log

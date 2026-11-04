@@ -1,0 +1,532 @@
+{
+  "documents": [
+    {
+      "path": "pdf/identity_card.pdf",
+      "document_type": "identity_card"
+    },
+    {
+      "path": "pdf/passport.pdf",
+      "document_type": "passport"
+    },
+    {
+      "path": "pdf/address_proof.pdf",
+      "document_type": "address_proof"
+    },
+    {
+      "path": "pdf/credit_application.pdf",
+      "document_type": "credit_application"
+    },
+    {
+      "path": "pdf/income_expense_declaration.pdf",
+      "document_type": "income_expense_declaration"
+    },
+    {
+      "path": "pdf/data_notice.pdf",
+      "document_type": "data_notice"
+    },
+    {
+      "path": "pdf/data_authorization.pdf",
+      "document_type": "data_authorization"
+    },
+    {
+      "path": "pdf/bic_consent.pdf",
+      "document_type": "bic_consent"
+    },
+    {
+      "path": "pdf/bic_report.pdf",
+      "document_type": "bic_report"
+    },
+    {
+      "path": "pdf/rccm.pdf",
+      "document_type": "rccm"
+    },
+    {
+      "path": "pdf/ifu.pdf",
+      "document_type": "ifu"
+    },
+    {
+      "path": "pdf/articles.pdf",
+      "document_type": "articles"
+    },
+    {
+      "path": "pdf/ownership.pdf",
+      "document_type": "ownership"
+    },
+    {
+      "path": "pdf/appointment.pdf",
+      "document_type": "appointment"
+    },
+    {
+      "path": "pdf/power_of_attorney.pdf",
+      "document_type": "power_of_attorney"
+    },
+    {
+      "path": "pdf/borrowing_resolution.pdf",
+      "document_type": "borrowing_resolution"
+    },
+    {
+      "path": "pdf/commercial_lease.pdf",
+      "document_type": "commercial_lease"
+    },
+    {
+      "path": "pdf/occupancy_title.pdf",
+      "document_type": "occupancy_title"
+    },
+    {
+      "path": "pdf/operating_license.pdf",
+      "document_type": "operating_license"
+    },
+    {
+      "path": "pdf/annual_financials.pdf",
+      "document_type": "annual_financials"
+    },
+    {
+      "path": "pdf/balance_sheet.pdf",
+      "document_type": "balance_sheet"
+    },
+    {
+      "path": "pdf/income_statement.pdf",
+      "document_type": "income_statement"
+    },
+    {
+      "path": "pdf/cash_flow_statement.pdf",
+      "document_type": "cash_flow_statement"
+    },
+    {
+      "path": "pdf/financial_notes.pdf",
+      "document_type": "financial_notes"
+    },
+    {
+      "path": "pdf/interim_accounts.pdf",
+      "document_type": "interim_accounts"
+    },
+    {
+      "path": "pdf/trial_balance.pdf",
+      "document_type": "trial_balance"
+    },
+    {
+      "path": "pdf/general_ledger.pdf",
+      "document_type": "general_ledger"
+    },
+    {
+      "path": "pdf/monthly_activity.pdf",
+      "document_type": "monthly_activity"
+    },
+    {
+      "path": "pdf/bank_statement.pdf",
+      "document_type": "bank_statement"
+    },
+    {
+      "path": "pdf/mobile_money_statement.pdf",
+      "document_type": "mobile_money_statement"
+    },
+    {
+      "path": "pdf/cash_book.pdf",
+      "document_type": "cash_book"
+    },
+    {
+      "path": "pdf/receivables.pdf",
+      "document_type": "receivables"
+    },
+    {
+      "path": "pdf/payables.pdf",
+      "document_type": "payables"
+    },
+    {
+      "path": "pdf/inventory.pdf",
+      "document_type": "inventory"
+    },
+    {
+      "path": "pdf/fixed_assets.pdf",
+      "document_type": "fixed_assets"
+    },
+    {
+      "path": "pdf/cash_forecast.pdf",
+      "document_type": "cash_forecast"
+    },
+    {
+      "path": "pdf/loan_contract.pdf",
+      "document_type": "loan_contract"
+    },
+    {
+      "path": "pdf/amortization_schedule.pdf",
+      "document_type": "amortization_schedule"
+    },
+    {
+      "path": "pdf/loan_balance.pdf",
+      "document_type": "loan_balance"
+    },
+    {
+      "path": "pdf/payment_receipt.pdf",
+      "document_type": "payment_receipt"
+    },
+    {
+      "path": "pdf/finance_lease.pdf",
+      "document_type": "finance_lease"
+    },
+    {
+      "path": "pdf/credit_lines.pdf",
+      "document_type": "credit_lines"
+    },
+    {
+      "path": "pdf/tax_debt_schedule.pdf",
+      "document_type": "tax_debt_schedule"
+    },
+    {
+      "path": "pdf/social_debt_schedule.pdf",
+      "document_type": "social_debt_schedule"
+    },
+    {
+      "path": "pdf/informal_debt.pdf",
+      "document_type": "informal_debt"
+    },
+    {
+      "path": "pdf/shareholder_advance.pdf",
+      "document_type": "shareholder_advance"
+    },
+    {
+      "path": "pdf/guarantees_given.pdf",
+      "document_type": "guarantees_given"
+    },
+    {
+      "path": "pdf/restructuring.pdf",
+      "document_type": "restructuring"
+    },
+    {
+      "path": "pdf/arrears_notice.pdf",
+      "document_type": "arrears_notice"
+    },
+    {
+      "path": "pdf/business_description.pdf",
+      "document_type": "business_description"
+    },
+    {
+      "path": "pdf/customer_concentration.pdf",
+      "document_type": "customer_concentration"
+    },
+    {
+      "path": "pdf/supplier_concentration.pdf",
+      "document_type": "supplier_concentration"
+    },
+    {
+      "path": "pdf/sales_invoice.pdf",
+      "document_type": "sales_invoice"
+    },
+    {
+      "path": "pdf/purchase_invoice.pdf",
+      "document_type": "purchase_invoice"
+    },
+    {
+      "path": "pdf/customer_contract.pdf",
+      "document_type": "customer_contract"
+    },
+    {
+      "path": "pdf/purchase_order.pdf",
+      "document_type": "purchase_order"
+    },
+    {
+      "path": "pdf/awarded_market.pdf",
+      "document_type": "awarded_market"
+    },
+    {
+      "path": "pdf/quotation.pdf",
+      "document_type": "quotation"
+    },
+    {
+      "path": "pdf/proforma_invoice.pdf",
+      "document_type": "proforma_invoice"
+    },
+    {
+      "path": "pdf/project_budget.pdf",
+      "document_type": "project_budget"
+    },
+    {
+      "path": "pdf/contribution_proof.pdf",
+      "document_type": "contribution_proof"
+    },
+    {
+      "path": "pdf/financial_forecast.pdf",
+      "document_type": "financial_forecast"
+    },
+    {
+      "path": "pdf/site_visit.pdf",
+      "document_type": "site_visit"
+    },
+    {
+      "path": "pdf/tax_return.pdf",
+      "document_type": "tax_return"
+    },
+    {
+      "path": "pdf/tax_payment.pdf",
+      "document_type": "tax_payment"
+    },
+    {
+      "path": "pdf/tax_clearance.pdf",
+      "document_type": "tax_clearance"
+    },
+    {
+      "path": "pdf/social_return.pdf",
+      "document_type": "social_return"
+    },
+    {
+      "path": "pdf/social_payment.pdf",
+      "document_type": "social_payment"
+    },
+    {
+      "path": "pdf/payroll_summary.pdf",
+      "document_type": "payroll_summary"
+    },
+    {
+      "path": "pdf/sales_journal.pdf",
+      "document_type": "sales_journal"
+    },
+    {
+      "path": "pdf/expense_journal.pdf",
+      "document_type": "expense_journal"
+    },
+    {
+      "path": "pdf/supplier_receipt.pdf",
+      "document_type": "supplier_receipt"
+    },
+    {
+      "path": "pdf/household_business_split.pdf",
+      "document_type": "household_business_split"
+    },
+    {
+      "path": "pdf/interview.pdf",
+      "document_type": "interview"
+    },
+    {
+      "path": "pdf/payslip.pdf",
+      "document_type": "payslip"
+    },
+    {
+      "path": "pdf/employment_certificate.pdf",
+      "document_type": "employment_certificate"
+    },
+    {
+      "path": "pdf/employment_contract.pdf",
+      "document_type": "employment_contract"
+    },
+    {
+      "path": "pdf/employment_appointment.pdf",
+      "document_type": "employment_appointment"
+    },
+    {
+      "path": "pdf/bonus_income.pdf",
+      "document_type": "bonus_income"
+    },
+    {
+      "path": "pdf/household_budget.pdf",
+      "document_type": "household_budget"
+    },
+    {
+      "path": "pdf/residential_lease.pdf",
+      "document_type": "residential_lease"
+    },
+    {
+      "path": "pdf/housing_instalment.pdf",
+      "document_type": "housing_instalment"
+    },
+    {
+      "path": "pdf/salary_withholdings.pdf",
+      "document_type": "salary_withholdings"
+    },
+    {
+      "path": "pdf/pension_statement.pdf",
+      "document_type": "pension_statement"
+    },
+    {
+      "path": "pdf/self_employment_proof.pdf",
+      "document_type": "self_employment_proof"
+    },
+    {
+      "path": "pdf/service_contract.pdf",
+      "document_type": "service_contract"
+    },
+    {
+      "path": "pdf/receipt_proof.pdf",
+      "document_type": "receipt_proof"
+    },
+    {
+      "path": "pdf/farm_calendar.pdf",
+      "document_type": "farm_calendar"
+    },
+    {
+      "path": "pdf/land_use.pdf",
+      "document_type": "land_use"
+    },
+    {
+      "path": "pdf/farm_production.pdf",
+      "document_type": "farm_production"
+    },
+    {
+      "path": "pdf/input_budget.pdf",
+      "document_type": "input_budget"
+    },
+    {
+      "path": "pdf/livestock_inventory.pdf",
+      "document_type": "livestock_inventory"
+    },
+    {
+      "path": "pdf/livestock_costs.pdf",
+      "document_type": "livestock_costs"
+    },
+    {
+      "path": "pdf/vehicle_registration.pdf",
+      "document_type": "vehicle_registration"
+    },
+    {
+      "path": "pdf/transport_revenue.pdf",
+      "document_type": "transport_revenue"
+    },
+    {
+      "path": "pdf/maintenance.pdf",
+      "document_type": "maintenance"
+    },
+    {
+      "path": "pdf/insurance.pdf",
+      "document_type": "insurance"
+    },
+    {
+      "path": "pdf/guarantor_commitment.pdf",
+      "document_type": "guarantor_commitment"
+    },
+    {
+      "path": "pdf/guarantor_resources.pdf",
+      "document_type": "guarantor_resources"
+    },
+    {
+      "path": "pdf/property_title.pdf",
+      "document_type": "property_title"
+    },
+    {
+      "path": "pdf/encumbrance_report.pdf",
+      "document_type": "encumbrance_report"
+    },
+    {
+      "path": "pdf/appraisal.pdf",
+      "document_type": "appraisal"
+    },
+    {
+      "path": "pdf/equipment_ownership.pdf",
+      "document_type": "equipment_ownership"
+    },
+    {
+      "path": "pdf/stock_pledge.pdf",
+      "document_type": "stock_pledge"
+    },
+    {
+      "path": "pdf/receivable_assignment.pdf",
+      "document_type": "receivable_assignment"
+    },
+    {
+      "path": "pdf/blocked_savings.pdf",
+      "document_type": "blocked_savings"
+    },
+    {
+      "path": "pdf/guarantee_letter.pdf",
+      "document_type": "guarantee_letter"
+    },
+    {
+      "path": "pdf/partner_application.pdf",
+      "document_type": "partner_application"
+    },
+    {
+      "path": "pdf/partner_checklist.pdf",
+      "document_type": "partner_checklist"
+    },
+    {
+      "path": "pdf/credit_product.pdf",
+      "document_type": "credit_product"
+    },
+    {
+      "path": "pdf/eligibility_rules.pdf",
+      "document_type": "eligibility_rules"
+    },
+    {
+      "path": "pdf/scoring_grid.pdf",
+      "document_type": "scoring_grid"
+    },
+    {
+      "path": "pdf/analysis_report.pdf",
+      "document_type": "analysis_report"
+    },
+    {
+      "path": "pdf/exception_policy.pdf",
+      "document_type": "exception_policy"
+    },
+    {
+      "path": "pdf/verification_policy.pdf",
+      "document_type": "verification_policy"
+    },
+    {
+      "path": "pdf/default_definition.pdf",
+      "document_type": "default_definition"
+    },
+    {
+      "path": "pdf/historical_applications.pdf",
+      "document_type": "historical_applications"
+    },
+    {
+      "path": "pdf/historical_decisions.pdf",
+      "document_type": "historical_decisions"
+    },
+    {
+      "path": "pdf/historical_disbursements.pdf",
+      "document_type": "historical_disbursements"
+    },
+    {
+      "path": "pdf/historical_schedules.pdf",
+      "document_type": "historical_schedules"
+    },
+    {
+      "path": "pdf/historical_payments.pdf",
+      "document_type": "historical_payments"
+    },
+    {
+      "path": "pdf/historical_arrears.pdf",
+      "document_type": "historical_arrears"
+    },
+    {
+      "path": "pdf/historical_restructurings.pdf",
+      "document_type": "historical_restructurings"
+    },
+    {
+      "path": "pdf/historical_defaults_recoveries.pdf",
+      "document_type": "historical_defaults_recoveries"
+    },
+    {
+      "path": "pdf/data_dictionary.pdf",
+      "document_type": "data_dictionary"
+    },
+    {
+      "path": "pdf/document_reference.pdf",
+      "document_type": "document_reference"
+    },
+    {
+      "path": "pdf/indicator_manual.pdf",
+      "document_type": "indicator_manual"
+    },
+    {
+      "path": "pdf/missing_data_policy.pdf",
+      "document_type": "missing_data_policy"
+    },
+    {
+      "path": "pdf/model_validation.pdf",
+      "document_type": "model_validation"
+    },
+    {
+      "path": "pdf/access_retention_policy.pdf",
+      "document_type": "access_retention_policy"
+    },
+    {
+      "path": "pdf/partner_agreement.pdf",
+      "document_type": "partner_agreement"
+    },
+    {
+      "path": "pdf/correction_procedure.pdf",
+      "document_type": "correction_procedure"
+    }
+  ]
+}

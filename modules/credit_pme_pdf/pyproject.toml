@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "credit-pme-pdf"
+version = "0.1.0"
+description = "Extraction PDF locale et traçable des pièces Crédit PME"
+requires-python = ">=3.11"
+dependencies = ["PyMuPDF>=1.26.6,<1.27", "pdfplumber>=0.11.9,<0.12"]
+
+[project.optional-dependencies]
+test = ["reportlab>=4.4,<5"]
+
+[project.scripts]
+credit-pdf = "credit_pdf.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["credit_pdf*"]

@@ -1,0 +1,243 @@
+{
+  "name": "Ménage fictif salarie",
+  "currency": "XOF",
+  "evidence": [
+    {
+      "id": "synthetic",
+      "source": "Document entièrement synthétique de démonstration",
+      "period": "2026-01-01",
+      "currency": "XOF",
+      "collected_at": "2026-01-01",
+      "status": "declared"
+    }
+  ],
+  "existing_loans": [
+    {
+      "reference": "existing",
+      "principal": {
+        "value": "30000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "schedule": [
+        {
+          "period": "2026-02-01",
+          "principal": {
+            "value": "10000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "1000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          }
+        },
+        {
+          "period": "2026-03-01",
+          "principal": {
+            "value": "20000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "1000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "requested_loan": {
+    "reference": "requested",
+    "principal": {
+      "value": "60000",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "schedule": [
+      {
+        "period": "2026-02-01",
+        "principal": {
+          "value": "20000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "2000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "period": "2026-04-01",
+        "principal": {
+          "value": "40000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "2000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      }
+    ]
+  },
+  "profile": "employee",
+  "household_scope": "Deux adultes et deux enfants fictifs",
+  "mobilizable_reserve": {
+    "value": "100000",
+    "state": "known",
+    "evidence_ids": [
+      "synthetic"
+    ]
+  },
+  "periods": [
+    {
+      "period": "2026-02-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "250000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "150000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    {
+      "period": "2026-03-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "250000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "150000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    {
+      "period": "2026-04-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "250000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "150000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    }
+  ]
+}
