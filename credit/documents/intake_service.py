@@ -6,7 +6,9 @@ import shutil
 import subprocess
 
 from fastapi import HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, func
+import os
+from credit.security.files import antimalware
 from sqlalchemy.orm.exc import StaleDataError
 from credit_pdf.review import apply_review
 
@@ -46,6 +48,14 @@ def audit(session, submission, actor, action, detail):
 
 
 def create_submission(session, case, actor, body, policy, quality):
+    if body.visibility == "analyst" and not actor.reviewer:
+        raise HTTPException(403, "Classification interne réservée aux analystes")
+    if session.scalar(
+        select(func.count())
+        .select_from(SubmissionRecord)
+        .where(SubmissionRecord.case_id == case.id)
+    ) >= int(os.getenv("CREDIT_MAX_DOCUMENTS_PER_CASE", "500")):
+        raise HTTPException(429, "Quota de pièces atteint")
     rule = policy["rules"].get(body.document_type)
     if not rule or case.kind not in rule["profiles"]:
         raise HTTPException(422, "Type documentaire incompatible avec ce noyau")
@@ -80,6 +90,7 @@ def create_submission(session, case, actor, body, policy, quality):
         "created_at": stamp(),
         "processing_version": PIPELINE_VERSION,
         "created_by": actor.id,
+        "visibility": body.visibility,
         "revision": 1,
         "pages": [],
         "source_bytes": 0,
@@ -160,12 +171,14 @@ def add_source(session, record, actor, payload, runner):
     data = deepcopy(record.data)
     if data["source_bytes"] + len(payload) > data["limits"]["max_total_bytes"]:
         raise HTTPException(413, "Limite cumulée des originaux dépassée")
+    malware = antimalware(payload)
     inspected = run_worker(
         runner,
         "inspect",
         {"quality": data["quality_config"], "limits": data["limits"]},
         {"input": {"payload": payload}},
     )
+    inspected["malware"] = malware
     rule = data["policy"]
     allowed_formats = (
         rule.get("supporting_formats", ["image/jpeg", "image/png", "application/pdf"])
@@ -185,6 +198,15 @@ def add_source(session, record, actor, payload, runner):
         media_type=inspected["media_type"],
         payload=payload,
         inspection=inspected,
+    )
+    data.setdefault("security_checks", []).append(
+        {
+            "source_id": source.id,
+            "sha256": source.sha256,
+            "format_status": "accepted",
+            "antimalware": malware,
+            "authenticity_status": "not_assessed",
+        }
     )
     added = []
     for meta in inspected["pages"]:
@@ -350,6 +372,10 @@ def process(session, record, actor, runner):
     data = deepcopy(record.data)
     if data["deposit_status"] != "confirmed":
         raise HTTPException(409, "Confirmez les pages avant traitement")
+    if data["processing_status"] == "completed" and data.get("latest_run_id"):
+        existing = session.get(DocumentRun, data["latest_run_id"])
+        if existing and existing.data["revision"] == data["revision"]:
+            return record
     if data["processing_status"] == "running":
         age = (
             datetime.now(timezone.utc) - datetime.fromisoformat(data["processing_started_at"])
@@ -395,6 +421,7 @@ def process(session, record, actor, runner):
                 "pages": data["pages"],
                 "quality": data["quality_config"],
                 "document_type": data["document_type"],
+                "task_key": record.id,
                 "limits": data["limits"],
             },
             sources_for(session, record),
@@ -474,9 +501,16 @@ def process(session, record, actor, runner):
     return record
 
 
-def review(session, record, run, actor, decisions, regions=None):
+def review(session, record, run, actor, decisions, regions=None, expected_review_revision=0):
     if not actor.reviewer:
         raise HTTPException(403, "Habilitation de revue requise")
+    if (
+        run.data.get("revision") != record.data["revision"]
+        or record.data.get("latest_run_id") != run.id
+    ):
+        raise HTTPException(409, "Extraction périmée : relancer et revoir la version courante")
+    if expected_review_revision != record.data.get("review_revision", 0):
+        raise HTTPException(409, "Revue périmée : recharger la révision courante")
     if run.data["stage"] != "extraction":
         raise HTTPException(409, "Aucune extraction à revoir")
     if len(json.dumps(decisions)) > 65536:

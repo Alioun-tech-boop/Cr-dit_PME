@@ -31,7 +31,14 @@ def test_routes_history_restart(url, kind, filename, auth_headers):
         historical = client.get(f"/analyses/{analysis_id}").json()
         assert historical["result"]["status"] == "complete"
         data["name"] = "Dossier modifié"
-        assert client.put(f"/{kind}/{case_id}", json=data).status_code == 200
+        assert (
+            client.put(
+                f"/{kind}/{case_id}",
+                json=data,
+                headers={"If-Match": str(client.get(f"/{kind}/{case_id}").json()["version"])},
+            ).status_code
+            == 200
+        )
         assert client.get(f"/analyses/{analysis_id}").json() == historical
         assert client.get(f"/{kind}/{case_id}/analyses").json()[0]["id"] == analysis_id
         scenario = client.post(f"/{kind}/{case_id}/scenarios", json={"revenue_drop": "0.2"})

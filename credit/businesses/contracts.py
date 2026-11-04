@@ -1,13 +1,17 @@
 from datetime import date
+from credit.shared.arithmetic import deterministic
 from typing import Literal
 
 from pydantic import Field, model_validator
 
 from credit.shared.contracts import Amount, BaseCase, Contract
+from credit.printing.profile import RecordDetails
+from credit.assessment.inputs import BusinessDetails
 
 
 class BusinessPeriod(Contract):
     period: date
+    basis: Literal["observed", "forecast"] = "forecast"
     receipts: Amount
     operating_expenses: Amount
     taxes: Amount
@@ -19,6 +23,8 @@ class BusinessPeriod(Contract):
 
 
 class BusinessCase(BaseCase):
+    record_details: RecordDetails = Field(default_factory=RecordDetails)
+    analysis_details: BusinessDetails = Field(default_factory=BusinessDetails)
     mode: Literal["structured_accounts", "reconstructed_cashflows"]
     activity: str
     opening_cash: Amount
@@ -30,6 +36,7 @@ class BusinessCase(BaseCase):
     inventory: Amount | None = None
 
     @model_validator(mode="after")
+    @deterministic
     def periods_valid(self):
         dates = [p.period for p in self.periods]
         if not dates or dates != sorted(set(dates)):

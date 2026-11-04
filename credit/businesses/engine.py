@@ -1,3 +1,5 @@
+from credit.shared.arithmetic import deterministic
+from credit.shared.normalization import effective_case
 from credit.shared.calculation import Context, subtract, total
 from credit.businesses.results import BusinessPeriodResult
 from credit.shared.scoring import CriteriaEngine, PredictiveModel
@@ -6,7 +8,9 @@ BusinessCriteriaEngine = CriteriaEngine
 BusinessPredictiveModel = PredictiveModel
 
 
+@deterministic
 def analyze(case, scenario=None):
+    case, _ = effective_case(case)
     ctx = Context(case, scenario)
     balance = ctx.amount(case.opening_cash, "trésorerie initiale")
     rows = []

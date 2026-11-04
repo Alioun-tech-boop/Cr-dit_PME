@@ -1,0 +1,176 @@
+{
+  "id": "individuals-illustrative-v1",
+  "version": "1",
+  "core": "individuals",
+  "validation_status": "illustrative_not_validated",
+  "required_sections": [
+    "capacity",
+    "income",
+    "reserve"
+  ],
+  "criteria": [
+    {
+      "id": "capacity_margin",
+      "section_id": "capacity",
+      "metric_id": "minimum_margin_income",
+      "phenomenon": "budget_margin",
+      "weight": "0.50",
+      "unit": "ratio",
+      "critical_fields": [
+        "periods.*.incomes.*.net",
+        "periods.*.essential_expenses",
+        "requested_loan.principal"
+      ],
+      "bands": [
+        {
+          "lower": null,
+          "upper": "0",
+          "score": "0",
+          "status": "defavorable"
+        },
+        {
+          "lower": "0",
+          "upper": "0.1",
+          "score": "50",
+          "status": "vigilance"
+        },
+        {
+          "lower": "0.1",
+          "upper": null,
+          "score": "100",
+          "status": "favorable"
+        }
+      ]
+    },
+    {
+      "id": "income_variation",
+      "section_id": "income",
+      "metric_id": "history_cv",
+      "phenomenon": "income_regularity",
+      "weight": "0.20",
+      "unit": "ratio",
+      "critical_fields": [
+        "income_history",
+        "income_history.*.net_personal_income"
+      ],
+      "bands": [
+        {
+          "lower": null,
+          "upper": "0.2",
+          "score": "100",
+          "status": "favorable"
+        },
+        {
+          "lower": "0.2",
+          "upper": "0.5",
+          "score": "50",
+          "status": "vigilance"
+        },
+        {
+          "lower": "0.5",
+          "upper": null,
+          "score": "0",
+          "status": "defavorable"
+        }
+      ]
+    },
+    {
+      "id": "reserve_buffer",
+      "section_id": "reserve",
+      "metric_id": "reserve_months",
+      "phenomenon": "mobilizable_stock",
+      "weight": "0.30",
+      "unit": "périodes de dépenses essentielles",
+      "critical_fields": [
+        "mobilizable_reserve",
+        "periods.*.essential_expenses"
+      ],
+      "bands": [
+        {
+          "lower": null,
+          "upper": "1",
+          "score": "0",
+          "status": "defavorable"
+        },
+        {
+          "lower": "1",
+          "upper": "3",
+          "score": "50",
+          "status": "vigilance"
+        },
+        {
+          "lower": "3",
+          "upper": null,
+          "score": "100",
+          "status": "favorable"
+        }
+      ]
+    }
+  ],
+  "mandatory_review": [
+    "period_deficit",
+    "negative_balance",
+    "incomplete_sections",
+    "documentary_alert",
+    "intraperiod_deficit"
+  ],
+  "product": {
+    "id": "demo-monthly",
+    "min_months": 1,
+    "max_months": 36,
+    "schedules": [
+      "monthly_constant",
+      "explicit"
+    ],
+    "allowed_due_days": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "minimum_contribution_share": "0.10",
+    "lower_amount_factor": "0.80"
+  },
+  "demonstration_stresses": [
+    {
+      "name": "Illustration non validée : revenu/ventes −20 %",
+      "revenue_drop": "0.20"
+    },
+    {
+      "name": "Illustration non validée : charges +10 %",
+      "expense_increase": "0.10"
+    }
+  ],
+  "profiles": [
+    "employee",
+    "retired",
+    "self_employed"
+  ]
+}

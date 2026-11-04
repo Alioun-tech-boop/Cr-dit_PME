@@ -10,6 +10,11 @@ RUN --mount=type=secret,id=proxy_ca \
     apt-get -o Acquire::https::CaInfo="${PIP_CERT:-/etc/ssl/certs/ca-certificates.crt}" install -y --no-install-recommends tesseract-ocr tesseract-ocr-fra; \
     rm -rf /var/lib/apt/lists/*; \
     pip install --no-cache-dir uv==0.9.8; \
-    uv sync --locked --no-dev --no-cache
+    uv sync --locked --no-dev --no-cache; \
+    groupadd --gid 10001 creditapp; \
+    useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin creditapp; \
+    chmod -R a+rX /app
 ENV PATH="/app/.venv/bin:$PATH"
-CMD ["sh", "-c", "alembic upgrade head && exec uvicorn credit.api:app --host 0.0.0.0 --port 8000 --no-access-log"]
+ENV PYTHONDONTWRITEBYTECODE=1
+USER 10001:10001
+CMD ["python", "-m", "credit.security.entrypoint"]

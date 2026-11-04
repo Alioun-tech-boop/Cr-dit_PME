@@ -17,7 +17,7 @@ output/
 .aws/
 library-files/
 scratch/
-shared/
+/shared/
 client_documents/
 .env.*
 !.env.example

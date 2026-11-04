@@ -3,7 +3,7 @@ import json
 import asyncio
 from threading import BoundedSemaphore
 
-from fastapi import Depends, HTTPException, Request, Response
+from fastapi import Depends, HTTPException, Request, Response, Query
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -86,7 +86,11 @@ def register_intake_routes(app, db, get_case):
             if lock:
                 query = query.with_for_update()
             record = session.scalar(query)
-            if not record:
+            if not record or (
+                not session.info["actor"].reviewer
+                and record.data.get("visibility", "analyst") != "applicant"
+                and record.data.get("created_by") != session.info["actor"].id
+            ):
                 raise HTTPException(404, "Pièce introuvable")
             return record
 
@@ -145,15 +149,25 @@ def register_intake_routes(app, db, get_case):
             return view(service.create_submission(session, case, session.info["actor"], body, p, q))
 
         @app.get(path, name=f"{kind}_list_submissions")
-        def listing(case_id: str, session: Session = Depends(db)):
+        def listing(
+            case_id: str,
+            session: Session = Depends(db),
+            limit: int = Query(100, ge=1, le=250),
+            offset: int = Query(0, ge=0, le=100000),
+        ):
             get_case(session, kind, case_id)
             return [
                 view(record)
                 for record in session.scalars(
-                    select(SubmissionRecord).where(
-                        SubmissionRecord.case_id == case_id, SubmissionRecord.case_kind == kind
-                    )
+                    select(SubmissionRecord)
+                    .where(SubmissionRecord.case_id == case_id, SubmissionRecord.case_kind == kind)
+                    .order_by(SubmissionRecord.id)
+                    .offset(offset)
+                    .limit(limit)
                 ).all()
+                if session.info["actor"].reviewer
+                or record.data.get("visibility") == "applicant"
+                or record.data.get("created_by") == session.info["actor"].id
             ]
 
         @app.get(path + "/{submission_id}", name=f"{kind}_submission")
@@ -207,6 +221,18 @@ def register_intake_routes(app, db, get_case):
             return view(
                 service.process(session, record, session.info["actor"], app.state.scan_runner)
             )
+
+        @app.post(path + "/{submission_id}/cancel", name=f"{kind}_cancel")
+        def cancel(case_id: str, submission_id: str, session: Session = Depends(db)):
+            record = find(session, case_id, submission_id)
+            from credit.security.access import require_staff
+
+            require_staff(session.info["actor"])
+            if not app.state.scan_runner.cancel(record.id):
+                raise HTTPException(409, "Aucun traitement actif dans ce processus")
+            service.audit(session, record, session.info["actor"], "cancellation_requested", {})
+            service.commit(session)
+            return {"id": record.id, "status": "cancellation_requested"}
 
         @app.post(path + "/{submission_id}/reopen", name=f"{kind}_reopen")
         def reopen(case_id: str, submission_id: str, session: Session = Depends(db)):
@@ -274,6 +300,7 @@ def register_intake_routes(app, db, get_case):
                 select(ReviewRecord)
                 .where(ReviewRecord.run_id == run.id)
                 .order_by(ReviewRecord.created_at)
+                .limit(250)
             ).all()
             return {
                 "id": run.id,
@@ -322,16 +349,30 @@ def register_intake_routes(app, db, get_case):
             record = find(session, case_id, submission_id, True)
             run = find_run(session, record, run_id)
             return service.review(
-                session, record, run, session.info["actor"], body.decisions, body.regions
+                session,
+                record,
+                run,
+                session.info["actor"],
+                body.decisions,
+                body.regions,
+                body.expected_review_revision,
             )
 
         @app.get(path + "/{submission_id}/events", name=f"{kind}_events")
-        def events(case_id: str, submission_id: str, session: Session = Depends(db)):
+        def events(
+            case_id: str,
+            submission_id: str,
+            session: Session = Depends(db),
+            limit: int = Query(100, ge=1, le=250),
+            offset: int = Query(0, ge=0, le=100000),
+        ):
             record = find(session, case_id, submission_id)
             items = session.scalars(
                 select(DocumentEvent)
                 .where(DocumentEvent.submission_id == record.id)
                 .order_by(DocumentEvent.created_at)
+                .offset(offset)
+                .limit(limit)
             ).all()
             return [
                 {

@@ -1,3 +1,5 @@
+from credit.shared.arithmetic import deterministic
+from credit.shared.normalization import effective_case
 from decimal import Decimal
 
 from credit.shared.calculation import Context, subtract, total
@@ -9,7 +11,9 @@ IndividualCriteriaEngine = CriteriaEngine
 IndividualPredictiveModel = PredictiveModel
 
 
+@deterministic
 def analyze(case, scenario=None):
+    case, _ = effective_case(case)
     ctx = Context(case, scenario)
     balance = ctx.amount(case.mobilizable_reserve, "réserve mobilisable")
     rows = []

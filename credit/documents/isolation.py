@@ -5,7 +5,8 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from threading import BoundedSemaphore
+from threading import BoundedSemaphore, Lock
+from credit.security.worker import environment
 
 
 class WorkerError(ValueError):
@@ -16,10 +17,26 @@ class Runner:
     def __init__(self, limits):
         self.limits = limits
         self.slots = BoundedSemaphore(limits["concurrency"])
+        self.active = {}
+        self.cancelled = set()
+        self.lock = Lock()
+
+    def cancel(self, key):
+        with self.lock:
+            process = self.active.get(key)
+            if process is None or process.poll() is not None:
+                return False
+            self.cancelled.add(key)
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                return False
+            return True
 
     def run(self, operation, parameters, sources=None):
         if not self.slots.acquire(blocking=False):
             raise WorkerError("busy")
+        task_key = parameters.get("task_key")
         try:
             with tempfile.TemporaryDirectory(prefix="credit_scan_") as directory:
                 root = Path(directory)
@@ -51,8 +68,11 @@ class Runner:
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     start_new_session=True,
-                    env={**os.environ, "TMPDIR": str(root)},
+                    env={**environment(), "TMPDIR": str(root)},
                 )
+                if task_key:
+                    with self.lock:
+                        self.active[task_key] = process
                 try:
                     process.wait(timeout=effective["timeout_seconds"])
                 except subprocess.TimeoutExpired:
@@ -62,6 +82,8 @@ class Runner:
                         pass
                     process.wait()
                     raise WorkerError("processing_timeout") from None
+                if task_key in self.cancelled:
+                    raise WorkerError("processing_cancelled")
                 if process.returncode or not output_path.exists():
                     raise WorkerError("worker_failed_or_resource_limit")
                 answer = json.loads(output_path.read_text())
@@ -77,4 +99,8 @@ class Runner:
         except OSError:
             raise WorkerError("worker_io_unavailable") from None
         finally:
+            if task_key:
+                with self.lock:
+                    self.active.pop(task_key, None)
+                    self.cancelled.discard(task_key)
             self.slots.release()

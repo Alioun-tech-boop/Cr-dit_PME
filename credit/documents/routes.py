@@ -1,6 +1,6 @@
 from credit_pdf.catalog import public_catalog
 from credit_pdf.engine import MAX_BYTES
-from fastapi import Depends, HTTPException, Response
+from fastapi import Depends, HTTPException, Response, Query
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -74,12 +74,20 @@ def register_document_routes(app, db, get_case):
             )
 
         @app.get(path, response_model=list[DocumentMetadata], name=f"list_{kind}_documents")
-        def list_documents(case_id: str, response: Response, session: Session = Depends(db)):
+        def list_documents(
+            case_id: str,
+            response: Response,
+            session: Session = Depends(db),
+            limit: int = Query(100, ge=1, le=250),
+            offset: int = Query(0, ge=0, le=100000),
+        ):
             get_case(session, kind, case_id)
             records = session.scalars(
                 select(DocumentRecord)
                 .where(DocumentRecord.case_id == case_id, DocumentRecord.case_kind == kind)
                 .order_by(DocumentRecord.created_at)
+                .offset(offset)
+                .limit(limit)
             ).all()
             response.headers["Cache-Control"] = "no-store"
             return [metadata(record) for record in records]

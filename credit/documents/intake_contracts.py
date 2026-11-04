@@ -6,6 +6,7 @@ from credit.shared.contracts import Contract
 
 
 class NewSubmission(Contract):
+    visibility: Literal["applicant", "analyst"] = "applicant"
     document_type: str = Field(min_length=1, max_length=100)
     role: str = Field(min_length=1, max_length=120)
     period: date
@@ -44,6 +45,7 @@ class ManualRegion(Contract):
 
 
 class ReviewInput(Contract):
+    expected_review_revision: int = Field(default=0, ge=0)
     decisions: dict[str, JsonValue]
     regions: list[ManualRegion] = Field(default_factory=list, max_length=100)
 

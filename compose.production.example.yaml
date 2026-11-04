@@ -1,0 +1,26 @@
+# Gabarit non déployé : nécessite PostgreSQL TLS, registre privé et TLS entrant configurés.
+# docker compose -f compose.production.example.yaml config
+services:
+  api:
+    image: ${CREDIT_IMAGE:?Image immuable contrôlée requise}
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 1g
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=512m
+    environment:
+      CREDIT_ENV: production
+      DATABASE_URL: ${CREDIT_PRODUCTION_DATABASE_URL:?DSN TLS verify-full explicite requis}
+      CREDIT_AUTH_FILE: /run/credit-auth/users.json
+      CREDIT_ALLOWED_HOSTS: ${CREDIT_ALLOWED_HOSTS:?Hôtes explicites requis}
+      CREDIT_TRUSTED_PROXY_IPS: ${CREDIT_TRUSTED_PROXY_IPS:?IP du proxy TLS requise}
+      CREDIT_ALLOW_DEMO: "false"
+      CREDIT_ANTIMALWARE_REQUIRED: "true"
+    volumes:
+      - ${CREDIT_AUTH_REGISTRY:?Registre privé requis}:/run/credit-auth/users.json:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+    # Le proxy TLS est externe à ce dépôt. Aucun secret ni certificat de démonstration ici.

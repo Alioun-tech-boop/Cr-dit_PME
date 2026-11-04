@@ -4,6 +4,8 @@ from typing import Literal
 from pydantic import Field, model_validator
 
 from credit.shared.contracts import Amount, BaseCase, Contract
+from credit.printing.profile import RecordDetails
+from credit.assessment.inputs import IndividualDetails
 
 
 class Income(Contract):
@@ -25,6 +27,7 @@ class Income(Contract):
 
 class IndividualPeriod(Contract):
     period: date
+    basis: Literal["observed", "forecast"] = "forecast"
     incomes: list[Income] = Field(min_length=1)
     essential_expenses: Amount
     payroll_loan_treatment: Literal["before_loan_deductions", "after_loan_deductions", "unclear"]
@@ -37,6 +40,8 @@ class IncomeHistory(Contract):
 
 
 class IndividualCase(BaseCase):
+    record_details: RecordDetails = Field(default_factory=RecordDetails)
+    analysis_details: IndividualDetails = Field(default_factory=IndividualDetails)
     profile: Literal["employee", "retired", "self_employed"]
     household_scope: str
     mobilizable_reserve: Amount

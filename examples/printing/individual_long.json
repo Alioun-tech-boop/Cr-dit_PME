@@ -1,0 +1,761 @@
+{
+  "name": "Élodie Françoise Ouedraogo — dossier synthétique à nom long Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple Famille Exemple ",
+  "currency": "XOF",
+  "evidence": [
+    {
+      "id": "synthetic",
+      "source": "Document entièrement synthétique de démonstration",
+      "period": "2026-01-01",
+      "currency": "XOF",
+      "collected_at": "2026-01-01",
+      "status": "declared"
+    }
+  ],
+  "existing_loans": [
+    {
+      "reference": "existing",
+      "principal": {
+        "value": "150000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "schedule": [
+        {
+          "period": "2026-02-01",
+          "principal": {
+            "value": "50000.00",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "0.00",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "due_date": "2026-02-01"
+        },
+        {
+          "period": "2026-03-01",
+          "principal": {
+            "value": "50000.00",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "0.00",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "due_date": "2026-03-01"
+        },
+        {
+          "period": "2026-04-01",
+          "principal": {
+            "value": "50000.00",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "0.00",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "due_date": "2026-04-01"
+        }
+      ],
+      "annual_nominal_rate": "0",
+      "description": "Échéancier explicite de référence",
+      "amortization_method": "explicit"
+    }
+  ],
+  "requested_loan": {
+    "reference": "requested",
+    "principal": {
+      "value": "240000",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "schedule": [
+      {
+        "period": "2026-02-01",
+        "principal": {
+          "value": "80000.00",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "0.00",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "due_date": "2026-02-01"
+      },
+      {
+        "period": "2026-03-01",
+        "principal": {
+          "value": "80000.00",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "0.00",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "due_date": "2026-03-01"
+      },
+      {
+        "period": "2026-04-01",
+        "principal": {
+          "value": "80000.00",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "0.00",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "due_date": "2026-04-01"
+      }
+    ],
+    "annual_nominal_rate": "0",
+    "description": "Échéancier explicite de référence",
+    "amortization_method": "monthly_constant"
+  },
+  "profile": "employee",
+  "household_scope": "Deux adultes et deux enfants fictifs",
+  "mobilizable_reserve": {
+    "value": "1000000",
+    "state": "known",
+    "evidence_ids": [
+      "synthetic"
+    ]
+  },
+  "periods": [
+    {
+      "period": "2026-02-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "500000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "forecast"
+    },
+    {
+      "period": "2026-03-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "500000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "forecast"
+    },
+    {
+      "period": "2026-04-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "500000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "forecast"
+    },
+    {
+      "period": "2026-05-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "500000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "forecast"
+    },
+    {
+      "period": "2026-06-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "500000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "forecast"
+    },
+    {
+      "period": "2026-07-01",
+      "incomes": [
+        {
+          "source": "Source personnelle synthétique",
+          "kind": "salary",
+          "net": {
+            "value": "500000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "professional_costs_already_deducted": false
+        }
+      ],
+      "essential_expenses": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payroll_loan_treatment": "before_loan_deductions",
+      "payroll_loan_deductions": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "forecast"
+    }
+  ],
+  "data_classification": "synthetic",
+  "income_history": [
+    {
+      "period": "2025-11-01",
+      "net_personal_income": {
+        "value": "500000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    {
+      "period": "2025-12-01",
+      "net_personal_income": {
+        "value": "500000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    {
+      "period": "2026-01-01",
+      "net_personal_income": {
+        "value": "500000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    }
+  ],
+  "analysis_details": {
+    "as_of": "2026-01-31",
+    "identity": {
+      "subject_linked": true,
+      "household_confirmed": true,
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "funding": {
+      "product_id": "demo-monthly",
+      "justified_need": {
+        "value": "240000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "announced_contribution": {
+        "value": "24000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "verified_contribution": {
+        "value": "24000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "purpose": {
+        "text": "Besoin synthétique justifié ; réserve fournie hors apport affecté.",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    "repayment_history_applicable": true,
+    "repayment_observations": [
+      {
+        "loan_reference": "existing",
+        "as_of": "2026-01-31",
+        "arrears": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "days_past_due": 0,
+        "restructuring_count": 0
+      }
+    ],
+    "continuity": [
+      {
+        "text": "Contrat synthétique et revenus prévisionnels explicitement déclarés ; pas une garantie.",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    ],
+    "expense_breakdown_complete": true,
+    "expenses": [
+      {
+        "period": "2026-02-01",
+        "category": "housing",
+        "frequency": "recurring",
+        "amount": {
+          "value": "150000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-02-01",
+        "category": "food",
+        "frequency": "recurring",
+        "amount": {
+          "value": "100000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-02-01",
+        "category": "transport",
+        "frequency": "recurring",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-03-01",
+        "category": "housing",
+        "frequency": "recurring",
+        "amount": {
+          "value": "150000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-03-01",
+        "category": "food",
+        "frequency": "recurring",
+        "amount": {
+          "value": "100000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-03-01",
+        "category": "transport",
+        "frequency": "recurring",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-04-01",
+        "category": "housing",
+        "frequency": "recurring",
+        "amount": {
+          "value": "150000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-04-01",
+        "category": "food",
+        "frequency": "recurring",
+        "amount": {
+          "value": "100000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-04-01",
+        "category": "transport",
+        "frequency": "recurring",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-05-01",
+        "category": "housing",
+        "frequency": "recurring",
+        "amount": {
+          "value": "150000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-05-01",
+        "category": "food",
+        "frequency": "recurring",
+        "amount": {
+          "value": "100000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-05-01",
+        "category": "transport",
+        "frequency": "recurring",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-06-01",
+        "category": "housing",
+        "frequency": "recurring",
+        "amount": {
+          "value": "150000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-06-01",
+        "category": "food",
+        "frequency": "recurring",
+        "amount": {
+          "value": "100000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-06-01",
+        "category": "transport",
+        "frequency": "recurring",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-07-01",
+        "category": "housing",
+        "frequency": "recurring",
+        "amount": {
+          "value": "150000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-07-01",
+        "category": "food",
+        "frequency": "recurring",
+        "amount": {
+          "value": "100000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      },
+      {
+        "period": "2026-07-01",
+        "category": "transport",
+        "frequency": "recurring",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_total": true
+      }
+    ],
+    "blocked_savings": {
+      "value": "0",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "projection_assumptions": [
+      {
+        "text": "Six mois de flux fournis séparément ; aucune extrapolation automatique par le moteur.",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    ]
+  },
+  "record_details": {
+    "address": "Adresse fictive, secteur Exemple, Ouagadougou",
+    "telephone": "+226 00 00 00 00",
+    "email": "synthese@example.invalid",
+    "applicant_comments": "Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher. Commentaire synthétique long : les revenus, les charges et les pièces restent à rapprocher.  FIN DU COMMENTAIRE LONG.",
+    "internal_observations": "Observation interne synthétique, absente de toute version demandeur."
+  }
+}

@@ -3,7 +3,7 @@ import os
 DATABASE_URL = os.getenv(
     "DATABASE_URL", "postgresql+psycopg://credit:credit_local@localhost:5432/credit"
 )
-ENGINE_VERSION = "deterministic-0.1.0"
+ENGINE_VERSION = "deterministic-0.3.0"
 ENGINE_CONFIGURATION = {
     "currency": "XOF",
     "money_decimals": 2,

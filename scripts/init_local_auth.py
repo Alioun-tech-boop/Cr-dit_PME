@@ -2,13 +2,22 @@
 
 import argparse
 import hashlib
-import json
 import os
 from pathlib import Path
 import secrets
+import sys
+from datetime import datetime, timedelta, timezone
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from credit.security.auth_store import locked_registry, event, credentials
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--user", default="agent-local")
+parser.add_argument("--institution", default=None)
+parser.add_argument(
+    "--role", choices=["applicant", "analyst", "institution_manager", "administrator"], default=None
+)
+parser.add_argument("--hours", type=int, default=24)
 parser.add_argument("--reviewer", action="store_true")
 parser.add_argument("--native-exception", action="store_true")
 parser.add_argument("--grant-case", action="append", default=[])
@@ -17,30 +26,36 @@ os.umask(0o077)
 root = Path(".local/auth")
 root.mkdir(parents=True, exist_ok=True)
 config = root / "users.json"
-data = json.loads(config.read_text()) if config.exists() else {"users": []}
-if any(u["id"] == args.user for u in data["users"]):
-    parser.error(
-        "Identité existante : modifier explicitement ses droits dans users.json ou choisir un autre identifiant."
+if (
+    not args.user.strip()
+    or len(args.user) > 100
+    or (
+        args.institution is not None
+        and (not args.institution.strip() or len(args.institution) > 100)
     )
-token = secrets.token_urlsafe(32)
-data["users"].append(
-    {
-        "id": args.user,
-        "token_sha256": hashlib.sha256(token.encode()).hexdigest(),
-        "case_ids": args.grant_case,
-        "reviewer": args.reviewer,
-        "native_exception": args.native_exception,
-    }
-)
-config.write_text(json.dumps(data, indent=2) + "\n")
-config.chmod(0o600)
-# Pas de nom utilisateur utilisé comme chemin.
-credentials = root / (hashlib.sha256(args.user.encode()).hexdigest()[:16] + ".json")
-credentials.write_text(json.dumps({"user": args.user, "token": token}) + "\n")
-credentials.chmod(0o600)
-curl_file = credentials.with_suffix(".curl")
-curl_file.write_text('header = "Authorization: Bearer ' + token + '"\n')
-curl_file.chmod(0o600)
-print("Identités :", config.resolve())
-print("Configuration curl privée :", curl_file.resolve())
-print("Jeton enregistré sans affichage :", credentials.resolve())
+):
+    parser.error("Identité / institution : 1 à 100 caractères non vides")
+if not 1 <= args.hours <= 168:
+    parser.error("Durée autorisée : 1 à 168 heures")
+with locked_registry(config) as data:
+    if any(u["id"] == args.user for u in data["users"]):
+        parser.error(
+            "Identité existante ; utiliser manage_local_auth.py pour rotation ou révocation"
+        )
+    token = secrets.token_urlsafe(32)
+    role = args.role or ("analyst" if args.reviewer else "applicant")
+    data["users"].append(
+        {
+            "id": args.user,
+            "institution_id": args.institution,
+            "role": role,
+            "reviewer": role != "applicant",
+            "native_exception": args.native_exception,
+            "case_ids": args.grant_case,
+            "token_sha256": hashlib.sha256(token.encode()).hexdigest(),
+            "expires_at": (datetime.now(timezone.utc) + timedelta(hours=args.hours)).isoformat(),
+        }
+    )
+    private = credentials(root, args.user, token)
+event(config, "created", args.user, args.institution)
+print("Identité créée ; justificatif privé :", private.resolve())

@@ -36,6 +36,9 @@ def document_quality(document, config):
 
 
 def main():
+    from credit.security.worker import harden
+
+    harden(Path(sys.argv[1]).parent)
     job = json.loads(Path(sys.argv[1]).read_text())
     limits = job["limits"]
     resource.setrlimit(resource.RLIMIT_AS, (limits["memory_mb"] * 1024**2,) * 2)

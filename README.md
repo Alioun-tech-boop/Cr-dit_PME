@@ -2,6 +2,22 @@
 
 # Crédit PME — socle backend local
 
+L’audit v0.5 et les corrections de sécurité/fiabilité sont décrits dans
+[docs/security/AUDIT.md](docs/security/AUDIT.md), avec
+[matrice des droits](docs/security/PERMISSIONS.md),
+[formules auditées](docs/security/FORMULES.md) et
+[procédure de restauration](docs/security/BACKUP_RESTORE.md).
+Les modifications de dossier exigent désormais `If-Match` avec leur `version`.
+
+Les éditions imprimables v0.4 (HTML, PDF, versions demandeur/analyste) sont décrites
+dans [docs/DOCUMENTS_IMPRIMABLES.md](docs/DOCUMENTS_IMPRIMABLES.md).
+Des [PDF synthétiques](examples/printing/) sont fournis et leurs vérifications sont
+consignées dans [docs/VALIDATION_PRINTING.md](docs/VALIDATION_PRINTING.md).
+
+Le moteur v0.3 ajoute les analyses par sections, politiques explicites, suggestions
+et simulations : [guide et commandes](docs/ANALYSE_SECTIONS.md),
+[vérifications exécutées](docs/VALIDATION_ASSESSMENTS.md).
+
 Le parcours de dépôt v0.2 (identités, politiques, images/PDF, pages, OCR et revue)
 est documenté dans [docs/PARCOURS_SCANS.md](docs/PARCOURS_SCANS.md). Les anciennes
 routes d’envoi direct de PDF sont retirées (410), leurs lectures restent disponibles.

@@ -1,0 +1,65 @@
+[
+  {
+    "name": "individual_fields",
+    "template": "complete_file",
+    "core": "individuals",
+    "audience": "applicant",
+    "bytes": 51608
+  },
+  {
+    "name": "individual_incomplete",
+    "template": "household_budget",
+    "core": "individuals",
+    "audience": "applicant",
+    "bytes": 46177
+  },
+  {
+    "name": "individual_summary",
+    "template": "analysis_summary",
+    "core": "individuals",
+    "audience": "analyst",
+    "bytes": 45241
+  },
+  {
+    "name": "business_financial",
+    "template": "financial_declaration",
+    "core": "businesses",
+    "audience": "applicant",
+    "bytes": 44573
+  },
+  {
+    "name": "business_report",
+    "template": "analysis_report",
+    "core": "businesses",
+    "audience": "analyst",
+    "bytes": 92587
+  },
+  {
+    "name": "improvement_plan",
+    "template": "improvement_plan",
+    "core": "businesses",
+    "audience": "analyst",
+    "bytes": 48554
+  },
+  {
+    "name": "individual_long",
+    "template": "identification",
+    "core": "individuals",
+    "audience": "applicant",
+    "bytes": 46377
+  },
+  {
+    "name": "simulation",
+    "template": "simulation_report",
+    "core": "individuals",
+    "audience": "analyst",
+    "bytes": 52967
+  },
+  {
+    "name": "applicant_analysis",
+    "template": "analysis_report",
+    "core": "individuals",
+    "audience": "applicant",
+    "bytes": 44729
+  }
+]

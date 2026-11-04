@@ -1,0 +1,149 @@
+{
+  "date": "2026-11-04",
+  "scope": "local_synthetic_only",
+  "findings": [
+    {
+      "id": "SEC-001",
+      "severity": "high",
+      "component": "Autorisations / restitutions",
+      "scenario": "Un demandeur autorisé au dossier lisait observations internes et analyse brute.",
+      "reproducible_evidence": "scripts/reproduce_audit_findings.py : F-001 ; avant fuite=true et HTTP 200, après fuite=false et HTTP 403.",
+      "consequence": "Divulgation de règles, scores et notes internes.",
+      "correction": "Matrice serveur, filtrage avant sérialisation et autorisation par objet/institution.",
+      "regression_test": "test_applicant_cannot_leak_analyse_or_write_internal_fields ; test_print_document_inventory_does_not_disclose_internal_piece",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "SEC-002",
+      "severity": "high",
+      "component": "Entrées / preuves / rôles",
+      "scenario": "Injection de statut verified ou identifiant de revue dans un PUT ; auto-confirmation d’identité/apport.",
+      "reproducible_evidence": "F-002 avant HTTP 200 ; test_forged_document_validation_and_classification_rejected refuse 422. Contrôles internes demandeur refusés 403.",
+      "consequence": "Une donnée déclarée pouvait être présentée comme contrôlée.",
+      "correction": "Statuts et références serveur interdits en saisie ; champs internes protégés et préservés ; binding explicite uniquement.",
+      "regression_test": "test_forged_document_validation_and_classification_rejected ; test_applicant_cannot_self_confirm_identity_or_verified_contribution",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "SEC-003",
+      "severity": "high",
+      "component": "Concurrence / versions",
+      "scenario": "Un PUT périmé écrasait une modification récente ; revues et relances sans précondition.",
+      "reproducible_evidence": "F-003 avant PUT sans version=200 ; après=428 ; version ancienne=409. Revue périmée=409.",
+      "consequence": "Altération involontaire, validation d’une mauvaise version ou traitements répétés.",
+      "correction": "Verrou de dossier, version optimiste, If-Match, révision de revue, OCR idempotent et clés de réessai pour analyses détaillées/éditions.",
+      "regression_test": "test_stale_updates_and_idempotent_old_report ; test_ocr_idempotence_and_stale_reviews ; test_idempotent_assessment_and_print_same_input_and_conflict",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "FIN-001",
+      "severity": "high",
+      "component": "Charges essentielles / deux routes",
+      "scenario": "Une charge hors total de 10 000 était omise par la route historique.",
+      "reproducible_evidence": "F-004 : même dossier, avant 70 000 contre 60 000 ; après 60 000 sur les deux moteurs.",
+      "consequence": "Surestimation de la capacité de remboursement.",
+      "correction": "Normalisation partagée, sur copie et idempotente.",
+      "regression_test": "test_extra_essential_costs_same_on_both_engines_and_idempotent",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "FIN-002",
+      "severity": "medium",
+      "component": "Arithmétique Decimal",
+      "scenario": "Le contexte du thread appelant modifiait précision ou validation des montants.",
+      "reproducible_evidence": "F-005 : avant couverture 8.181818181818181818181818182 contre 8.1818182 sous précision 8 ; après identique.",
+      "consequence": "Résultats non reproductibles ou erreur sur montant valide.",
+      "correction": "Contexte Decimal fixé dans fonctions publiques, validations et arrondis.",
+      "regression_test": "test_precision_is_independent_of_calling_context ; test_repaid_principal_property",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "FIN-003",
+      "severity": "high",
+      "component": "Valeurs inconnues / échéanciers / retards",
+      "scenario": "Une dette inconnue sans échéancier produisait zéro service ; un report de source inconnue devenait certain.",
+      "reproducible_evidence": "Deux cas construits dans test_unknown_schedule_and_delayed_unknown_revenue_not_zero : marges/encaissement doivent rester None.",
+      "consequence": "Marge artificiellement calculable ou surestimée.",
+      "correction": "Propagation explicite des inconnus et contrôle de la disponibilité de la source du retard.",
+      "regression_test": "test_unknown_schedule_and_delayed_unknown_revenue_not_zero",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "FIN-004",
+      "severity": "high",
+      "component": "Conversion de montants JSON et revues",
+      "scenario": "Un flottant JSON extrême peut perdre ses centimes avant conversion en Decimal.",
+      "reproducible_evidence": "test_float_money_cannot_silently_lose_cents ; test_reviewed_transcription_still_requires_exact_business_decimal.",
+      "consequence": "Montant financier différent de celui saisi, même après une revue.",
+      "correction": "Refus des flottants/booléens monétaires, y compris dans le binding de revue ; erreurs décimales contrôlées.",
+      "regression_test": "test_float_money_cannot_silently_lose_cents ; test_reviewed_transcription_still_requires_exact_business_decimal",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "SEC-004",
+      "severity": "medium",
+      "component": "Jetons opaques / registre",
+      "scenario": "Jetons sans expiration vérifiée, pas de révocation ni gestion atomique du registre.",
+      "reproducible_evidence": "Tests de jetons expiré/désactivé/révoqué et rotation/révocation sur registre synthétique temporaire.",
+      "consequence": "Persistance d’un accès compromis et risque de perte de mises à jour opérateur.",
+      "correction": "Expiration/révocation, rôles explicites, écriture atomique sous verrou, commandes opérateur privées.",
+      "regression_test": "test_revoked_expired_disabled_tokens ; test_atomic_auth_management_on_synthetic_registry",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "SEC-005",
+      "severity": "high",
+      "component": "Workers / image / environnement",
+      "scenario": "Image en root et environnement complet transmis au worker OCR ; espaces privés non tous exclus de l’image.",
+      "reproducible_evidence": "Inspection Dockerfile/isolation avant correction ; vérification runtime UID et droits de l’image corrigée documentée dans résultats.",
+      "consequence": "Impact plus élevé d’une compromission de parseur et accès à secrets hérités.",
+      "correction": "Image non root/read-only, no_new_privs, environnement minimal, limites, exclusion des fichiers privés et annulation autorisée.",
+      "regression_test": "test_runner_cancellation_kills_only_owned_task ; tests du pipeline et inspection du conteneur",
+      "status": "partially_corrected_residual_os_sandbox"
+    },
+    {
+      "id": "SEC-006",
+      "severity": "medium",
+      "component": "API / ressources / erreurs",
+      "scenario": "Corps JSON, historiques et requêtes coûteuses insuffisamment bornés ; erreurs potentiellement trop détaillées.",
+      "reproducible_evidence": "Tests JSON chunked, gros corps, quotas, pagination, host invalide et exception contenant un marqueur financier.",
+      "consequence": "Épuisement de ressources ou divulgation d’informations internes.",
+      "correction": "Limites taille/profondeur, débit, concurrence, pagination, erreurs épurées ; quotas locaux.",
+      "regression_test": "test_limits_hosts_and_auth_failure_throttle ; test_chunked_body_and_host_confusion_do_not_bypass_security ; test_errors_and_logs_do_not_disclose_financial_payload",
+      "status": "corrected_verified_local_scope"
+    },
+    {
+      "id": "SEC-007",
+      "severity": "high",
+      "component": "Dépendances",
+      "scenario": "Neuf avis connus dans Starlette, PyMuPDF et pytest de l’inventaire initial.",
+      "reproducible_evidence": "pip-audit 2.9.0 : dependencies-before.json=9 avis/3 paquets ; dependencies-after.json=aucun avis connu.",
+      "consequence": "Selon composant : abus de reconstruction URL pertinent ; autres vecteurs non exposés ou environnement de test.",
+      "correction": "FastAPI 0.162.0 / Starlette 1.3.1, PyMuPDF 1.26.7, pytest 9.0.3 ; versions verrouillées et tests réexécutés.",
+      "regression_test": "Suites backend/PDF et pip-audit ; analyse d’applicabilité dans AUDIT.md",
+      "status": "corrected_verified"
+    },
+    {
+      "id": "SEC-008",
+      "severity": "medium",
+      "component": "Audit / production / sauvegarde",
+      "scenario": "Absence de journal structuré durable transversal et de contrôle de restauration / rôle runtime.",
+      "reproducible_evidence": "Audit institutionnel protégé ; sauvegarde/restauration et refus SQL reproduits sur deux bases temporaires.",
+      "consequence": "Traçabilité ou reprise insuffisantes, privilèges trop larges si le Compose de démonstration est exposé.",
+      "correction": "Audit sans contenus financiers, procédure de reprise, rôle runtime restreint, garde de production et gabarit séparé.",
+      "regression_test": "test_administrative_events_are_scoped_and_not_financial ; test_security_log_records_actor_and_date_without_token ; scripts/verify_backup_restore.py",
+      "status": "corrected_verified_local_scope"
+    },
+    {
+      "id": "OPEN-001",
+      "severity": "high",
+      "component": "Déploiement bancaire",
+      "scenario": "Pas de MFA/SSO, scanner absent, sandbox FS séparé et TLS/chiffrement/supervision réels non validés.",
+      "reproducible_evidence": "Inspection des composants ; clamscan indisponible ; aucun parcours MFA ni déploiement production présent.",
+      "consequence": "Risques résiduels incompatibles avec une conclusion de préparation à la production.",
+      "correction": "Maintenir usage local/synthétique ; antivirus obligatoire bloque les dépôts en son absence ; intégrer et éprouver les composants avant exposition.",
+      "regression_test": "test_antimalware_unavailable_detected_and_failure ; test_production_fails_closed_without_security_configuration",
+      "status": "open_production_blocker"
+    }
+  ]
+}

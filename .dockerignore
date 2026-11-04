@@ -17,3 +17,11 @@ output
 .codex
 .agents
 .aws
+
+# Pièces privées et espaces de travail non destinés à l’image
+library-files
+scratch
+shared
+client_documents
+*.pem
+*.key

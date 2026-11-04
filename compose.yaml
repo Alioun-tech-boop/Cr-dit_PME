@@ -16,8 +16,40 @@ services:
       retries: 20
   api:
     build: .
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 1g
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=512m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=3)"]
+      interval: 5s
+      timeout: 4s
+      retries: 20
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-credit}:${POSTGRES_PASSWORD:-credit_local}@db:5432/${POSTGRES_DB:-credit}
+      CREDIT_ENV: ${CREDIT_ENV:-local}
+      CREDIT_ALLOWED_HOSTS: ${CREDIT_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      CREDIT_RATE_REQUESTS: ${CREDIT_RATE_REQUESTS:-600}
+      CREDIT_RATE_ACTOR: ${CREDIT_RATE_ACTOR:-600}
+      CREDIT_RATE_JOBS: ${CREDIT_RATE_JOBS:-120}
+      CREDIT_RATE_AUTH_FAILURES: ${CREDIT_RATE_AUTH_FAILURES:-40}
+      CREDIT_MAX_JSON_BYTES: ${CREDIT_MAX_JSON_BYTES:-2000000}
+      CREDIT_BODY_TIMEOUT_SECONDS: ${CREDIT_BODY_TIMEOUT_SECONDS:-20}
+      CREDIT_MAX_CASES_PER_ACTOR: ${CREDIT_MAX_CASES_PER_ACTOR:-1000}
+      CREDIT_MAX_DOCUMENTS_PER_CASE: ${CREDIT_MAX_DOCUMENTS_PER_CASE:-500}
+      CREDIT_ANTIMALWARE_REQUIRED: ${CREDIT_ANTIMALWARE_REQUIRED:-false}
+      CREDIT_ALLOW_DEMO: ${CREDIT_ALLOW_DEMO:-false}
+      CREDIT_PRINT_PLATFORM_NAME: ${CREDIT_PRINT_PLATFORM_NAME:-Crédit PME}
+      CREDIT_PRINT_LOGO_FILE: ${CREDIT_PRINT_LOGO_FILE:-}
+      CREDIT_PRINT_TIMEOUT_SECONDS: ${CREDIT_PRINT_TIMEOUT_SECONDS:-30}
+      CREDIT_PRINT_CONCURRENCY: ${CREDIT_PRINT_CONCURRENCY:-2}
+      CREDIT_PRINT_MAX_PAGES: ${CREDIT_PRINT_MAX_PAGES:-120}
+      CREDIT_PRINT_MAX_INPUT_BYTES: ${CREDIT_PRINT_MAX_INPUT_BYTES:-3000000}
+      CREDIT_PRINT_MAX_OUTPUT_BYTES: ${CREDIT_PRINT_MAX_OUTPUT_BYTES:-15000000}
+      CREDIT_PRINT_MEMORY_MB: ${CREDIT_PRINT_MEMORY_MB:-512}
       CREDIT_AUTH_JSON: ${CREDIT_AUTH_JSON:-}
     ports:
       - "127.0.0.1:8000:8000"
