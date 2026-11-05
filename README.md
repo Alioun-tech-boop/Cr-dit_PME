@@ -215,3 +215,5 @@ Le détail des vérifications réellement exécutées et de leurs résultats fig
 L’intégration PDF et ses vérifications sont décrites dans
 [docs/EXTRACTION_PDF.md](docs/EXTRACTION_PDF.md) et
 [docs/VALIDATION_PDF.md](docs/VALIDATION_PDF.md).
+
+Déploiement frontend Netlify / backend Render : [configuration et état vérifié](docs/DEPLOIEMENT_NETLIFY_RENDER.md).

@@ -69,3 +69,25 @@ durée : les traitements longs nécessitent le worker prévu, sans délais illim
 
 L’accès au site Netlify et les sessions métier Crédit PME restent distincts.
 Ne pas affaiblir la protection du site ni partager de jeton technique au navigateur.
+
+## État constaté le 5 novembre 2026
+
+- Dernière version applicative poussée sur `main` dans le dépôt privé
+  `Alioun-tech-boop/Cr-dit_PME`.
+- Render : espace `My Workspace` confirmé. Aucun service Crédit PME existant.
+  Tentative de création du Blueprint `credit-pme` depuis `main` : réponse 400,
+  « the repository, branch, or Blueprint file could not be accessed ».
+  Le fichier et la branche étant présents sur GitHub, vérifier l’autorisation
+  du dépôt privé dans l’intégration GitHub de Render, puis réessayer.
+  Aucun service ni Blueprint déployé n’a été confirmé.
+- Netlify : aucun projet Crédit PME identifié. L’intégration disponible gère
+  les projets mais ne propose pas de publication ni de liaison au dépôt.
+  Aucun jeton CLI n’est configuré. Le propriétaire a indiqué ne pas pouvoir
+  fournir ce jeton. Alternative : importer le dépôt depuis l’interface Netlify
+  avec l’intégration GitHub, puis appliquer la configuration ci-dessus.
+  Aucun déploiement Netlify n’est annoncé comme effectué.
+- Les autres projets Netlify et Render restent inchangés. Le dépôt reste privé.
+- Vérifications exécutées : assemblage frontend réussi, 76 contrôles frontend,
+  65 tests backend ciblés réussis (2 avertissements de dépréciation), Ruff réussi.
+  Pas de vérification bout en bout sur un hébergement distant : aucun nouveau
+  service n’a pu être publié.
