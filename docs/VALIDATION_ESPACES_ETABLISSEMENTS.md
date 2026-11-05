@@ -3,8 +3,10 @@
 Documents et comptes uniquement synthétiques ; aucune banque réelle contactée.
 
 - `pytest -q` : 327 réussis, 2 ignorés (concurrence PostgreSQL nécessitant TEST_DATABASE_URL), 2 avertissements de dépréciation Starlette/AnyIO ; 203,45 s.
+- Après les dernières corrections de rendu et de périmètre : `pytest -q tests/test_institution_centres.py tests/test_partners.py` : 24 réussis, 2 ignorés, 77,51 s.
 - `ruff check credit tests scripts migrations` : réussi.
 - `cd frontend && npm run build && npm test` : 77 contrôles réussis (30 contrats, 44 transport/livraison, 3 frontières asynchrones).
+- `python scripts/run_frontend_e2e.py --browser-test banking.cjs` : 39 contrôles de régression réussis, dont compléments, attestation et archive privée pour les deux noyaux.
 - `python scripts/run_frontend_e2e.py --browser-test institution-centres.cjs` : 19 contrôles Chromium réussis sur particuliers et entreprises. Dernier résultat : `output/frontend/browser-ufxc1c0i/` (non versionné).
 
 Le navigateur crée réellement un accès nominatif, active son invitation, se connecte, reçoit les deux dossiers, consulte rapports et PDF autorisés, confirme la réception, prévisualise les conditions calculées, enregistre une offre signée et un refus. Le demandeur reçoit les deux messages, télécharge réellement le PDF, vérifie sa signature. Accès d’une autre banque refusé et largeur mobile contrôlée.
