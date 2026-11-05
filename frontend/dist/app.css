@@ -89,3 +89,30 @@ html[data-motion=reduced] *,html[data-motion=reduced] *:before,html[data-motion=
 .budget-case-label{font-size:10px;color:#a5a5b2;margin:0 6px 15px;overflow-wrap:anywhere}
 .credit-view-explanation{font-size:11px;color:#b8b8c6;line-height:1.7;margin:10px 2px 20px}.budget-list-heading h3{max-width:70%;line-height:1.5}.budget-tabs button{overflow-wrap:anywhere}
 .credit-readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0 22px}.credit-readouts>div{border:1px solid #34343b;border-radius:14px;padding:11px}.credit-readouts dt{color:#a3a3b0;font-size:9px}.credit-readouts dd{color:#fff;margin:5px 0 0;font-size:11px;overflow-wrap:anywhere}
+
+/* Cadre mobile stable : seuls les carrousels et onglets défilent horizontalement. */
+html,body{max-width:100%;overflow-x:clip}
+.app,#main-content,#view,.masthead-top,.masthead-actions{min-width:0}
+#main-content{width:100%}
+#view>*{min-width:0;max-width:100%}
+footer{min-width:0;flex-wrap:wrap;overflow-wrap:anywhere}
+@media(max-width:480px){
+ .masthead-top{padding-inline:16px;gap:8px}
+ .masthead-top .brand{font-size:23px;flex-shrink:0}
+ .masthead-actions{gap:8px}
+ .section-menu-trigger{padding-inline:12px;gap:6px;font-size:11px}
+ .page-heading{flex-wrap:wrap;min-width:0}
+ .page-heading>div{min-width:0;max-width:100%}
+ .page-heading h1{overflow-wrap:anywhere}
+ .stories{max-width:100%;margin-right:0;padding-right:0;overscroll-behavior-x:contain}
+ .nav-scroll{overscroll-behavior-x:contain}
+ .budget-showcase,.budget-card,.credit-readouts>div{min-width:0}
+}
+@media(max-width:480px){
+ .story .white-pill{max-width:100%;white-space:normal;display:inline-flex;align-items:center;justify-content:space-between;gap:8px;padding-inline:14px;font-size:11px}
+ .story .white-pill span{margin-left:0;flex-shrink:0}
+ .table-scroll{max-width:100%;min-width:0}
+ .table-scroll:has(.empty-state) table{table-layout:fixed;width:100%;min-width:0}
+ .table-scroll:has(.empty-state) thead{display:none}
+ .empty-state,.empty-state>*{max-width:100%;overflow-wrap:anywhere}
+}

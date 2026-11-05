@@ -29,5 +29,10 @@ if(f.core==='individuals'){if(f.profile==='self_employed')need(a.professionalCos
 f.debts.forEach((d,i)=>{need(d.reference.trim()&&dates.includes(d.period),`Dette ${i+1} : référence et période dans l’horizon requises.`,3);for(const key of ['principal','interest','fees'])try{cents(d[key])}catch{need(false,`Dette ${i+1} : ${key} invalide.`,3)}});const debtKeys=f.debts.map(d=>d.reference+'|'+d.period);need(new Set(debtKeys).size===debtKeys.length,'Une dette ne peut avoir deux échéances sur la même période.',3);need(a.assumptions.trim(),'Documentez les hypothèses de vos prévisions.',5);return errors}
 function patch(original,before,after){if(JSON.stringify(before)===JSON.stringify(after))return original===undefined?after:clone(original);if(Array.isArray(after)){if(!Array.isArray(before)||before.length!==after.length)return clone(after);const result=Array.isArray(original)?clone(original):[];after.forEach((v,i)=>result[i]=patch(result[i],before[i],v));return result}if(after&&typeof after==='object'){if(Object.hasOwn(after,'value'))return clone(after);const out=original&&typeof original==='object'?clone(original):{};for(const k of Object.keys(after))out[k]=patch(out[k],before?.[k],after[k]);for(const k of Object.keys(before||{}))if(!Object.hasOwn(after,k))delete out[k];return out}return after}
 function buildPayload(f){const data=buildFormPayload(f);return f.original&&f.baseline?patch(f.original,f.baseline,data):data}
-root.CreditModel={create,fromCase,buildPayload,validate,blankPeriod,cents,amount};
+function suggestedDocuments(core,profile){
+if(core==='businesses')return ['identity_card','rccm','bank_statement','quotation'];
+const income=profile==='retired'?['pension_statement']:profile==='self_employed'?['bank_statement']:['payslip','employment_certificate'];
+return ['identity_card',...income,'address_proof'];
+}
+root.CreditModel={suggestedDocuments,create,fromCase,buildPayload,validate,blankPeriod,cents,amount};
 })(typeof window==='undefined'?globalThis:window);

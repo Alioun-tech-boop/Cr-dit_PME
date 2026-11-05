@@ -264,7 +264,7 @@ supplier_receipt;Reçu fournisseur;commercial;businesses
 household_business_split;Séparation du budget ménage et activité;budget;shared
 interview;Fiche d'entretien structuré;verification;shared
 payslip;Bulletin de salaire;income;individuals
-employment_certificate;Attestation d'emploi;income;individuals
+employment_certificate;Attestation de travail;income;individuals
 employment_contract;Contrat de travail;income;individuals
 employment_appointment;Acte de nomination professionnelle;income;individuals
 bonus_income;Justificatif de primes et revenus complémentaires;income;individuals

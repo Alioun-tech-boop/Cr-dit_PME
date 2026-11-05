@@ -29,7 +29,7 @@ logger = logging.getLogger("credit.requests")
 def create_app(database_url=None):
     production_guard()
     app = FastAPI(
-        title="Crédit PME — socle local",
+        title="Crédix — socle local",
         version="0.5.0",
         dependencies=[Depends(HTTPBearer(auto_error=False))],
         docs_url=None if os.getenv("CREDIT_ENV") == "production" else "/docs",

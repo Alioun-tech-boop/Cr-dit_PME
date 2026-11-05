@@ -29,7 +29,7 @@ class Presentation(Contract):
     missing_information: list[str]
     notices: list[str]
     sections: list[Section]
-    platform_name: str = "Crédit PME"
+    platform_name: str = "Crédix"
     logo_png: str | None = None
     signatures: bool = False
     verification_url: str | None = None

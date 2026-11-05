@@ -77,7 +77,7 @@ def document_inventory(session, case, actor):
 
 
 def brand(model):
-    model.platform_name = os.getenv("CREDIT_PRINT_PLATFORM_NAME", "Crédit PME")[:100]
+    model.platform_name = os.getenv("CREDIT_PRINT_PLATFORM_NAME", "Crédix")[:100]
     path = os.getenv("CREDIT_PRINT_LOGO_FILE")
     if path:
         # Chemin configuré par l’administrateur, jamais par le corps d’une requête.

@@ -78,7 +78,7 @@ def summary(core, risk, missing, review, scoring):
 
 def render_french(report):
     lines = [
-        "# Rapport Crédit PME",
+        "# Rapport Crédix",
         report.summary,
         "",
         f"État opérationnel : {report.operating_state}",

@@ -2,11 +2,12 @@
   "name": "credit-pme-frontend",
   "version": "1.0.0-rc.1",
   "private": true,
-  "description": "Interface Crédit PME — parcours, profil, paramètres et adaptation au backend",
+  "description": "Interface Crédix — parcours, profil, paramètres et adaptation au backend",
   "scripts": {
     "build": "node scripts/build-frontend.mjs",
     "test": "node scripts/check-frontend.mjs",
-    "test:home-videos": "node tests/home-videos.cjs"
+    "test:home-videos": "node tests/home-videos.cjs",
+    "test:mobile": "node tests/mobile-layout.cjs"
   },
   "engines": {
     "node": ">=20"
