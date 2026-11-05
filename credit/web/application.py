@@ -137,7 +137,11 @@ def create_web_app(database_url=None):
             if path.startswith("/auth/"):
                 limiter.check(("web", request.client.host if request.client else "local"), 120)
                 await bounded_json(request)
-            if path.startswith("/auth/") and path not in {"/auth/login", "/auth/register"}:
+            if path.startswith("/auth/") and path not in {
+                "/auth/login",
+                "/auth/register",
+                "/auth/activate",
+            }:
                 user, session, actor = session_user(request)
                 request.state.web_user, request.state.web_session = user, session
                 request.state.actor = actor
@@ -145,7 +149,9 @@ def create_web_app(database_url=None):
                     csrf(request, session)
             if (
                 path.startswith("/api/")
-                and not path.startswith("/api/public/attestations/")
+                and not path.startswith(
+                    ("/api/public/attestations/", "/api/public/bank-agreements/")
+                )
                 and request.cookies.get(COOKIE)
             ):
                 user, session, actor = session_user(request)
@@ -172,6 +178,9 @@ def create_web_app(database_url=None):
         return response
 
     register_routes(app, factory, csrf, limiter, PASSWORDS, password_slots)
+    from credit.institutions.accounts import register_activation
+
+    register_activation(app, factory, csrf, limiter, PASSWORDS, password_slots)
 
     @app.post("/auth/login")
     def login(body: Login, request: Request):

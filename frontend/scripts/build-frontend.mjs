@@ -4,7 +4,7 @@ const sheets=['style.css','premium.css','journey.css','production.css'];
 const css=sheets.map(name=>`/* ${name} */\n`+fs.readFileSync(path.join(root,'src/styles',name),'utf8')).join('\n');
 fs.writeFileSync(path.join(dist,'app.css'),css);
 const digest=name=>crypto.createHash('sha256').update(fs.readFileSync(path.join(dist,name))).digest('hex').slice(0,12);
-for(const [name,stylesheet] of [['platform.html','app.css'],['index.html','public.css'],['login.html','public.css']]){
+for(const [name,stylesheet] of [['platform.html','app.css'],['index.html','public.css'],['login.html','public.css'],['activate-account.html','public.css'],['verify-bank-agreement.html','public.css']]){
 let html=fs.readFileSync(path.join(dist,name),'utf8');
 html=html.replace(/<link rel="stylesheet" href="(?:style|premium|journey|production|app|public)\.css(?:\?[^\"]*)?">/g,'');
 html=html.replace('</title>','</title>\n<link rel="stylesheet" href="'+stylesheet+'?v='+digest(stylesheet)+'">');

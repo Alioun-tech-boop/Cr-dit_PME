@@ -238,3 +238,4 @@ class JourneyDraft(Base):
 
 # Chargement des tables du parcours partenaire pour Alembic et les bases de test.
 from credit.partners import models as partner_models  # noqa: E402, F401
+from credit.institutions import models as institution_models  # noqa: E402, F401

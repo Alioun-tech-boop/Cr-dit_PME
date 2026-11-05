@@ -51,6 +51,7 @@ class WorkflowPolicy(Contract):
 
 
 class PartnerInput(Contract):
+    institution_type: Literal["bank", "microfinance"] = "bank"
     bank_institution_id: str = Field(min_length=1, max_length=100)
     name: str = Field(min_length=3, max_length=200)
     presentation: str = Field(min_length=5, max_length=3000)

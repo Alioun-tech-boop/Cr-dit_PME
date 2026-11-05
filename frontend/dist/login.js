@@ -22,7 +22,7 @@
     } finally { clearTimeout(timer); }
   }
   function enter(user) {
-    const route = ['bank_agent', 'bank_manager'].includes(user?.role) ? 'bank-inbox' : 'overview';
+    const route = ['bank_agent', 'bank_manager'].includes(user?.role) ? 'bank-inbox' : user?.role === 'administrator' ? 'admin-centre/overview' : 'overview';
     // Destination interne fixe : aucun paramètre returnTo ni rôle choisi dans le formulaire.
     location.replace('/platform.html#' + route);
   }
@@ -110,7 +110,7 @@
     } finally {registering = false; registerButton.disabled = false; document.getElementById('register-button-label').textContent = 'Créer mon compte';}
   });
   // Reprendre une session valide, sans stocker de jeton dans le navigateur.
-  if (config.sessionEndpoint) request(config.sessionEndpoint).then(async response => {
+  if (config.sessionEndpoint && new URLSearchParams(location.search).get('switch') !== '1') request(config.sessionEndpoint).then(async response => {
     if (response.ok) { const data = await response.json(); if (data?.user?.id && !busy) enter(data.user); }
   }).catch(() => {});
 })();

@@ -19,6 +19,7 @@ class Actor:
     native_exception: bool = False
     institution_id: str | None = None
     role: str | None = None
+    partner_ids: tuple[str, ...] = ()
 
 
 def authenticate(request: Request, *, configured_actor_id: str | None = None) -> Actor:

@@ -67,6 +67,11 @@ class Registration(BaseModel):
 
 
 def resolve_browser_actor(user, db, request):
+    from credit.institutions.accounts import managed_actor
+
+    managed = managed_actor(user, db)
+    if managed is not None:
+        return managed
     registration = db.get(WebRegistration, user.actor_id)
     if registration is None:
         return authenticate(request, configured_actor_id=user.actor_id)

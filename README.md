@@ -1,3 +1,7 @@
+## Espaces banque, microfinance et administration
+
+Les consoles, invitations nominatives, décisions, offres PDF signées et boîte client sont décrites dans [le guide dédié](docs/ESPACES_ETABLISSEMENTS_ADMIN.md).
+
 # Transmission bancaire contrôlée
 
 Le [parcours partenaire](docs/TRANSMISSION_BANCAIRE.md) ajoute revue interne, attestation signée, choix et confirmation du demandeur, portail bancaire et suivi. Une banque fictive permet une démonstration locale ; aucune banque réelle n’est annoncée connectée.

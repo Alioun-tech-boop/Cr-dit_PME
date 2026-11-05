@@ -72,12 +72,16 @@ def register_routes(app, db, get_case):
         p = session.get(Partner, id)
         if not p or p.issuer_id != a.institution_id:
             raise HTTPException(404, "Partenaire introuvable")
+        if administrative and p.data.get("archived_at") and session.info["request"].method != "GET":
+            raise HTTPException(409, "Établissement archivé : aucune nouvelle opération")
         return p
 
     def public_partner(p):
         c = p.data["configuration"]
         return {
             "id": p.id,
+            "archived": bool(p.data.get("archived_at")),
+            "institution_type": p.data["configuration"].get("institution_type", "bank"),
             "status": p.status,
             "connection_status": p.data.get("connection_status", "not_verified"),
             **{
@@ -125,6 +129,7 @@ def register_routes(app, db, get_case):
             if (
                 role(a) not in {"bank_agent", "bank_manager"}
                 or a.institution_id != t.bank_institution_id
+                or (a.partner_ids and t.partner_id not in a.partner_ids)
                 or t.state in {"ready", "pending", "sending", "failed", "cancelled"}
             ):
                 raise HTTPException(404, "Transmission introuvable")
@@ -224,6 +229,16 @@ def register_routes(app, db, get_case):
         if a.institution_id == body.bank_institution_id:
             raise HTTPException(
                 422, "Institution émettrice et banque destinataire doivent être distinctes"
+            )
+        collision = session.scalar(
+            select(Partner.id).where(
+                Partner.bank_institution_id == body.bank_institution_id,
+                Partner.issuer_id != a.institution_id,
+            )
+        )
+        if collision:
+            raise HTTPException(
+                409, "Identifiant institutionnel indisponible ; rattachement central requis"
             )
         allow_demo(body.demonstration, "synthetic" if body.demonstration else "real")
         p = Partner(
@@ -649,6 +664,7 @@ def register_routes(app, db, get_case):
             select(Transmission)
             .where(
                 Transmission.bank_institution_id == a.institution_id,
+                Transmission.partner_id.in_(a.partner_ids) if a.partner_ids else True,
                 Transmission.state.in_(
                     [
                         "transmitted",
@@ -700,6 +716,7 @@ def register_routes(app, db, get_case):
         if (
             not p
             or p.bank_institution_id != a.institution_id
+            or (a.partner_ids and p.id not in a.partner_ids)
             or role(a) not in {"bank_agent", "bank_manager"}
         ):
             raise HTTPException(404, "Partenaire introuvable")

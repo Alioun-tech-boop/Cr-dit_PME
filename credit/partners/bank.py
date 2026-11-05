@@ -3,7 +3,7 @@
 from copy import deepcopy
 from fastapi import HTTPException
 from sqlalchemy import select
-from credit.partners.models import PartnerEvent, BankAttachment
+from credit.partners.models import PartnerEvent, BankAttachment, Partner
 from credit.partners import service, signing
 from credit.security.access import role
 
@@ -43,13 +43,37 @@ def apply(session, t, actor, body, key, sequence=None):
         return result
     if sequence is None and body.expected_revision != t.revision:
         raise HTTPException(409, "Suivi modifié ; actualiser")
+    partner = session.get(Partner, t.partner_id)
+    from credit.partners.configuration import allow_demo
+
+    allow_demo(t.data["demonstration"], "synthetic" if t.data["demonstration"] else "real")
+    if partner.status not in {"active", "demonstration"} or partner.data.get("archived_at"):
+        raise HTTPException(409, "Établissement suspendu ou non actif : décision indisponible")
     if t.state not in TRANSITIONS[body.action]:
         raise HTTPException(409, "Transition bancaire interdite ou événement reçu dans le désordre")
     if body.action == "additional_information" and not body.requested_information:
         raise HTTPException(422, "Préciser les compléments demandés")
     if body.action == "decision":
+        if (
+            t.data.get("decision", {}).get("kind") == "formal_offer"
+            and body.decision != "disbursement_confirmed"
+        ):
+            raise HTTPException(
+                409,
+                "Offre formelle déjà émise ; révoquer explicitement plutôt que réécrire la décision",
+            )
         if not body.decision:
             raise HTTPException(422, "Nature de la décision bancaire requise")
+        if body.decision == "disbursement_confirmed":
+            from credit.institutions.models import BankDecisionRecord
+
+            agreement = session.scalar(
+                select(BankDecisionRecord).where(BankDecisionRecord.transmission_id == t.id)
+            )
+            if agreement is not None and agreement.state == "revoked":
+                raise HTTPException(
+                    409, "Offre révoquée : décaissement non enregistrable sur cette offre"
+                )
         if body.decision in {"formal_offer", "disbursement_confirmed"}:
             if (
                 role(actor) != "bank_manager"

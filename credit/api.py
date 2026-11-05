@@ -103,7 +103,7 @@ def create_app(database_url=None):
             )
         normalized_path = request.scope["path"].removeprefix(request.scope.get("root_path", ""))
         public_verification = request.method == "GET" and normalized_path.startswith(
-            "/public/attestations/"
+            ("/public/attestations/", "/public/bank-agreements/")
         )
         if not public_verification and normalized_path not in {
             "/health",
@@ -431,6 +431,9 @@ def create_app(database_url=None):
     from credit.partners.routes import register_routes as register_partner_routes
 
     register_partner_routes(app, db, get_record)
+    from credit.institutions.routes import register_routes as register_institution_routes
+
+    register_institution_routes(app, db)
     from credit.printing.routes import register_print_routes
 
     register_print_routes(app, db, get_record)

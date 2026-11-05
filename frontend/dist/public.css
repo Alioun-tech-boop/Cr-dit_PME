@@ -19,3 +19,4 @@
 @media(max-width:370px){.auth-tabs button{font-size:11px}.login-visual .visual-caption h2{font-size:29px}}
 
 .login-panel{justify-content:flex-start}.auth-tabs button{white-space:nowrap;padding-inline:7px;font-size:11px}
+.activation-layout{max-width:680px;margin:40px auto;padding:0 20px}.activation-layout .login-panel{padding:40px;min-height:0}.activation-layout h1{font-size:38px}.activation-layout .login-form{max-width:none}.verification-list{display:grid;grid-template-columns:100px minmax(0,1fr);gap:18px;font-size:13px;line-height:1.8}.verification-list dt{color:#7d6d87}.verification-list dd{margin:0;overflow-wrap:anywhere}@media(max-width:480px){.activation-layout{margin:24px auto}.activation-layout .login-panel{padding:28px 23px}.activation-layout h1{font-size:32px}.verification-list{grid-template-columns:1fr;gap:8px}}

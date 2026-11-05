@@ -12,7 +12,14 @@ import urllib.request
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument(
     "--browser-test",
-    choices=["browser-e2e.cjs", "home-videos.cjs", "budget-widget.cjs", "banking.cjs", "public-home.cjs"],
+    choices=[
+        "browser-e2e.cjs",
+        "home-videos.cjs",
+        "budget-widget.cjs",
+        "banking.cjs",
+        "public-home.cjs",
+        "institution-centres.cjs",
+    ],
     default="browser-e2e.cjs",
 )
 args = parser.parse_args()
@@ -38,7 +45,7 @@ env = {
 }
 if (root / ".local/share/tessdata/fra.traineddata").is_file():
     env.setdefault("TESSDATA_PREFIX", str(root / ".local/share/tessdata"))
-if args.browser_test == "banking.cjs":
+if args.browser_test in {"banking.cjs", "institution-centres.cjs"}:
     env["CREDIT_PARTNER_ALLOW_DEMO"] = "true"
     env["CREDIT_PARTNER_KEYRING_FILE"] = str(run / "keyring.json")
 # Préparation avant création de l'application, registre absent initialement : aucune connexion HTTP.
@@ -46,7 +53,9 @@ subprocess.run(
     [
         sys.executable,
         "-m",
-        "scripts.prepare_partner_e2e"
+        "scripts.prepare_institution_e2e"
+        if args.browser_test == "institution-centres.cjs"
+        else "scripts.prepare_partner_e2e"
         if args.browser_test == "banking.cjs"
         else "scripts.prepare_frontend_e2e",
     ],
