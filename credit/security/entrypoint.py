@@ -16,7 +16,25 @@ def listen_port():
     return port
 
 
+def prepare_private_registry():
+    """Copie privée d'un secret monté en lecture seule par l'hébergeur."""
+    from pathlib import Path
+    import tempfile
+
+    source = os.getenv("CREDIT_AUTH_SOURCE_FILE")
+    if not source:
+        return
+    destination = Path(tempfile.mkdtemp(prefix="credit-auth-")) / "registry.json"
+    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "wb") as out:
+        out.write(Path(source).read_bytes())
+    os.environ["CREDIT_AUTH_FILE"] = str(destination)
+
+
 def main():
+    if os.getenv("CREDIT_RENDER_BOOTSTRAP") == "true":
+        subprocess.run([sys.executable, "-m", "scripts.bootstrap_render"], check=True)
+    prepare_private_registry()
     production_guard()
     if os.getenv("CREDIT_ENV", "local") == "production":
         with create_engine(os.environ["DATABASE_URL"]).connect() as connection:

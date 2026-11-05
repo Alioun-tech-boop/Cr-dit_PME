@@ -40,3 +40,22 @@ def test_netlify_same_origin_proxy():
             path.unlink(missing_ok=True)
         else:
             path.write_bytes(previous)
+
+
+def test_hosted_secret_copy_is_private(monkeypatch, tmp_path):
+    from credit.security.entrypoint import prepare_private_registry
+    source = tmp_path / "mounted.json"
+    source.write_text('{"users": []}')
+    source.chmod(0o644)
+    monkeypatch.setenv("CREDIT_AUTH_SOURCE_FILE", str(source))
+    monkeypatch.setenv("CREDIT_AUTH_FILE", "unused")
+    prepare_private_registry()
+    destination = Path(os.environ["CREDIT_AUTH_FILE"])
+    try:
+        assert destination.read_bytes() == source.read_bytes()
+        assert destination.stat().st_mode & 0o777 == 0o600
+        assert destination.parent.stat().st_mode & 0o777 == 0o700
+        assert source.stat().st_mode & 0o777 == 0o644
+    finally:
+        destination.unlink()
+        destination.parent.rmdir()
