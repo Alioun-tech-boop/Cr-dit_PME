@@ -1,0 +1,18 @@
+{
+  "issuer_name": "Institution FICTIVE Crédit PME — démonstration",
+  "issuer_identity_statement": "Identité entièrement fictive. Aucun agrément ou statut réglementaire revendiqué.",
+  "scope": "Atteste uniquement que la version identifiée a été analysée, revue puis validée en interne selon la politique de démonstration. Aucune garantie de remboursement ou décision bancaire.",
+  "demonstration": true,
+  "signatories": [{"actor_id":"demo-manager","name":"Responsable SYNTHÉTIQUE","function":"Responsable de validation de démonstration"}],
+  "reviewers": ["demo-analyst"],
+  "required_approvals": 1,
+  "separate_analysis_author": true,
+  "allow_incomplete_with_reserves": true,
+  "allow_deficits_with_reserves": true,
+  "require_approved_financial_policy": false,
+  "require_business_authority_evidence": false,
+  "attestation_valid_days": 30,
+  "consent_valid_hours": 72,
+  "approved_reference": "POLITIQUE-DÉMO-UNIQUEMENT-001",
+  "legal_review_reference": "SANS VALEUR DE VALIDATION JURIDIQUE — DÉMONSTRATION"
+}

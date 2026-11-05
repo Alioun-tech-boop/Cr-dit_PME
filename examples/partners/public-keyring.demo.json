@@ -1,0 +1,13 @@
+{
+  "keys": [
+    {
+      "id": "partner-demo-key",
+      "status": "active",
+      "purpose": "demonstration",
+      "issuer_ids": [
+        "demo-issuer"
+      ],
+      "public_key_base64": "C0sFHc3AP88LuwoA3OWJnvKMUENDJBJJdWwfL9LUe14="
+    }
+  ]
+}

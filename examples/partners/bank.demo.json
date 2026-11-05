@@ -1,0 +1,17 @@
+{
+  "bank_institution_id":"demo-bank-institution",
+  "name":"Banque FICTIVE de démonstration",
+  "presentation":"Cette banque n’existe pas. Elle permet de démontrer le parcours local sans transmettre de données à un établissement réel.",
+  "country":"BF",
+  "activity_scope":"Dossiers et financements entièrement synthétiques",
+  "cores":["individuals","businesses"],
+  "profiles":["employee","retired","self_employed","structured_accounts","reconstructed_cashflows"],
+  "products":["demo-monthly"],
+  "required_categories":["identification","credit_request","lender_report","analysis_summary","attestation"],
+  "allowed_categories":["identification","credit_request","declaration","budget","debts","lender_report","analysis_summary","inventory","attestation"],
+  "reception_mode":"portal",
+  "demonstration":true,
+  "information_updated_on":"2026-11-05",
+  "provided_conditions":null,
+  "processing_notice":"Étude locale fictive uniquement. Aucun taux, délai ou accord bancaire n’est promis. Les copies téléchargées ne peuvent pas être effacées à distance."
+}

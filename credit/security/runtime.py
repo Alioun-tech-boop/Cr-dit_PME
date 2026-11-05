@@ -59,7 +59,9 @@ class Limiter:
 
 
 async def bounded_json(request):
-    if request.method not in {"POST", "PUT", "PATCH"} or request.scope["path"].endswith("/sources"):
+    if request.method not in {"POST", "PUT", "PATCH"} or request.scope["path"].endswith(
+        ("/sources", "/attachments")
+    ):
         return
     maximum = int(os.getenv("CREDIT_MAX_JSON_BYTES", "2000000"))
     length = request.headers.get("content-length")

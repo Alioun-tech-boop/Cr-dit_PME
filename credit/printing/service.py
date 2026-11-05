@@ -153,6 +153,9 @@ def prepare(session, case, request, actor, edition_id=None, version=0):
         analysis.data["simulation"] if analysis else None,
         analysis.data["human_validations"] if analysis else None,
     )
+    if analysis and analysis.data["engine_version"] == "financial_analysis_v2":
+        model.template_version = "print-financial-v2.0.0"
+        model.metadata["Version du modèle"] = model.template_version
     model = brand(model)
     # Aucun instantané complet n'est transmis au renderer : seul ce contrat l'est.
     return model, {

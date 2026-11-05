@@ -15,7 +15,16 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--user", default="agent-local")
 parser.add_argument("--institution", default=None)
 parser.add_argument(
-    "--role", choices=["applicant", "analyst", "institution_manager", "administrator"], default=None
+    "--role",
+    choices=[
+        "applicant",
+        "analyst",
+        "institution_manager",
+        "administrator",
+        "bank_agent",
+        "bank_manager",
+    ],
+    default=None,
 )
 parser.add_argument("--hours", type=int, default=24)
 parser.add_argument("--reviewer", action="store_true")
@@ -49,7 +58,7 @@ with locked_registry(config) as data:
             "id": args.user,
             "institution_id": args.institution,
             "role": role,
-            "reviewer": role != "applicant",
+            "reviewer": role in {"analyst", "institution_manager", "administrator"},
             "native_exception": args.native_exception,
             "case_ids": args.grant_case,
             "token_sha256": hashlib.sha256(token.encode()).hexdigest(),

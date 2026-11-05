@@ -73,6 +73,17 @@ def create_app(database_url=None):
         with factory() as session:
             session.info["actor"] = getattr(request.state, "actor", None)
             session.info["request"] = request
+            actor = session.info["actor"]
+            path = (
+                request.scope.get("route").path if request.scope.get("route") else request.url.path
+            )
+            if (
+                actor
+                and actor.role in {"bank_agent", "bank_manager"}
+                and not path.startswith(("/bank/", "/public/"))
+                and path != "/health"
+            ):
+                raise HTTPException(403, "Accès réservé au portail bancaire")
             yield session
 
     @app.middleware("http")
@@ -90,7 +101,11 @@ def create_app(database_url=None):
                 status_code=exc.status_code,
                 headers={**(exc.headers or {}), "Cache-Control": "no-store"},
             )
-        if request.scope["path"].removeprefix(request.scope.get("root_path", "")) not in {
+        normalized_path = request.scope["path"].removeprefix(request.scope.get("root_path", ""))
+        public_verification = request.method == "GET" and normalized_path.startswith(
+            "/public/attestations/"
+        )
+        if not public_verification and normalized_path not in {
             "/health",
             "/docs",
             "/openapi.json",
@@ -215,7 +230,7 @@ def create_app(database_url=None):
         record = session.scalar(query)
         if record is None or record.kind != kind:
             raise HTTPException(404, "Dossier introuvable")
-        authorize(record, session.info["actor"])
+        authorize(record, session.info["actor"], session)
         enforce(session.info["request"], session.info["actor"])
         session.info["request"].state.resource_id = record.id
         return record
@@ -410,6 +425,12 @@ def create_app(database_url=None):
     from credit.assessment.routes import register_assessment_routes
 
     register_assessment_routes(app, db, get_record)
+    from credit.financial_v2.routes import register_routes as register_financial_v2
+
+    register_financial_v2(app, db, get_record)
+    from credit.partners.routes import register_routes as register_partner_routes
+
+    register_partner_routes(app, db, get_record)
     from credit.printing.routes import register_print_routes
 
     register_print_routes(app, db, get_record)

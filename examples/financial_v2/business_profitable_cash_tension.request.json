@@ -1,0 +1,71 @@
+{
+  "mode": "demonstration",
+  "policy_id": "businesses-illustrative-v2",
+  "validated_sources": [],
+  "facts": {
+    "accounts": [],
+    "cost_splits": [],
+    "source_classifications": [],
+    "balance_sheets": [],
+    "aging": [],
+    "tax_basis": "unknown",
+    "supplier_flows_complete": false
+  },
+  "scenarios": [
+    {
+      "id": "income-drop-20",
+      "name": "Baisse hypothétique des flux de 20 %",
+      "revenue_drop": "0.2",
+      "expense_increase": "0",
+      "variable_cost_increase": "0",
+      "loss_source": null,
+      "delay_from": null,
+      "delay_to": null,
+      "delay_amount": "0",
+      "project_delay_periods": 0,
+      "rate_increase": "0",
+      "rate_contract_reference": null,
+      "rationale": "Hypothèse synthétique illustrative, non validée comme norme"
+    }
+  ],
+  "reverse_tests": [
+    {
+      "parameter": "revenue_drop",
+      "lower": "0",
+      "upper": "0.5",
+      "steps": 20,
+      "tolerance": "0.000001",
+      "delay_from": null,
+      "delay_amount": null
+    },
+    {
+      "parameter": "additional_instalment",
+      "lower": "0",
+      "upper": "150000",
+      "steps": 20,
+      "tolerance": "0.000001",
+      "delay_from": null,
+      "delay_amount": null
+    }
+  ],
+  "financing_candidates": [
+    {
+      "principal": "240000",
+      "months": 3,
+      "contribution": null,
+      "grace_months": 0,
+      "schedule": null,
+      "contribution_already_in_opening_cash": null,
+      "contribution_evidence_ids": []
+    },
+    {
+      "principal": "240000",
+      "months": 6,
+      "contribution": null,
+      "grace_months": 0,
+      "schedule": null,
+      "contribution_already_in_opening_cash": null,
+      "contribution_evidence_ids": []
+    }
+  ]
+}

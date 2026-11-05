@@ -1,0 +1,30 @@
+# Création d’un service distinct ; aucune ressource existante à adopter.
+# Le démarrage échoue volontairement tant que les prérequis privés manquent.
+services:
+  - type: web
+    name: credit-pme-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: CREDIT_ENV
+        value: production
+      - key: CREDIT_ALLOW_DEMO
+        value: "false"
+      - key: CREDIT_ASGI_APP
+        value: credit.web.application:app
+      - key: CREDIT_AUTH_FILE
+        value: /etc/secrets/credit-auth.json
+      - key: DATABASE_URL
+        sync: false
+      - key: CREDIT_ALLOWED_HOSTS
+        sync: false
+      - key: CREDIT_WEB_ORIGIN
+        sync: false
+      - key: CREDIT_TRUSTED_PROXY_IPS
+        sync: false

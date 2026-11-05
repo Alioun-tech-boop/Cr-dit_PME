@@ -1,7 +1,7 @@
 'use strict';
 /* Adaptation HTTP uniquement. Les calculs et autorisations restent sur le serveur. */
 window.configureCreditBackend=function(services,api,user){
- let reportRequest=0;const journey=()=>window.CreditJourney;const staff=user.role!=='applicant';
+ let reportRequest=0;const journey=()=>window.CreditJourney;const staff=['analyst','institution_manager','administrator'].includes(user.role);
  services.staff=staff;services.user=user;
  const path=d=>api.casePath(d.core,d.remote.id);
  const copy=d=>JSON.parse(JSON.stringify(d,(k,v)=>['file','original','baseline','report','remoteDraft'].includes(k)?undefined:k==='url'&&String(v).startsWith('blob:')?undefined:v));
@@ -59,6 +59,7 @@ window.configureCreditBackend=function(services,api,user){
   catch(e){if(e.status!==404)throw e}
  };
  services.loadAll=async()=>{
+  if(['bank_agent','bank_manager'].includes(user.role)){journey().clear();if(!location.hash.startsWith('#bank-')&&!['#profile','#settings'].includes(location.hash))location.hash='bank-inbox';return []}
   const [drafts,individuals,businesses]=await Promise.all([api.request('/journeys'),api.request('/individuals'),api.request('/businesses'),services.refreshPolicies()]);
   const rows=[];const attached=new Set();
   for(const item of drafts){let d=item.draft;d.remoteDraft={id:item.id,version:item.version};d.sourceDemo=false;d.id=item.id;
@@ -69,10 +70,11 @@ window.configureCreditBackend=function(services,api,user){
   for(const d of rows)if(d.remote?.id){const subs=await api.request(path(d)+'/submissions');d.documents=subs.map(sub=>{const old=d.documents.find(x=>x.remote?.id===sub.id||x.operationKey===sub._operation_key);return {...old,type:sub.document_type,period:sub.period.slice(0,7),role:sub.role,remote:{...old?.remote,id:sub.id,revision:sub.revision,confirmed:sub.deposit_status==='confirmed'},status:sub,pages:sub.pages.map(p=>({serverId:p.id,name:'Page '+p.source_page,mime:'image/png',size:0,rotation:p.rotation,crop:p.crop,url:api.base+path(d)+'/submissions/'+sub.id+'/pages/'+p.id+'/image?original=true'}))}})}
   if(services.api!==api||!services.ready)return [];journey().replaceDrafts(rows);if(rows[0])await services.loadReport(rows[0]);return rows;
  };
+ services.readBudget=async d=>{if(!services.ready||!d?.remote?.id)return null;const r=await api.request(path(d)+'/published-assessment');return r.report.budget_chart||null};
  services.openDraft=async d=>{await services.loadReport(d);await services.refreshPolicies();window.renderApp()};
- services.analyze=async d=>{await services.saveCase(d,window.CreditModel.buildPayload(d));const signature=JSON.stringify([d.remote.version,d.validatedSources||[]]);if(d.analysisSignature!==signature){d.analysisSignature=signature;d.analysisKey=crypto.randomUUID();await services.saveDraft(d)}const r=await api.assess(d.core,d.remote.id,{mode:'real',validated_sources:d.validatedSources||[]},key(d,'analysisKey'));if(journey().getDraft()!==d||services.api!==api||!services.ready)return r;services.publishedReport=r.result;services.assessmentId=r.id;services.audience='analyst';return r};
+ services.analyze=async d=>{await services.saveCase(d,window.CreditModel.buildPayload(d));const signature=JSON.stringify([d.remote.version,d.validatedSources||[],d.financialV2Options||{}]);if(d.analysisSignature!==signature){d.analysisSignature=signature;d.analysisKey=crypto.randomUUID();await services.saveDraft(d)}const r=await api.request(api.casePath(d.core,d.remote.id)+'/financial-analyses',{method:'POST',body:{...(d.financialV2Options||{}),mode:'real',validated_sources:d.validatedSources||[]},key:key(d,'analysisKey'),version:d.remote.version,timeoutMs:120000});if(journey().getDraft()!==d||services.api!==api||!services.ready)return r;services.publishedReport=r.result;services.assessmentId=r.id;services.audience='analyst';return r};
  services.publish=async flags=>api.request('/assessments/'+services.assessmentId+'/print-publication',{method:'POST',body:flags});
- services.simulate=async()=>{const originalId=services.assessmentId;const originalDraft=journey().getDraft();const r=await api.simulate(originalId,{kind:'stress',scenario:{revenue_drop:'0.20'}});if(services.assessmentId!==originalId||journey().getDraft()!==originalDraft||services.api!==api||!services.ready)return r;services.publishedReport={...r.result,_stress:true};services.assessmentId=r.id;return r};
+ services.simulate=async()=>{const originalId=services.assessmentId;const originalDraft=journey().getDraft();const isV2=services.publishedReport?.engine_version==='financial_analysis_v2';const r=isV2?await api.request('/financial-analyses/'+encodeURIComponent(originalId)+'/simulations',{method:'POST',body:{id:'income-drop-20',name:'Baisse hypothétique de 20 %',revenue_drop:'0.20',rationale:'Simulation illustrative demandée par l’utilisateur, sans valeur de norme'},timeoutMs:120000}):await api.simulate(originalId,{kind:'stress',scenario:{revenue_drop:'0.20'}});if(services.assessmentId!==originalId||journey().getDraft()!==originalDraft||services.api!==api||!services.ready)return r;services.publishedReport={...r.result,_stress:true};services.assessmentId=r.id;return r};
  services.print=async(d,template='analysis_report')=>{
   if(!d?.remote?.id)throw new Error('Enregistrez le dossier avant de générer un document.');
   const r=await api.print(d.core,d.remote.id,{template_id:template,audience:staff?'analyst':'applicant',assessment_id:['analysis_report','improvement_plan','analysis_summary','simulation_report'].includes(template)?services.assessmentId:null,language:'fr',generate_now:true},crypto.randomUUID());
@@ -82,7 +84,7 @@ window.configureCreditBackend=function(services,api,user){
  services.documentAction=async(d,doc,action)=>{const r=await api.request(path(d)+'/submissions/'+doc.remote.id+'/'+action,{method:'POST',timeoutMs:120000});doc.status=r;return r};
  services.run=async(d,doc)=>api.request(path(d)+'/submissions/'+doc.remote.id+'/runs/'+doc.status.latest_run_id);
  services.review=async(d,doc,decisions,revision)=>api.review(d.core,d.remote.id,doc.remote.id,doc.status.latest_run_id,decisions,revision);
- services.reloadCase=async d=>{if(!d.remote?.id)throw new Error('Ce brouillon n’a pas encore de dossier métier.');const result=await api.readCase(d.core,d.remote.id);const latestDraft=d.remoteDraft?await api.request('/journeys/'+d.remoteDraft.id):null;const fresh=window.CreditModel.fromCase(d.core,result.data);Object.assign(fresh,{id:d.id,remote:{id:result.id,version:result.version},remoteDraft:latestDraft?{id:latestDraft.id,version:latestDraft.version}:undefined,documents:d.documents,actions:d.actions});await services.saveCase(fresh,window.CreditModel.buildPayload(fresh));journey().replaceDraft(fresh);await services.loadReport(fresh);return fresh};
+ services.reloadCase=async d=>{if(!d.remote?.id)throw new Error('Ce brouillon n’a pas encore de dossier métier.');const result=await api.readCase(d.core,d.remote.id);const latestDraft=d.remoteDraft?await api.request('/journeys/'+d.remoteDraft.id):null;const fresh=window.CreditModel.fromCase(d.core,result.data);Object.assign(fresh,{id:d.id,remote:{id:result.id,version:result.version},remoteDraft:latestDraft?{id:latestDraft.id,version:latestDraft.version}:undefined,documents:d.documents,actions:d.actions,financialV2Options:d.financialV2Options});await services.saveCase(fresh,window.CreditModel.buildPayload(fresh));journey().replaceDraft(fresh);await services.loadReport(fresh);return fresh};
  services.removeDocument=async(d,doc)=>{if(doc.remote?.id)await api.request(path(d)+'/submissions/'+doc.remote.id+'/withdraw',{method:'POST',version:doc.remote.revision})};
  services.api=api;services.enhanceView=view=>window.enhanceCreditBackend(services,view);
 };

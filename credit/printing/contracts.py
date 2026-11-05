@@ -32,6 +32,7 @@ class Presentation(Contract):
     platform_name: str = "Crédit PME"
     logo_png: str | None = None
     signatures: bool = False
+    verification_url: str | None = None
 
 
 class PrintRequest(Contract):

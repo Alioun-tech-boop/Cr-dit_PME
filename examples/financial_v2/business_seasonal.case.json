@@ -1,0 +1,908 @@
+{
+  "name": "Activité saisonnière synthétique : encaissement faible avant récolte",
+  "currency": "XOF",
+  "evidence": [
+    {
+      "id": "synthetic",
+      "source": "Document entièrement synthétique de démonstration",
+      "period": "2026-01-01",
+      "currency": "XOF",
+      "collected_at": "2026-01-01",
+      "status": "declared"
+    }
+  ],
+  "existing_loans": [
+    {
+      "reference": "existing",
+      "principal": {
+        "value": "30000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "schedule": [
+        {
+          "period": "2026-02-01",
+          "principal": {
+            "value": "10000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "1000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          }
+        },
+        {
+          "period": "2026-03-01",
+          "principal": {
+            "value": "20000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "interest": {
+            "value": "1000",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          },
+          "fees": {
+            "value": "0",
+            "state": "known",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "requested_loan": {
+    "reference": "requested",
+    "principal": {
+      "value": "60000",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "schedule": [
+      {
+        "period": "2026-02-01",
+        "principal": {
+          "value": "20000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "2000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "period": "2026-04-01",
+        "principal": {
+          "value": "40000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "interest": {
+          "value": "2000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "fees": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      }
+    ]
+  },
+  "mode": "structured_accounts",
+  "activity": "Commerce fictif",
+  "opening_cash": {
+    "value": "10000",
+    "state": "known",
+    "evidence_ids": [
+      "synthetic"
+    ]
+  },
+  "project_assumptions": [
+    "Le crédit finance un équipement synthétique de 60000 XOF.",
+    "Aucune croissance additionnelle présumée."
+  ],
+  "periods": [
+    {
+      "period": "2026-02-01",
+      "receipts": {
+        "value": "50000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "operating_expenses": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "taxes": {
+        "value": "10000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "essential_investments": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "household_withdrawals": {
+        "value": "20000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "requested_loan_disbursement": {
+        "value": "60000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "financed_uses": {
+        "value": "60000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    {
+      "period": "2026-03-01",
+      "receipts": {
+        "value": "700000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "operating_expenses": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "taxes": {
+        "value": "10000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "essential_investments": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "household_withdrawals": {
+        "value": "20000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "requested_loan_disbursement": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "financed_uses": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    {
+      "period": "2026-04-01",
+      "receipts": {
+        "value": "300000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "operating_expenses": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "taxes": {
+        "value": "10000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "essential_investments": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "household_withdrawals": {
+        "value": "20000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "requested_loan_disbursement": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "financed_uses": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    }
+  ],
+  "data_classification": "synthetic",
+  "historical_cashflows": [
+    {
+      "period": "2025-10-01",
+      "receipts": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "operating_expenses": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "taxes": {
+        "value": "10000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "essential_investments": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "household_withdrawals": {
+        "value": "20000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "requested_loan_disbursement": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "financed_uses": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "observed"
+    },
+    {
+      "period": "2025-11-01",
+      "receipts": {
+        "value": "600000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "operating_expenses": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "taxes": {
+        "value": "10000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "essential_investments": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "household_withdrawals": {
+        "value": "20000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "requested_loan_disbursement": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "financed_uses": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "observed"
+    },
+    {
+      "period": "2025-12-01",
+      "receipts": {
+        "value": "100000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "operating_expenses": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "taxes": {
+        "value": "10000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "essential_investments": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "household_withdrawals": {
+        "value": "20000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "requested_loan_disbursement": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "financed_uses": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "basis": "observed"
+    }
+  ],
+  "analysis_details": {
+    "as_of": "2026-01-31",
+    "identity": {
+      "subject_linked": true,
+      "representation_confirmed": true,
+      "authorizations_applicable": false,
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "funding": {
+      "product_id": "unclassified",
+      "justified_need": {
+        "value": "60000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "announced_contribution": {
+        "value": "6000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "verified_contribution": {
+        "value": "6000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "purpose": {
+        "text": "Équipement synthétique ; prêt reçu et emploi des fonds séparés.",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "implementation_start": "2026-02-01",
+      "expected_start": "2026-02-01"
+    },
+    "repayment_history_applicable": true,
+    "repayment_observations": [
+      {
+        "loan_reference": "existing",
+        "as_of": "2026-01-31",
+        "arrears": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "days_past_due": 0,
+        "restructuring_count": 0
+      }
+    ],
+    "counterparties": [
+      {
+        "name": "CLIENT-A",
+        "period": "2026-02-01",
+        "role": "customer",
+        "flow_kind": "receipt",
+        "amount": {
+          "value": "40000.0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "name": "CLIENT-B",
+        "period": "2026-02-01",
+        "role": "customer",
+        "flow_kind": "receipt",
+        "amount": {
+          "value": "10000.0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "name": "CLIENT-A",
+        "period": "2026-03-01",
+        "role": "customer",
+        "flow_kind": "receipt",
+        "amount": {
+          "value": "560000.0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "name": "CLIENT-B",
+        "period": "2026-03-01",
+        "role": "customer",
+        "flow_kind": "receipt",
+        "amount": {
+          "value": "140000.0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "name": "CLIENT-A",
+        "period": "2026-04-01",
+        "role": "customer",
+        "flow_kind": "receipt",
+        "amount": {
+          "value": "240000.0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "name": "CLIENT-B",
+        "period": "2026-04-01",
+        "role": "customer",
+        "flow_kind": "receipt",
+        "amount": {
+          "value": "60000.0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      }
+    ],
+    "customer_receipts_complete": true,
+    "seasonality": {
+      "text": "Récolte hypothétique en mars ; déficit de février visible malgré un cumul trimestriel positif.",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "dependencies": [
+      {
+        "text": "Fournisseur synthétique principal : délais à suivre.",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    ],
+    "accounting": [
+      {
+        "start": "2025-10-01",
+        "end": "2025-10-31",
+        "currency": "XOF",
+        "unit_multiplier": "1",
+        "turnover": {
+          "value": "800000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "cost_of_sales": {
+          "value": "400000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "operating_expenses": {
+          "value": "200000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "operating_result": {
+          "value": "200000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "net_result": {
+          "value": "200000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "equity": {
+          "value": "300000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "total_debt": {
+          "value": "90000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      },
+      {
+        "start": "2025-12-01",
+        "end": "2025-12-31",
+        "currency": "XOF",
+        "unit_multiplier": "1",
+        "turnover": {
+          "value": "1000000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "cost_of_sales": {
+          "value": "500000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "operating_expenses": {
+          "value": "250000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "operating_result": {
+          "value": "250000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "net_result": {
+          "value": "250000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "equity": {
+          "value": "300000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "total_debt": {
+          "value": "90000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      }
+    ],
+    "working_capital_applicable": true,
+    "working_capital": {
+      "as_of": "2025-12-31",
+      "period_start": "2025-12-01",
+      "period_end": "2025-12-31",
+      "inventory": {
+        "value": "100000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "receivables": {
+        "value": "700000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "payables": {
+        "value": "120000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "average_inventory": {
+        "value": "100000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "average_receivables": {
+        "value": "600000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "average_payables": {
+        "value": "120000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "credit_sales": {
+        "value": "1000000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "credit_purchases": {
+        "value": "500000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "cost_of_sales": {
+        "value": "500000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "overdue_receivables": {
+        "value": "200000",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      },
+      "overdue_payables": {
+        "value": "0",
+        "state": "known",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    },
+    "equity": {
+      "value": "300000",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "off_balance_commitments": {
+      "value": "0",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "tax_arrears": {
+      "value": "0",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "social_arrears": {
+      "value": "0",
+      "state": "known",
+      "evidence_ids": [
+        "synthetic"
+      ]
+    },
+    "project_receipts": [
+      {
+        "period": "2026-02-01",
+        "amount": {
+          "value": "50000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "included_in_receipts": true,
+        "justification": {
+          "text": "Recette de projet hypothétique déjà incluse, jamais garantie.",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        }
+      }
+    ],
+    "projection_assumptions": [
+      {
+        "text": "Recouvrement des créances et coûts explicitement projetés ; bénéfice distinct de la caisse.",
+        "evidence_ids": [
+          "synthetic"
+        ]
+      }
+    ],
+    "collateral_applicable": true,
+    "collateral": [
+      {
+        "description": "Équipement synthétique",
+        "declared_value": {
+          "value": "200000",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "valuation_date": "2026-01-15",
+        "known_charges": {
+          "value": "0",
+          "state": "known",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "verification": {
+          "text": "Contrôle de transcription synthétique, authenticité non évaluée.",
+          "evidence_ids": [
+            "synthetic"
+          ]
+        },
+        "realization_limits": [
+          {
+            "text": "Valeur de réalisation, délai et frais de recouvrement non garantis.",
+            "evidence_ids": [
+              "synthetic"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

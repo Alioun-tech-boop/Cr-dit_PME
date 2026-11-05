@@ -143,7 +143,11 @@ def create_web_app(database_url=None):
                 request.state.actor = actor
                 if request.method not in {"GET", "HEAD", "OPTIONS"}:
                     csrf(request, session)
-            if path.startswith("/api/") and request.cookies.get(COOKIE):
+            if (
+                path.startswith("/api/")
+                and not path.startswith("/api/public/attestations/")
+                and request.cookies.get(COOKIE)
+            ):
                 user, session, actor = session_user(request)
                 if request.method not in {"GET", "HEAD", "OPTIONS"}:
                     csrf(request, session)

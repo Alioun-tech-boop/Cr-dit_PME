@@ -5,6 +5,15 @@ import subprocess
 import sys
 from sqlalchemy import create_engine, text
 from credit.security.runtime import production_guard
+from alembic.config import Config
+from alembic.script import ScriptDirectory
+
+
+def listen_port():
+    port = int(os.getenv("PORT", "8000"))
+    if not 1 <= port <= 65535:
+        raise ValueError("PORT doit être compris entre 1 et 65535")
+    return port
 
 
 def main():
@@ -20,7 +29,7 @@ def main():
                 raise RuntimeError("Rôle applicatif PostgreSQL trop privilégié")
             if (
                 connection.execute(text("SELECT version_num FROM alembic_version")).scalar_one()
-                != "0007"
+                != ScriptDirectory.from_config(Config("alembic.ini")).get_current_head()
             ):
                 raise RuntimeError("Migration administrative préalable requise")
     else:
@@ -33,7 +42,7 @@ def main():
             "--host",
             "0.0.0.0",
             "--port",
-            "8000",
+            str(listen_port()),
             "--no-access-log",
             "--proxy-headers",
             "--forwarded-allow-ips",

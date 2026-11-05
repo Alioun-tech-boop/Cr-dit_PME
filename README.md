@@ -1,3 +1,11 @@
+# Transmission bancaire contrôlée
+
+Le [parcours partenaire](docs/TRANSMISSION_BANCAIRE.md) ajoute revue interne, attestation signée, choix et confirmation du demandeur, portail bancaire et suivi. Une banque fictive permet une démonstration locale ; aucune banque réelle n’est annoncée connectée.
+
+# Nouveau moteur financier déterministe v2
+
+Le nouveau parcours est décrit dans [le guide v2](docs/ANALYSE_FINANCIERE_V2.md) : calculs, sous-analyses, scénarios, seuils de rupture et variantes, sans modèle entraîné ni fusion prédictive. Les analyses historiques sont conservées.
+
 # Cr-dit_PME
 
 # Crédit PME — backend et frontend locaux
@@ -5,6 +13,10 @@
 Le frontend est connecté par une passerelle de même origine : connexion par cookie
 HttpOnly, brouillons persistants, pièces, revue, analyses publiées, simulations et
 PDF. Voir [installation et vérifications](docs/FRONTEND_BACKEND.md).
+L’accueil utilise deux vidéos réelles courtes, intégrées localement :
+[sources, licences et vérifications](frontend/docs/MEDIAS_ACCUEIL.md).
+Les [repères du financement](frontend/docs/GRAPHIQUE_BUDGET.md) restituent les résultats
+financiers autorisés sous les vidéos, sans montants fictifs.
 Les identités navigateur sont provisionnées côté serveur ; aucun Bearer technique
 n’est envoyé au navigateur.
 

@@ -14,6 +14,7 @@ dependencies = [
     "Pillow==13.0.0",
     "reportlab==4.4.9",
     "argon2-cffi==25.1.0",
+    "cryptography==50.0.2",
 ]
 [dependency-groups]
 dev = ["pytest==9.0.3", "httpx==0.28.1", "ruff==0.11.8"]

@@ -13,6 +13,8 @@ from credit.businesses.contracts import BusinessCase
 from credit.assessment.routes import view as assessment_view
 from credit.assessment.application import canonical_hash
 from credit.printing.presentation import public_financial
+from credit.web.budget import budget_chart
+from credit.partners.models import CaseGrant
 
 
 class DraftInput(BaseModel):
@@ -207,7 +209,13 @@ def register_web_routes(app, db, get_case, save_case):
             query = select(CaseRecord).where(
                 CaseRecord.kind == kind,
                 CaseRecord.institution_id == actor.institution_id,
-                or_(CaseRecord.owner_id == actor.id, CaseRecord.id.in_(actor.case_ids)),
+                or_(
+                    CaseRecord.owner_id == actor.id,
+                    CaseRecord.id.in_(actor.case_ids),
+                    CaseRecord.id.in_(
+                        select(CaseGrant.case_id).where(CaseGrant.actor_id == actor.id)
+                    ),
+                ),
             )
             return [
                 {
@@ -238,7 +246,15 @@ def register_web_routes(app, db, get_case, save_case):
                 return {
                     "audience": "analyst",
                     "assessment_id": items[0].id,
-                    "report": assessment_view(items[0])["result"],
+                    "report": {
+                        **assessment_view(items[0])["result"],
+                        "budget_chart": budget_chart(
+                            items[0].data["result"],
+                            items[0].data["input_snapshot"],
+                            case_id=case_id,
+                            assessment_id=items[0].id,
+                        ),
+                    },
                 }
             for item in items:
                 publication = session.scalar(
@@ -260,6 +276,10 @@ def register_web_routes(app, db, get_case, save_case):
                     "suggestions": [],
                     "publication_id": publication.id,
                 }
+                if publication.data.get("financial_results"):
+                    result["budget_chart"] = budget_chart(
+                        report, item.data["input_snapshot"], case_id=case_id, assessment_id=item.id
+                    )
                 if publication.data.get("suggestions"):
                     result["suggestions"] = [
                         {

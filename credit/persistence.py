@@ -224,3 +224,6 @@ class JourneyDraft(Base):
     version: Mapped[int] = mapped_column(Integer, default=1)
     __mapper_args__ = {"version_id_col": version}
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
+
+# Chargement des tables du parcours partenaire pour Alembic et les bases de test.
+from credit.partners import models as partner_models  # noqa: E402, F401

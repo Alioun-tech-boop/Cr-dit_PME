@@ -682,9 +682,21 @@ def analysis_sections(report, template, internal, publication, parent=None, simu
                     "Indice de risque sur 100 (pas une probabilité)": report["scoring"].get(
                         "risk_index"
                     ),
-                    "Modèle": scalar(report["scoring"].get("model_status")),
-                    "Score combiné 70/30": report["scoring"].get("combined_score"),
-                    "Probabilité de défaut": report["scoring"].get("probability_of_default"),
+                    **(
+                        {
+                            "Qualification conventionnelle": report["scoring"].get("qualification"),
+                            "Revue obligatoire": report["scoring"].get("mandatory_review"),
+                            "Méthode": "Déterministe ; aucune probabilité de défaut calculée",
+                        }
+                        if report.get("engine_version") == "financial_analysis_v2"
+                        else {
+                            "Modèle": scalar(report["scoring"].get("model_status")),
+                            "Score combiné 70/30": report["scoring"].get("combined_score"),
+                            "Probabilité de défaut": report["scoring"].get(
+                                "probability_of_default"
+                            ),
+                        }
+                    ),
                 },
             )
         )
@@ -745,6 +757,44 @@ def analysis_sections(report, template, internal, publication, parent=None, simu
             )
         )
         return sections
+    if report.get("engine_version") == "financial_analysis_v2":
+        deep = report["deep_analysis"]
+        if deep.get("policy_exceptions"):
+            sections.append(
+                table_section(
+                    "Dérogations tracées sans modification des calculs",
+                    deep["policy_exceptions"],
+                    internal=True,
+                )
+            )
+        for title, data in [
+            ("Statistiques historiques descriptives", deep["history"]),
+            ("Rapprochements limités aux comptes fournis", deep["reconciliation"]),
+            (
+                "Règles de qualification et contraintes produit",
+                {"règles": report["scoring"]["rules"], "contraintes": deep["product_constraints"]},
+            ),
+            (
+                "Scénarios explicitement enregistrés",
+                [
+                    {
+                        k: v
+                        for k, v in item.items()
+                        if k not in {"input_snapshot", "financial_calculations"}
+                    }
+                    for item in deep["scenarios"]
+                ],
+            ),
+            ("Recherche bornée des seuils de rupture", deep["reverse_tests"]),
+            (
+                "Variantes de financement testées, sans conseil automatique",
+                [
+                    {k: v for k, v in item.items() if k != "input_snapshot"}
+                    for item in deep["financing_variants"]["variants"]
+                ],
+            ),
+        ]:
+            sections.append(table_section(title, data, internal=True))
     for s in report.get("sections", []):
         part = Section(
             title=s["title"] + " — " + scalar(s["status"]), paragraphs=[s["explanation"]]

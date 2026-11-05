@@ -1,0 +1,38 @@
+# Option explicite pour clés montées en lecture seule et worker d'outbox.
+# Les private_key_path du trousseau doivent pointer dans /run/credit-signing/.
+services:
+  api:
+    environment: &partner_environment
+      CREDIT_PARTNER_KEYRING_FILE: /run/credit-signing/keyring.json
+      CREDIT_PARTNER_ALLOW_DEMO: ${CREDIT_PARTNER_ALLOW_DEMO:-false}
+      CREDIT_PARTNER_MAX_PACKET_BYTES: ${CREDIT_PARTNER_MAX_PACKET_BYTES:-50000000}
+      CREDIT_PARTNER_EXPORTS_PER_MINUTE: ${CREDIT_PARTNER_EXPORTS_PER_MINUTE:-30}
+      CREDIT_PARTNER_RETRY_BASE_SECONDS: ${CREDIT_PARTNER_RETRY_BASE_SECONDS:-15}
+    volumes: &partner_secrets
+      - type: bind
+        source: ${CREDIT_PARTNER_SIGNING_DIRECTORY:?Répertoire de signature explicitement requis}
+        target: /run/credit-signing
+        read_only: true
+        bind:
+          create_host_path: false
+  partner_worker:
+    build: .
+    command: ["python", "-m", "scripts.partner_worker"]
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 32
+    mem_limit: 512m
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=64m
+    environment:
+      <<: *partner_environment
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-credit}:${POSTGRES_PASSWORD:-credit_local}@db:5432/${POSTGRES_DB:-credit}
+      CREDIT_ENV: ${CREDIT_ENV:-local}
+      CREDIT_AUTH_JSON: ${CREDIT_AUTH_JSON:-}
+      CREDIT_WEB_ORIGIN: ${CREDIT_WEB_ORIGIN:-http://127.0.0.1:8000}
+    volumes: *partner_secrets
+    depends_on:
+      api:
+        condition: service_healthy

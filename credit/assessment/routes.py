@@ -119,7 +119,14 @@ def register_assessment_routes(app, db, get_case):
             return "Simulation incomplète : " + " ; ".join(
                 item.data["result"]["missing_information"]
             )
-        return render_french(AssessmentReport.model_validate(item.data["result"]))
+        from credit.financial_v2.contracts import Report
+
+        contract = (
+            Report
+            if item.data["result"].get("engine_version") == "financial_analysis_v2"
+            else AssessmentReport
+        )
+        return render_french(contract.model_validate(item.data["result"]))
 
     @app.post("/assessments/{assessment_id}/simulations", status_code=201)
     def simulate(assessment_id: str, request: SimulationRequest, session: Session = Depends(db)):

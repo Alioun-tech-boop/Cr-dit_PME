@@ -219,7 +219,7 @@ def store(
             "report_sha256": canonical_hash(result),
             "options": deepcopy(options),
             "policy_snapshot": deepcopy(result.get("policy_snapshot")),
-            "engine_version": ENGINE_VERSION,
+            "engine_version": result.get("engine_version", ENGINE_VERSION),
             "evidence_snapshot": deepcopy(snapshot["evidence"]),
             "human_validations": deepcopy(validations or []),
             "simulation": deepcopy(simulation),

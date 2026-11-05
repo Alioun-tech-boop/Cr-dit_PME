@@ -1,6 +1,7 @@
 """Lancer l'API et Chromium sur un jeu synthétique isolé, puis arrêter le serveur."""
 
 import os
+import argparse
 from pathlib import Path
 import subprocess
 import sys
@@ -8,6 +9,13 @@ import tempfile
 import time
 import urllib.request
 
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    "--browser-test",
+    choices=["browser-e2e.cjs", "home-videos.cjs", "budget-widget.cjs", "banking.cjs"],
+    default="browser-e2e.cjs",
+)
+args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 output = root / "output/frontend"
 output.mkdir(parents=True, exist_ok=True)
@@ -29,9 +37,21 @@ env = {
 }
 if (root / ".local/share/tessdata/fra.traineddata").is_file():
     env.setdefault("TESSDATA_PREFIX", str(root / ".local/share/tessdata"))
+if args.browser_test == "banking.cjs":
+    env["CREDIT_PARTNER_ALLOW_DEMO"] = "true"
+    env["CREDIT_PARTNER_KEYRING_FILE"] = str(run / "keyring.json")
 # Préparation avant création de l'application, registre absent initialement : aucune connexion HTTP.
 subprocess.run(
-    [sys.executable, "-m", "scripts.prepare_frontend_e2e"], cwd=root, env=env, check=True
+    [
+        sys.executable,
+        "-m",
+        "scripts.prepare_partner_e2e"
+        if args.browser_test == "banking.cjs"
+        else "scripts.prepare_frontend_e2e",
+    ],
+    cwd=root,
+    env=env,
+    check=True,
 )
 with (run / "server.log").open("w") as log:
     server = subprocess.Popen(
@@ -65,7 +85,7 @@ with (run / "server.log").open("w") as log:
         subprocess.run(["npm", "run", "build"], cwd=root / "frontend", check=True)
         with (run / "browser.log").open("w") as report:
             result = subprocess.run(
-                ["node", "tests/browser-e2e.cjs"],
+                ["node", "tests/" + args.browser_test],
                 cwd=root / "frontend",
                 env=env,
                 stdout=report,

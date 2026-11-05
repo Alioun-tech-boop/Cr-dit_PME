@@ -322,3 +322,63 @@ def test_provisioning_cli_persists_password_and_revokes_sessions(web, monkeypatc
             select(SecurityEvent).where(SecurityEvent.event == "web_account_provisioned")
         )
         assert event.resource_id == "neighbour" and event.actor_id.startswith("os:")
+
+
+def test_budget_publication_access_and_immutable_snapshot(web):
+    import os
+
+    app, users = web
+    owner = login(app)
+    case = owner.post("/api/individuals", json=payload("individuals")).json()
+    endpoint = "/api/individuals/" + case["id"] + "/published-assessment"
+    users[1]["case_ids"] = [case["id"]]
+    os.environ["CREDIT_AUTH_JSON"] = json.dumps({"users": users})
+    analyst = login(app, "analyst")
+    owner = login(app)
+    analysis = analyst.post(
+        "/api/individuals/" + case["id"] + "/assessments", json={"mode": "real"}
+    ).json()
+    chart = analyst.get(endpoint).json()["report"]["budget_chart"]
+    assert chart["periods"][0]["debt"]["value"] == "130000.00"
+    assert chart["periods"][0]["capacity"]["value"] == "70000.00"
+    assert chart["case_id"] == case["id"] and chart["assessment_id"] == analysis["id"]
+    changed = json.loads(json.dumps(case["data"]))
+    changed["name"] = "Dossier modifié après analyse"
+    changed["periods"][0]["incomes"][0]["net"]["value"] = "990000"
+    assert (
+        analyst.put(
+            "/api/individuals/" + case["id"],
+            json=changed,
+            headers={"If-Match": str(case["version"])},
+        ).status_code
+        == 200
+    )
+    assert analyst.get(endpoint).json()["report"]["budget_chart"] == chart
+    assert owner.get(endpoint).status_code == 404
+    publish = "/api/assessments/" + analysis["id"] + "/print-publication"
+    assert (
+        analyst.post(
+            publish,
+            json={
+                "financial_results": False,
+                "suggestions": True,
+                "justification": "Suggestions uniquement pour cet essai",
+            },
+        ).status_code
+        == 201
+    )
+    assert "budget_chart" not in owner.get(endpoint).json()["report"]
+    assert (
+        analyst.post(
+            publish,
+            json={
+                "financial_results": True,
+                "suggestions": True,
+                "justification": "Communication financière explicite pour cet essai",
+            },
+        ).status_code
+        == 201
+    )
+    assert owner.get(endpoint).json()["report"]["budget_chart"] == chart
+    for actor in ("neighbour", "outsider"):
+        assert login(app, actor).get(endpoint).status_code == 404

@@ -18,12 +18,42 @@ table{width:100%;border-collapse:collapse;margin:4mm 0;table-layout:fixed}thead{
 """
 
 
+def verification_qr(url):
+    from urllib.parse import urlparse
+    from reportlab.graphics.barcode.qr import QrCodeWidget
+    from reportlab.graphics.shapes import Drawing
+
+    parsed = urlparse(url)
+    if parsed.scheme not in {"https", "http"} or not parsed.netloc or len(url) > 500:
+        raise ValueError("invalid_verification_url")
+    widget = QrCodeWidget(url)
+    x, y, right, bottom = widget.getBounds()
+    drawing = Drawing(110, 110, transform=[110 / (right - x), 0, 0, 110 / (bottom - y), 0, 0])
+    drawing.add(widget)
+    return drawing
+
+
 def html_document(model: Presentation):
     e = escape
     fragments = [
         f'<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(model.title)}</title><style>{CSS}</style></head><body>',
         '<nav class="tools">Aperçu imprimable — utilisez la commande Imprimer du navigateur (Ctrl+P). Aucune impression automatique.</nav>',
     ]
+    if model.verification_url:
+        from reportlab.graphics import renderSVG
+
+        qr = base64.b64encode(
+            renderSVG.drawToString(verification_qr(model.verification_url)).encode()
+        ).decode()
+        fragments.append(
+            '<p>Vérification du statut : <a href="'
+            + e(model.verification_url)
+            + '">'
+            + e(model.verification_url)
+            + '</a></p><img alt="QR de vérification, pas une signature" src="data:image/svg+xml;base64,'
+            + qr
+            + '">'
+        )
     if model.logo_png:
         fragments.append(
             f'<img alt="Logo configuré de la plateforme" src="data:image/png;base64,{model.logo_png}">'
@@ -176,6 +206,11 @@ def pdf_document(model: Presentation, max_pages=120):
         story += paragraphs(key + " : " + value)
     for notice in model.notices:
         story += paragraphs(notice)
+    if model.verification_url:
+        story += [
+            verification_qr(model.verification_url),
+            p("Vérification : " + model.verification_url),
+        ]
     for section in model.sections:
         story.append(p(section.title, head))
         for text in section.paragraphs:

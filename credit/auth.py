@@ -55,7 +55,14 @@ def authenticate(request: Request, *, configured_actor_id: str | None = None) ->
                     )
                 )
                 or user.get("role", "analyst" if user.get("reviewer") else "applicant")
-                not in {"applicant", "analyst", "institution_manager", "administrator"}
+                not in {
+                    "applicant",
+                    "analyst",
+                    "institution_manager",
+                    "administrator",
+                    "bank_agent",
+                    "bank_manager",
+                }
                 or not isinstance(user.get("reviewer", False), bool)
                 or not isinstance(user.get("native_exception", False), bool)
             ):
@@ -112,9 +119,19 @@ def authenticate(request: Request, *, configured_actor_id: str | None = None) ->
     raise HTTPException(401, "Jeton invalide ou expiré", headers={"WWW-Authenticate": "Bearer"})
 
 
-def authorize(case, actor):
+def authorize(case, actor, session=None):
+    from sqlalchemy import select
+    from credit.partners.models import CaseGrant
+
+    granted = (
+        session is not None
+        and session.scalar(
+            select(CaseGrant).where(CaseGrant.case_id == case.id, CaseGrant.actor_id == actor.id)
+        )
+        is not None
+    )
     if (case.institution_id != actor.institution_id) or (
-        case.owner_id != actor.id and case.id not in actor.case_ids
+        case.owner_id != actor.id and case.id not in actor.case_ids and not granted
     ):
         # Même réponse qu'un identifiant inexistant, sans révéler le dossier.
         raise HTTPException(404, "Dossier introuvable")

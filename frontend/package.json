@@ -5,7 +5,8 @@
   "description": "Interface Crédit PME — parcours, profil, paramètres et adaptation au backend",
   "scripts": {
     "build": "node scripts/build-frontend.mjs",
-    "test": "node scripts/check-frontend.mjs"
+    "test": "node scripts/check-frontend.mjs",
+    "test:home-videos": "node tests/home-videos.cjs"
   },
   "engines": {
     "node": ">=20"

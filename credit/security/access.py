@@ -21,7 +21,7 @@ def enforce(request, actor):
         or "/analyses" in route
         or "/scenarios" in route
         or "/documents" in route
-        or route.endswith("/events")
+        or (route.endswith("/events") and not route.startswith(("/transmissions/", "/bank/")))
         or ("/runs/" in route and "/pages/" not in route)
         or ("/submissions/" in route and route.endswith("/process"))
     )
