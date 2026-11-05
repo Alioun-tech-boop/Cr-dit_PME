@@ -107,3 +107,49 @@ https://dashboard.render.com/blueprint/exs-dbmastec6qcc738fvrf0/sync/exe-dbmastm
 `CREDIT_TRUSTED_PROXY_IPS`. Le registre privé d’authentification et les migrations
 administratives restent également requis. Ne pas renseigner des valeurs fictives
 pour contourner les contrôles de démarrage.
+
+### Déploiement effectué via l’API Render
+
+Le backend et le frontend de même origine sont disponibles à :
+https://credit-pme-api-62j3.onrender.com
+
+Ressources créées : service `srv-dbmb0o1srm7s73fjol3g`, base PostgreSQL 16
+`dpg-dbmattgae00c738ru7og-a`, région Francfort, plans gratuits. La base expire
+le 5 décembre 2026 : choisir un plan adapté et des sauvegardes avant tout usage
+réel. Aucun service d’un autre projet n’a été modifié.
+
+Le démarrage vérifie toujours PostgreSQL TLS `verify-full`, les droits réduits
+et la révision Alembic. Les connexions externes PostgreSQL sont autorisées
+uniquement depuis les deux plages de sortie Render déclarées pour ce service ;
+elles sont partagées avec les autres services Render de la région. Les mots de
+passe et les habilitations PostgreSQL restent nécessaires.
+
+Le registre monté `credit-auth.json` est copié dans un répertoire temporaire 0700,
+avec fichier 0600, avant les contrôles de production. `CREDIT_AUTH_SOURCE_FILE`
+indique ce montage. Il ne contient aucun mot de passe utilisateur en clair.
+Le compte initial d’exploitation possède un mot de passe aléatoire Argon2id,
+sans réutilisation des comptes de démonstration. Son périmètre technique est
+`credit-pme-operator` ; il ne représente pas une banque partenaire activée.
+Les accès initiaux sont conservés dans `.local/render-deploy/owner.private.json`,
+exclu de Git, permissions 0600. L’identité expire à 30 jours ; organiser son
+renouvellement et le provisionnement des vrais utilisateurs habilités.
+
+Le provisionnement initial `python -m scripts.bootstrap_render` exige
+explicitement `CREDIT_RENDER_BOOTSTRAP=true` et un fichier secret administratif.
+Il applique les migrations et crée le rôle `credit_application`, sans modifier
+les comptes déjà présents. Le fichier administratif et ce paramètre sont retirés
+du service après installation. Les migrations suivantes restent une opération
+administrative distincte ; ne pas réintroduire le secret administratif dans le
+service permanent.
+
+Vérifications exécutées sur le service distant : 22 contrôles HTTP réussis,
+comprenant connexion, CSRF, sessions, dossiers synthétiques particuliers/PME,
+analyses v2, PDF et refus des téléchargements anonymes. Connexion et liste des
+dossiers également vérifiées dans Chromium distant, sans erreur JavaScript.
+Localement : 66 tests ciblés réussis, avec deux avertissements de dépréciation.
+
+Cette mise en ligne Render ne constitue pas une publication Netlify ni une
+validation de production. Signature institutionnelle, partenaires bancaires,
+worker permanent et exploitation de production restent à configurer selon leurs
+procédures respectives. Révoquer la clé API partagée dans la conversation après
+les opérations ; elle n’a été enregistrée ni dans Git ni dans l’image Docker.
