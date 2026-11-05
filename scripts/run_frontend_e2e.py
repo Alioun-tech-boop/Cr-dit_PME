@@ -12,7 +12,7 @@ import urllib.request
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument(
     "--browser-test",
-    choices=["browser-e2e.cjs", "home-videos.cjs", "budget-widget.cjs", "banking.cjs"],
+    choices=["browser-e2e.cjs", "home-videos.cjs", "budget-widget.cjs", "banking.cjs", "public-home.cjs"],
     default="browser-e2e.cjs",
 )
 args = parser.parse_args()

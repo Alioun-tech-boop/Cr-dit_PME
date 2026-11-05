@@ -5,7 +5,7 @@ assert(docs('individuals','employee').includes('employment_certificate'));
 assert(!docs('individuals','retired').includes('employment_certificate'));
 assert(!docs('businesses').includes('employment_certificate'));
 (async()=>{const base=process.env.CREDIT_E2E_URL;if(!base)throw Error('Définir CREDIT_E2E_URL');const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});let count=3;
-try{for(const width of [320,360,390,414,768]){const page=await browser.newPage({viewport:{width,height:844},isMobile:true,hasTouch:true});await page.goto(base+'/#overview');await page.waitForSelector('.stories');
+try{for(const width of [320,360,390,414,768]){const page=await browser.newPage({viewport:{width,height:844},isMobile:true,hasTouch:true});await page.goto(base+'/platform.html#overview');await page.waitForSelector('.stories');
 assert((await page.title()).includes('Crédix'));count++;
 for(const stage of ['initial','carousel','navigation']){
 if(stage==='carousel')await page.locator('.stories').evaluate(el=>{el.scrollLeft=el.scrollWidth});

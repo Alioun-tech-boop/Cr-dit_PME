@@ -18,3 +18,6 @@ réels dans Chromium sur une base et des identités synthétiques isolées.
 Les calculs sont exclusivement ceux des deux noyaux Python. Les fichiers de
 `docs/` décrivant l’audit initial du frontend sont des constats historiques ;
 le guide d’intégration à la racine fait référence pour le fonctionnement actuel.
+
+Accueil public, mode visiteur et connexion : voir [le guide du parcours d’entrée](docs/ACCUEIL_PUBLIC.md).
+L’accueil est servi sur `/`, la connexion sur `/login.html` et l’espace plateforme sur `/platform.html`.

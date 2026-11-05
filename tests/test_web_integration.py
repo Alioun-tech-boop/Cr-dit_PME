@@ -280,7 +280,8 @@ def test_same_origin_frontend_and_legacy_bearer(web):
     app, _ = web
     c = TestClient(app)
     assert c.get("/").status_code == 200
-    assert "credit-api.js" in c.get("/").text
+    assert "credit-api.js" not in c.get("/").text
+    assert "credit-api.js" in c.get("/platform.html").text
     assert c.get("/health").json() == {"status": "ok"}
     assert c.get("/api/health").json() == {"status": "ok"}
     assert c.get("/individuals").status_code == 401
@@ -382,3 +383,30 @@ def test_budget_publication_access_and_immutable_snapshot(web):
     assert owner.get(endpoint).json()["report"]["budget_chart"] == chart
     for actor in ("neighbour", "outsider"):
         assert login(app, actor).get(endpoint).status_code == 404
+
+
+def test_public_entry_login_and_visitor_keep_business_permissions(web):
+    app, _ = web
+    with TestClient(app, headers={"Origin": ORIGIN}) as client:
+        home = client.get("/")
+        assert home.status_code == 200
+        assert "Vos projets prennent de l’avance" in home.text
+        assert 'src="app.js' not in home.text
+        assert "/platform.html?visiteur=1#overview" in home.text
+        assert "/login.html" in home.text
+        assert "script-src 'self'" in home.headers["content-security-policy"]
+        assert client.get("/login.html").status_code == 200
+        assert 'name="password"' in client.get("/login.html").text
+        assert client.get("/platform.html").status_code == 200
+        assert 'id="visitor-notice"' in client.get("/platform.html").text
+        assert client.get("/api/individuals").status_code == 401
+        assert client.get("/api/journeys").status_code == 401
+        assert client.get("/auth/session").status_code == 401
+        assert (
+            client.post(
+                "/auth/login", json={"username": "applicant", "password": PASSWORD}
+            ).status_code
+            == 200
+        )
+        assert client.get("/auth/session").json()["user"]["id"] == "applicant"
+        assert client.get("/api/journeys").status_code == 200

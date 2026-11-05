@@ -3,7 +3,7 @@ vm.runInThisContext(fs.readFileSync('dist/credit-api.js','utf8'));vm.runInThisCo
 const helpContext={window:{}};vm.runInNewContext(fs.readFileSync('dist/field-help.js','utf8'),helpContext);const help=helpContext.window.CREDIT_FIELD_HELP;
 let checks=0;const check=(title,fn)=>{fn();checks++;};const response=(status,data)=>({status,ok:status>=200&&status<300,headers:{get:()=>null},text:async()=>typeof data==='string'?data:JSON.stringify(data)});
 (async()=>{
- const html=fs.readFileSync('dist/index.html','utf8'),css=fs.readFileSync('dist/app.css','utf8'),journey=fs.readFileSync('dist/journey.js','utf8');
+ const html=fs.readFileSync('dist/platform.html','utf8'),css=fs.readFileSync('dist/app.css','utf8'),journey=fs.readFileSync('dist/journey.js','utf8');
  check('Pas de données exemples publiées',()=>assert.deepEqual(fs.readdirSync('dist/data').sort(),['document-catalog.json','document-policies.json']));
  check('Pas de navigation démo',()=>assert(!/data-demo|data-preview-demo|loadExample|démonstration|synthétique/.test(journey)));
  check('Aucune identité fictive',()=>assert(!/Aminata|Atelier Savane|AK<|AS</.test(html+fs.readFileSync('dist/app.js','utf8'))));

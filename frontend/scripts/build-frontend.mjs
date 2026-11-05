@@ -3,12 +3,14 @@ const root=process.cwd(),dist=path.join(root,'dist');
 const sheets=['style.css','premium.css','journey.css','production.css'];
 const css=sheets.map(name=>`/* ${name} */\n`+fs.readFileSync(path.join(root,'src/styles',name),'utf8')).join('\n');
 fs.writeFileSync(path.join(dist,'app.css'),css);
-let html=fs.readFileSync(path.join(dist,'index.html'),'utf8');
-html=html.replace(/<link rel="stylesheet" href="(?:style|premium|journey|production|app)\.css(?:\?[^\"]*)?">/g,'');
 const digest=name=>crypto.createHash('sha256').update(fs.readFileSync(path.join(dist,name))).digest('hex').slice(0,12);
-html=html.replace('</title>','</title>\n<link rel="stylesheet" href="app.css?v='+digest('app.css')+'">');
-html=html.replace(/(<script src=")([a-z-]+\.js)(?:\?[^\"]*)?(" defer><\/script>)/g,(_,start,name,end)=>start+name+'?v='+digest(name)+end);
-fs.writeFileSync(path.join(dist,'index.html'),html);
+for(const [name,stylesheet] of [['platform.html','app.css'],['index.html','public.css'],['login.html','public.css']]){
+let html=fs.readFileSync(path.join(dist,name),'utf8');
+html=html.replace(/<link rel="stylesheet" href="(?:style|premium|journey|production|app|public)\.css(?:\?[^\"]*)?">/g,'');
+html=html.replace('</title>','</title>\n<link rel="stylesheet" href="'+stylesheet+'?v='+digest(stylesheet)+'">');
+html=html.replace(/(<script src=")([a-z-]+\.js)(?:\?[^\"]*)?(" defer><\/script>)/g,(_,start,file,end)=>start+file+'?v='+digest(file)+end);
+fs.writeFileSync(path.join(dist,name),html.replace(/\n{3,}/g,'\n\n'));
+}
 const files=fs.readdirSync(dist).filter(f=>/\.(js|css|html)$/.test(f));
 fs.mkdirSync(path.join(root,'tests/output'),{recursive:true});
 const manifest=Object.fromEntries(files.map(name=>[name,digest(name)]));

@@ -72,3 +72,5 @@ footer{min-width:0;flex-wrap:wrap;overflow-wrap:anywhere}
  .table-scroll:has(.empty-state) thead{display:none}
  .empty-state,.empty-state>*{max-width:100%;overflow-wrap:anywhere}
 }
+
+.visitor-notice{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 18px;margin-top:22px;border-radius:18px;background:#f2f0fa;font-size:11px;line-height:1.7}.visitor-notice[hidden]{display:none}.visitor-notice a{flex-shrink:0;color:#000;text-decoration:underline;text-underline-offset:4px}@media(max-width:480px){.visitor-notice{align-items:flex-start;flex-direction:column;gap:5px}}

@@ -12,20 +12,20 @@ const check = (yes, title) => { assert(yes, title); checks++; console.log('OK ' 
  try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
   page.on('pageerror', e => errors.push(e.message));
-  await page.goto(base + '/#overview');
+  await page.goto(base + '/platform.html#overview');
   await page.waitForSelector('#home-budget-card');
   check(await page.locator('.budget-ring-center strong').innerText() === '—', 'Aucun montant fictif sans analyse autorisée');
   check(await page.locator('.budget-arc').count() === 0, 'Anneau neutre sans proportions inventées');
   check(await page.evaluate(() => document.querySelector('.stories').compareDocumentPosition(document.querySelector('.budget-showcase')) & Node.DOCUMENT_POSITION_FOLLOWING), 'Graphique placé sous les vidéos');
   await page.locator('.budget-showcase').screenshot({ path: out + '/budget-empty.png' });
-  await page.goto(base + '/#profile');
+  await page.goto(base + '/platform.html#profile');
   await page.waitForSelector('#login-action');await page.click('#login-action');
   await page.fill('#web-login [name=username]', 'analyst');await page.fill('#web-login [name=password]', 'Synthetic-browser-2026!');await page.click('#web-login button[type=submit]');
   await page.waitForFunction(() => CreditServices.ready && CreditServices.api);await page.waitForSelector('#logout-action');
   const raw = JSON.parse(fs.readFileSync('tests/fixtures/individual_control.json'));
   raw.name = 'Dossier particulier synthétique';raw.data_classification = 'real';
   const created = await page.evaluate(async payload => { const api = CreditServices.api;const c = await api.createCase('individuals', payload);await api.assess('individuals', c.id, {mode:'real'}, crypto.randomUUID());await CreditServices.loadAll();window.renderApp();return c; }, raw);
-  await page.goto(base + '/#overview');
+  await page.goto(base + '/platform.html#overview');
   await page.waitForFunction(() => document.querySelector('.budget-ring-center strong')?.textContent.replace(/\s/g,'') === '70000');
   check(true, 'Capacité : marge calculée de 70 000 FCFA');
   check((await page.locator('#budget-showcase-title').innerText()).includes('Emprunter'), 'Titre adapté au financement du ménage');
@@ -48,7 +48,7 @@ const check = (yes, title) => { assert(yes, title); checks++; console.log('OK ' 
   await page.setViewportSize({width:1440,height:1100});
   const business = JSON.parse(fs.readFileSync('tests/fixtures/business_seasonal.json'));business.name='Activité saisonnière synthétique';business.data_classification='real';
   const company=await page.evaluate(async payload => {const api=CreditServices.api;const c=await api.createCase('businesses',payload);await api.assess('businesses',c.id,{mode:'real'},crypto.randomUUID());await CreditServices.loadAll();window.renderApp();return c;},business);
-  await page.goto(base+'/#requests');await page.waitForSelector('#request-table');await page.click('[data-detail="'+company.id+'"]');await page.waitForSelector('#journey-form');await page.goto(base+'/#overview');
+  await page.goto(base+'/platform.html#requests');await page.waitForSelector('#request-table');await page.click('[data-detail="'+company.id+'"]');await page.waitForSelector('#journey-form');await page.goto(base+'/platform.html#overview');
   await page.waitForFunction(()=>CreditJourney.getDraft()?.core==='businesses');
   await page.waitForFunction(()=>document.querySelector('.budget-case-label')?.textContent.includes('saisonnière'));
   check((await page.locator('#budget-tab-liquidity').innerText())==='Trésorerie','Noyau entreprise : onglet trésorerie adapté à l’activité');
@@ -57,7 +57,7 @@ const check = (yes, title) => { assert(yes, title); checks++; console.log('OK ' 
   await page.waitForSelector('.budget-deficit');check(await page.locator('.budget-deficit').count()===1,'Déficit saisonnier visible');
   await page.click('#budget-tab-liquidity');
   check((await page.locator('.budget-ring-center strong').innerText()).includes('−') || (await page.locator('.budget-ring-center strong').innerText()).includes('-'),'Marge négative conservée, aucune part négative dans le cercle');
-  await page.goto(base+'/#profile');await page.click('#logout-action');await page.waitForSelector('#login-action');await page.goto(base+'/#overview');
+  await page.goto(base+'/platform.html#profile');await page.click('#logout-action');await page.waitForSelector('#login-action');await page.goto(base+'/platform.html#overview');
   await page.waitForSelector('#home-budget-card');
   check(await page.locator('.budget-ring-center strong').innerText()==='—','Déconnexion : les données financières sont retirées');
   check(errors.length===0,'Aucune erreur JavaScript');

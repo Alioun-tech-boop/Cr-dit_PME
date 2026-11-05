@@ -1,108 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Préparez votre demande de financement avec Crédix."><meta name="theme-color" content="#000000"><meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-src 'self' blob:; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
-<title>Crédix — Votre espace</title>
-<link rel="stylesheet" href="app.css?v=b29c6089c1dc">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="preload" href="assets/manrope-bold.ttf" as="font" type="font/ttf" crossorigin>
-
-<script src="runtime-config.js?v=6ebedd15240a" defer></script><script src="budget-widget.js?v=4b40dd5c13c6" defer></script>
-<script src="app.js?v=c2e32a0c2a1d" defer></script><script src="journey-model.js?v=3a026e241379" defer></script><script src="credit-api.js?v=9275030a62d7" defer></script><script src="journey.js?v=ac344b1b9633" defer></script><script src="field-help.js?v=796f6681557b" defer></script><script src="submission.js?v=3eebf670b44f" defer></script><script src="backend-services.js?v=a1bf8605f2ab" defer></script>
-<script src="home-videos.js?v=d665cfe0d5f2" defer></script>
-<script src="financial-analysis-view.js?v=404e62de654b" defer></script>
-<script src="banking.js?v=aab0afe6dfcd" defer></script>
-<script src="experience.js?v=5ac6034db67c" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Crédix : préparez votre financement, comprenez votre capacité de remboursement et avancez avec un dossier plus clair.">
+<meta name="theme-color" content="#ffffff"><meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+<title>Crédix — Vos projets prennent de l’avance</title>
+<link rel="stylesheet" href="public.css?v=f95a3d771bad">
+
+<link rel="icon" href="assets/favicon.svg">
+<script src="home-videos.js?v=d665cfe0d5f2" defer></script><script src="public-entry.js?v=03f15ea2b13c" defer></script>
 </head>
-<body>
-<a class="skip-link" href="#main-content">Aller au contenu</a>
-<aside class="sidebar app-masthead" aria-label="Navigation principale">
-<div class="masthead-top"><a class="brand" href="#overview" aria-label="Crédix, accueil"><span class="logo" aria-hidden="true">c<span>•</span></span>crédix</a><div class="masthead-actions"><span id="service-status" class="service-status" role="status">Espace de financement</span><div class="section-menu"><button type="button" class="section-menu-trigger" id="switch-role" aria-label="Ouvrir le menu des sections" aria-expanded="false" aria-controls="sections-dropdown"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Menu</span><span class="menu-chevron" aria-hidden="true">⌄</span></button><nav id="sections-dropdown" class="sections-dropdown" aria-label="Toutes les sections" hidden><span class="menu-heading">VOTRE ESPACE</span><a href="#overview" data-section="overview"><span>Accueil</span><span aria-hidden="true">↗</span></a><a href="#requests" data-section="requests"><span>Demandes</span><span aria-hidden="true">↗</span></a><a href="#demande" data-section="demande"><span>Mon dossier</span><span aria-hidden="true">↗</span></a><a href="#analysis" data-section="analysis"><span>Analyses</span><span aria-hidden="true">↗</span></a><a href="#support" data-section="support"><span>Accompagnement</span><span aria-hidden="true">↗</span></a><div class="menu-divider"></div><a href="#profile" data-section="profile"><span>Profil</span><span aria-hidden="true">↗</span></a><a href="#settings" data-section="settings"><span>Paramètres</span><span aria-hidden="true">↗</span></a></nav></div></div></div>
-<div class="nav-row"><div class="history-buttons"><button id="history-back" aria-label="Page précédente" title="Page précédente">←</button><button id="history-forward" aria-label="Page suivante" title="Page suivante">→</button></div><nav class="nav-scroll" aria-label="Votre espace"><span class="nav-marker" aria-hidden="true"></span><a href="#overview" data-nav="overview"><span>Accueil</span></a><a href="#requests" data-nav="requests"><span>Demandes</span><b id="nav-count">0</b></a><a href="#demande" data-nav="demande"><span>Mon dossier</span></a><a href="#analysis" data-nav="analysis"><span>Analyses</span></a><a href="#support" data-nav="support"><span>Accompagnement</span></a></nav><span class="nav-balance" aria-hidden="true"></span></div>
-</aside>
-<div class="shell"><main id="main-content" tabindex="-1"><section class="page-heading"><div><div class="eyebrow">VOTRE ESPACE DE FINANCEMENT</div><h1 id="page-title" tabindex="-1">Vos projets. La vie devant.</h1><p id="page-subtitle">Préparez votre prochain financement.</p></div><button class="primary" id="new-request">＋ Nouvelle demande</button></section><div id="view" aria-busy="false"></div><footer><span>© 2026 Crédix</span><span>Photos : Ali Mkumbwa et Surface / Unsplash · Vidéos : Kampus Production et Uriel Mont / Pexels</span><div class="footer-links"><a href="#settings">Paramètres</a><button id="privacy">Confidentialité</button></div></footer></main></div>
-<dialog id="modal" aria-labelledby="dialog-title"><div class="dialog-top"><span id="modal-kicker">CRÉDIT PME</span><button class="icon-btn" id="close-modal" aria-label="Fermer">×</button></div><div id="modal-content"></div></dialog>
-<dialog id="field-help-dialog" aria-labelledby="field-help-title"><div class="dialog-top"><span>AIDE À LA SAISIE</span><button type="button" id="close-field-help" class="icon-btn" aria-label="Fermer l’aide">×</button></div><h2 id="field-help-title"></h2><div id="field-help-text"></div><button class="primary" id="understood-help">J’ai compris</button></dialog>
-<div id="toast" role="status" aria-live="polite"></div><noscript><div class="noscript-message">Activez JavaScript pour utiliser votre espace Crédix.</div></noscript>
+<body class="public-page">
+<a class="public-skip" href="#contenu">Aller au contenu</a>
+<header class="public-header"><a class="public-brand" href="/" aria-label="Crédix, accueil"><span class="public-logo" aria-hidden="true">c<span>•</span></span>crédix</a><nav aria-label="Navigation de présentation"><a class="nav-about" href="#fonctionnement">L’esprit Crédix</a><a href="/platform.html?visiteur=1#overview" class="visit-link">Visiter <span aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></a><a class="pill dark small" href="/login.html">Se connecter</a></nav></header>
+<main id="contenu" tabindex="-1">
+<section class="public-hero" aria-labelledby="hero-title"><div class="hero-heading"><span class="eyebrow"><span class="status-dot" aria-hidden="true"></span> VOTRE PROCHAIN CHAPITRE COMMENCE ICI</span><h1 id="hero-title">De l’ambition.<br>De la clarté.<br><span class="soft-word">Et vous.</span></h1><div class="hero-intro"><p>Une idée, une activité, un projet de vie. Avec Crédix, préparez votre financement et comprenez ce que votre dossier raconte.</p><div class="hero-actions"><a class="pill dark" href="/platform.html?visiteur=1#overview">Visiter la plateforme <span aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></a><a class="text-link" href="/login.html">J’ai déjà un accès <span aria-hidden="true">→</span></a></div><span class="quiet-note">Particuliers & entreprises · Pensé pour le Burkina Faso</span></div></div>
+<div class="hero-mosaic"><article class="story public-video-card commerce-card"><video class="home-video" data-src="assets/videos/card-payment.mp4" data-title="Paiement par carte chez un commerçant" poster="assets/videos/card-payment-poster.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video><div class="card-top"><span class="glass-chip">LES PROJETS PRENNENT VIE</span><button class="home-video-toggle" type="button" aria-label="Lire la vidéo">▶ Lire</button></div><div class="visual-caption"><span>AU COMPTOIR. SUR LE TERRAIN. DANS LA VIE.</span><h2>Vos idées méritent<br>un prochain pas.</h2></div><span class="media-tag">Paiement par carte · vidéo d’illustration</span></article>
+<div class="side-mosaic"><article class="story public-video-card banking-card"><video class="home-video" data-src="assets/videos/banking-atm.mp4" data-title="Utilisation d’un distributeur bancaire" poster="assets/videos/banking-atm-poster.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video><div class="card-top"><span class="glass-chip">VOTRE PARCOURS FINANCIER</span><button class="home-video-toggle" type="button" aria-label="Lire la vidéo">▶ Lire</button></div><div class="visual-caption"><h2>Avancer.<br>En comprenant.</h2></div></article><a class="clarity-card" href="#fonctionnement"><span class="eyebrow">LA DIFFÉRENCE CRÉDIX</span><div><h2>Les chiffres.<br>Leur sens.<br>Vos possibilités.</h2><span class="round-arrow" aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></div><p>Des calculs expliqués. Des hypothèses visibles. Des décisions qui restent humaines.</p></a></div></div>
+<div class="principle-strip"><span>Un dossier structuré.</span><span>Des résultats expliqués.</span><span>Votre projet au centre.</span></div></section>
+<section class="how-section" id="fonctionnement" aria-labelledby="how-title"><div class="section-heading"><span class="eyebrow">MOINS DE FLOU. PLUS DE PERSPECTIVE.</span><h2 id="how-title">Un financement se prépare.<br>La confiance aussi.</h2><p>Crédix vous aide à organiser vos informations et à examiner votre capacité de remboursement. Chaque étape a son rôle.</p></div><div class="step-grid"><article><span class="step-number">01 / PRÉPARER</span><h3>Un dossier qui<br>vous ressemble.</h3><p>Rassemblez vos informations, vos revenus ou les flux de votre activité, votre demande et les pièces utiles.</p></article><article><span class="step-number">02 / COMPRENDRE</span><h3>Voir ce que<br>les chiffres disent.</h3><p>Budget, échéances, trésorerie : les calculs s’appuient sur les données du dossier. Les informations manquantes restent visibles.</p></article><article><span class="step-number">03 / EXPLORER</span><h3>Envisager<br>le prochain pas.</h3><p>Comparez les simulations disponibles et les suggestions. Une hypothèse n’est jamais présentée comme une promesse.</p></article></div></section>
+<section class="audience-section" id="pour-vous" aria-labelledby="audience-title"><div class="section-heading inline-heading"><div><span class="eyebrow">DEUX PARCOURS. LA MÊME EXIGENCE.</span><h2 id="audience-title">Votre vie.<br>Votre activité.</h2></div><p>Un ménage et une entreprise ne fonctionnent pas de la même façon. Crédix garde leurs analyses distinctes.</p></div><div class="audience-grid"><article class="audience-card"><img src="assets/workspace.jpg" alt="Un espace de travail pour préparer son projet" loading="lazy" width="800" height="900"><div><span class="glass-chip">PARTICULIERS</span><h3>Vos projets de vie.<br>Votre équilibre.</h3><p>Revenus, dépenses essentielles, dettes et réserve : comprendre ce qui reste disponible après le crédit.</p><a class="pill light" href="/platform.html?visiteur=1#choix">Découvrir mon parcours <span aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></a></div></article><article class="audience-card"><img src="assets/entrepreneur.jpg" alt="Un professionnel dans son activité" loading="lazy" width="800" height="900"><div><span class="glass-chip">ENTREPRISES & PME</span><h3>Une activité qui avance.<br>Une trésorerie qui suit.</h3><p>Encaissements, charges et échéances : analyser la capacité de l’activité à financer son fonctionnement et sa dette.</p><a class="pill light" href="/platform.html?visiteur=1#choix">Explorer le parcours PME <span aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></a></div></article></div></section>
+<section class="trust-section" id="approche"><div class="trust-copy"><span class="eyebrow">UNE APPROCHE CLAIRE, JUSQU’AUX LIMITES.</span><h2>Pas de boîte noire.<br>De bonnes questions.</h2><p>Une pièce lisible n’est pas automatiquement authentifiée. Une analyse n’est pas un accord bancaire. Crédix distingue les calculs, la revue humaine et la décision du prêteur.</p></div><div class="trust-details"><article><span aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span><div><h3>Des sources, pas des suppositions.</h3><p>Les données documentaires extraites doivent être contrôlées avant leur utilisation financière.</p></div></article><article><span aria-hidden="true">◎</span><div><h3>Un accès selon vos droits.</h3><p>En visiteur, vous découvrez l’interface. La consultation des dossiers et des documents privés exige une authentification et les autorisations nécessaires.</p></div></article><article><span aria-hidden="true">≋</span><div><h3>Des scénarios, pas des certitudes.</h3><p>Explorez l’effet des hypothèses disponibles sans modifier les données du dossier d’origine.</p></div></article></div></section>
+<section class="closing-card"><span class="eyebrow">LE PROCHAIN PAS VOUS APPARTIENT.</span><h2>Voyez plus clair.<br>Allez plus loin.</h2><div class="hero-actions"><a class="pill dark" href="/platform.html?visiteur=1#overview">Visiter <span aria-hidden="true"><svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></a><a class="pill outline" href="/login.html">Se connecter <span aria-hidden="true">→</span></a></div><p>La décision de financement appartient au prêteur. Aucune visite ni analyse ne vaut accord de crédit.</p></section>
+</main><footer class="public-footer"><a class="public-brand" href="/">crédix<span class="brand-dot">•</span></a><p>Vos projets. La vie devant.</p><div><a href="/login.html">Connexion</a><a href="/platform.html?visiteur=1#overview">La plateforme <svg class="arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div><small>© 2026 Crédix · Photos : Ali Mkumbwa et Surface / Unsplash. Vidéos : Kampus Production et Uriel Mont / Pexels. Visuels d’illustration, sans implication de partenariat.</small></footer>
+<noscript><p class="noscript-note">Vous pouvez lire cette présentation sans JavaScript. La connexion et la plateforme nécessitent son activation.</p></noscript>
 </body></html>
