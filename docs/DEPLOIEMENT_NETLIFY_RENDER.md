@@ -91,3 +91,19 @@ Ne pas affaiblir la protection du site ni partager de jeton technique au navigat
   65 tests backend ciblés réussis (2 avertissements de dépréciation), Ruff réussi.
   Pas de vérification bout en bout sur un hébergement distant : aucun nouveau
   service n’a pu être publié.
+
+### Reprise après passage du dépôt en public
+
+Visibilité GitHub vérifiée : `PUBLIC`. Render peut désormais lire le dépôt.
+Blueprint créé et planifié : `exs-dbmastec6qcc738fvrf0` (espace My Workspace).
+Le plan propose uniquement un nouveau service Docker gratuit à Francfort,
+`credit-pme-api-62j3`, sans modifier les autres services.
+
+Plan à compléter :
+https://dashboard.render.com/blueprint/exs-dbmastec6qcc738fvrf0/sync/exe-dbmastmc6qcc738fvs10
+
+État constaté : `planned`, non appliqué, non déployé. Render demande
+`DATABASE_URL`, `CREDIT_ALLOWED_HOSTS`, `CREDIT_WEB_ORIGIN` et
+`CREDIT_TRUSTED_PROXY_IPS`. Le registre privé d’authentification et les migrations
+administratives restent également requis. Ne pas renseigner des valeurs fictives
+pour contourner les contrôles de démarrage.
