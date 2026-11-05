@@ -29,6 +29,7 @@ env = {
     "CREDIT_E2E_URL": origin,
     "CREDIT_AUTH_FILE": str(run / "users.json"),
     "CREDIT_WEB_ORIGIN": origin,
+    "CREDIT_SIGNUP_INSTITUTION_ID": "synthetic-bank",
     "CREDIT_ENV": "local",
     "CREDIT_RATE_REQUESTS": "10000",
     "CREDIT_RATE_ACTOR": "10000",

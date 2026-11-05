@@ -21,3 +21,5 @@ le guide d’intégration à la racine fait référence pour le fonctionnement a
 
 Accueil public, mode visiteur et connexion : voir [le guide du parcours d’entrée](docs/ACCUEIL_PUBLIC.md).
 L’accueil est servi sur `/`, la connexion sur `/login.html` et l’espace plateforme sur `/platform.html`.
+
+Inscription : [contrats, configuration et limites](../docs/INSCRIPTION_DEMANDEURS.md). Médias : [sources des nouveaux visuels](docs/MEDIAS_AFRICAINS.md).

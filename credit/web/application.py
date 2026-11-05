@@ -16,7 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from credit.auth import authenticate
+from credit.web.registration import resolve_browser_actor, register_routes, login_candidates
 from credit.persistence import WebUser, WebSession
 from credit.security.runtime import Limiter, audit, bounded_json
 
@@ -90,7 +90,7 @@ def create_web_app(database_url=None):
                 or not hmac.compare_digest(session.fingerprint, fingerprint(user))
             ):
                 raise HTTPException(401, "Session expirée ; reconnectez-vous")
-            actor = authenticate(request, configured_actor_id=user.actor_id)
+            actor = resolve_browser_actor(user, db, request)
             session.last_seen = now
             db.commit()
             return user, session, actor
@@ -137,7 +137,7 @@ def create_web_app(database_url=None):
             if path.startswith("/auth/"):
                 limiter.check(("web", request.client.host if request.client else "local"), 120)
                 await bounded_json(request)
-            if path.startswith("/auth/") and path != "/auth/login":
+            if path.startswith("/auth/") and path not in {"/auth/login", "/auth/register"}:
                 user, session, actor = session_user(request)
                 request.state.web_user, request.state.web_session = user, session
                 request.state.actor = actor
@@ -171,6 +171,8 @@ def create_web_app(database_url=None):
         )
         return response
 
+    register_routes(app, factory, csrf, limiter, PASSWORDS, password_slots)
+
     @app.post("/auth/login")
     def login(body: Login, request: Request):
         csrf(request)
@@ -179,7 +181,11 @@ def create_web_app(database_url=None):
         from sqlalchemy import select
 
         with factory() as db:
-            user = db.scalar(select(WebUser).where(WebUser.username == body.username.lower()))
+            user = None
+            for candidate in login_candidates(body.username):
+                user = db.scalar(select(WebUser).where(WebUser.username == candidate))
+                if user is not None:
+                    break
             if not password_slots.acquire(blocking=False):
                 raise HTTPException(429, "Service de connexion occupé")
             try:
@@ -191,7 +197,7 @@ def create_web_app(database_url=None):
                 password_slots.release()
             if not user or not user.enabled:
                 raise HTTPException(401, "Identifiants invalides")
-            actor = authenticate(request, configured_actor_id=user.actor_id)
+            actor = resolve_browser_actor(user, db, request)
             # Une connexion réussie remplace le cookie présenté, sans fixation de session.
             previous = db.get(WebSession, digest(request.cookies.get(COOKIE, "")))
             if previous:

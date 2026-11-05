@@ -4,7 +4,7 @@ Trois documents indépendants utilisent le même domaine :
 
 - `/` : présentation publique, photos et vidéos locales de finance, deux parcours,
   méthode et liens Visiter / Se connecter. Aucun chargement de dossiers privés.
-- `/login.html` : formulaire d’authentification réel via `/auth/login`. Une session
+- `/login.html` : sections de connexion et de création de compte par e-mail ou téléphone. La connexion utilise `/auth/login`, l’inscription `/auth/register`. Une session
   existante est reprise ; après connexion, destination interne fixe vers
   `/platform.html#overview`, ou `#bank-inbox` pour les rôles bancaires authentifiés.
 - `/platform.html` : interface existante et ses parcours. Sans session, le bandeau
@@ -48,3 +48,5 @@ existantes. Render sert les trois pages sans nouvelle route backend ni migration
 Pour Netlify, le répertoire publié reste `frontend/dist` et les réécritures de
 passerelle API/session restent nécessaires. Le contrôle d’accès de l’hébergement
 et l’authentification métier restent distincts.
+
+Les coordonnées restent déclarées et non vérifiées tant qu’aucun fournisseur d’e-mail/SMS et parcours de code n’est configuré. Voir [la politique d’inscription](../../docs/INSCRIPTION_DEMANDEURS.md).

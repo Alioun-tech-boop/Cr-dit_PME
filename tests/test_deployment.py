@@ -19,7 +19,7 @@ def test_render_port(monkeypatch):
 
 
 def test_release_migration_head():
-    assert ScriptDirectory.from_config(Config("alembic.ini")).get_current_head() == "0008"
+    assert ScriptDirectory.from_config(Config("alembic.ini")).get_current_head() == "0009"
 
 
 def test_netlify_same_origin_proxy():

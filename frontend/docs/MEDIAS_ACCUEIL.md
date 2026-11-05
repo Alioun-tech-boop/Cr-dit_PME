@@ -1,3 +1,5 @@
+> Mise à jour : les pages actives utilisent désormais les [visuels de contexte africain](MEDIAS_AFRICAINS.md). Les références ci-dessous documentent les médias précédents, conservés pour l’historique.
+
 # Vidéos réelles de l’accueil
 
 Deux séquences filmées réelles, et non générées, remplacent les photos des deux

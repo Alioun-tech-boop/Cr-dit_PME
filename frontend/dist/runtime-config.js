@@ -5,6 +5,7 @@ window.CREDIT_RUNTIME = Object.freeze({
   sessionEndpoint: '/auth/session',
   profileEndpoint: '/auth/profile',
   loginUrl: '/auth/login',
+  registrationEndpoint: '/auth/register',
   logoutUrl: '/auth/logout',
   publishedAssessmentEndpoint: '/{core}/{id}/published-assessment',
   csrfTokenEndpoint: '/auth/csrf',

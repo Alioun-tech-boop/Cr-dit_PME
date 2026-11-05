@@ -390,7 +390,7 @@ def test_public_entry_login_and_visitor_keep_business_permissions(web):
     with TestClient(app, headers={"Origin": ORIGIN}) as client:
         home = client.get("/")
         assert home.status_code == 200
-        assert "Vos projets prennent de l’avance" in home.text
+        assert "Préparez et faites analyser votre dossier de crédit" in home.text
         assert 'src="app.js' not in home.text
         assert "/platform.html?visiteur=1#overview" in home.text
         assert "/login.html" in home.text

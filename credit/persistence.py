@@ -202,6 +202,16 @@ class WebUser(Base):
     __mapper_args__ = {"version_id_col": revision}
 
 
+class WebRegistration(Base):
+    __tablename__ = "web_registrations"
+    actor_id: Mapped[str] = mapped_column(ForeignKey("web_users.actor_id"), primary_key=True)
+    institution_id: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+    identifier: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    channel: Mapped[str] = mapped_column(String(10), nullable=False)
+    contact_status: Mapped[str] = mapped_column(String(20), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
 class WebSession(Base):
     __tablename__ = "web_sessions"
     digest: Mapped[str] = mapped_column(String(64), primary_key=True)
@@ -224,6 +234,7 @@ class JourneyDraft(Base):
     version: Mapped[int] = mapped_column(Integer, default=1)
     __mapper_args__ = {"version_id_col": version}
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
+
 
 # Chargement des tables du parcours partenaire pour Alembic et les bases de test.
 from credit.partners import models as partner_models  # noqa: E402, F401
