@@ -258,4 +258,3 @@ Résultats conditionnels, sans estimation de probabilité de défaut.
 
 ## Décision du prêteur
 Non fournie. Ce rapport n’est pas un accord bancaire.
-

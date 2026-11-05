@@ -1,0 +1,5 @@
+
+# Les PDF contiennent des octets et des empreintes à préserver.
+*.pdf binary
+*.zip binary
+*.mp4 binary
