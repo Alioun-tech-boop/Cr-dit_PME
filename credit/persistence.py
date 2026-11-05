@@ -189,3 +189,38 @@ class SecurityEvent(Base):
     request_id: Mapped[str] = mapped_column(String(36))
     resource_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class WebUser(Base):
+    __tablename__ = "web_users"
+    actor_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    username: Mapped[str] = mapped_column(String(100), unique=True)
+    password_hash: Mapped[str] = mapped_column(String(300))
+    profile: Mapped[dict] = mapped_column(JSON, default=dict)
+    enabled: Mapped[int] = mapped_column(Integer, default=1)
+    revision: Mapped[int] = mapped_column(Integer, default=1)
+    __mapper_args__ = {"version_id_col": revision}
+
+
+class WebSession(Base):
+    __tablename__ = "web_sessions"
+    digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    actor_id: Mapped[str] = mapped_column(ForeignKey("web_users.actor_id"), index=True)
+    csrf: Mapped[str] = mapped_column(String(100))
+    fingerprint: Mapped[str] = mapped_column(String(64))
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    last_seen: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class JourneyDraft(Base):
+    __tablename__ = "journey_drafts"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=identifier)
+    owner_id: Mapped[str] = mapped_column(String(100), index=True)
+    institution_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    kind: Mapped[str] = mapped_column(String(20))
+    payload: Mapped[dict] = mapped_column(JSON)
+    case_id: Mapped[str | None] = mapped_column(ForeignKey("cases.id"), nullable=True)
+    operation_key: Mapped[str] = mapped_column(String(128), unique=True)
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    __mapper_args__ = {"version_id_col": version}
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)

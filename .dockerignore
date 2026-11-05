@@ -25,3 +25,10 @@ shared
 client_documents
 *.pem
 *.key
+
+**/node_modules
+frontend/tests
+frontend/.openai
+
+scripts/prepare_frontend_e2e.py
+scripts/run_frontend_e2e.py

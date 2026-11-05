@@ -1,0 +1,16 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';
+const root=process.cwd(),dist=path.join(root,'dist');
+const sheets=['style.css','premium.css','journey.css','production.css'];
+const css=sheets.map(name=>`/* ${name} */\n`+fs.readFileSync(path.join(root,'src/styles',name),'utf8')).join('\n');
+fs.writeFileSync(path.join(dist,'app.css'),css);
+let html=fs.readFileSync(path.join(dist,'index.html'),'utf8');
+html=html.replace(/<link rel="stylesheet" href="(?:style|premium|journey|production|app)\.css(?:\?[^\"]*)?">/g,'');
+const digest=name=>crypto.createHash('sha256').update(fs.readFileSync(path.join(dist,name))).digest('hex').slice(0,12);
+html=html.replace('</title>','</title>\n<link rel="stylesheet" href="app.css?v='+digest('app.css')+'">');
+html=html.replace(/(<script src=")([a-z-]+\.js)(?:\?[^\"]*)?(" defer><\/script>)/g,(_,start,name,end)=>start+name+'?v='+digest(name)+end);
+fs.writeFileSync(path.join(dist,'index.html'),html);
+const files=fs.readdirSync(dist).filter(f=>/\.(js|css|html)$/.test(f));
+fs.mkdirSync(path.join(root,'tests/output'),{recursive:true});
+const manifest=Object.fromEntries(files.map(name=>[name,digest(name)]));
+fs.writeFileSync(path.join(root,'tests/output/build-manifest.json'),JSON.stringify(manifest,null,2));
+console.log(`Frontend assemblé : ${sheets.length} feuilles de style, ${files.filter(f=>f.endsWith('.js')).length} scripts locaux avec versions de cache.`);

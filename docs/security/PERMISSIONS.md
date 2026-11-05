@@ -40,3 +40,15 @@ Une route administrative avec un compte ordinaire renvoie 403 ; un objet hors
 périmètre renvoie 404. Aucune institution fournie dans un JSON ne peut définir
 le contexte d’accès. Les politiques sont chargées depuis un registre serveur,
 pas des artefacts de modèle fournis par le client.
+
+## Passerelle navigateur (5 novembre 2026)
+
+Les sessions HttpOnly utilisent la même identité serveur ; elles n’élargissent
+aucun droit de la matrice. Seul un opérateur serveur provisionne le mot de passe
+Argon2id. Aucun rôle ni institution ne peut être choisi à la connexion.
+Les brouillons UI incomplets restent privés à leur propriétaire et à leur
+institution, y compris face à un autre analyste. Le rattachement à un dossier
+existant vérifie ses droits avant toute écriture. Les versions restent requises.
+Une lecture demandeur de l’analyse utilise une projection explicitement publiée,
+excluant sections internes, règles, scores et sources, avant sérialisation.
+Voir [contrats, limites et configuration](../FRONTEND_BACKEND.md).

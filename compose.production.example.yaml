@@ -13,6 +13,7 @@ services:
       - /tmp:rw,nosuid,noexec,size=512m
     environment:
       CREDIT_ENV: production
+      CREDIT_WEB_ORIGIN: ${CREDIT_WEB_ORIGIN:?Origine publique HTTPS obligatoire}
       DATABASE_URL: ${CREDIT_PRODUCTION_DATABASE_URL:?DSN TLS verify-full explicite requis}
       CREDIT_AUTH_FILE: /run/credit-auth/users.json
       CREDIT_ALLOWED_HOSTS: ${CREDIT_ALLOWED_HOSTS:?Hôtes explicites requis}

@@ -21,7 +21,7 @@ class Actor:
     role: str | None = None
 
 
-def authenticate(request: Request) -> Actor:
+def authenticate(request: Request, *, configured_actor_id: str | None = None) -> Actor:
     path = os.getenv("CREDIT_AUTH_FILE")
     raw_config = os.getenv("CREDIT_AUTH_JSON")
     if not path and not raw_config:
@@ -63,11 +63,16 @@ def authenticate(request: Request) -> Actor:
     except (OSError, ValueError, KeyError, TypeError):
         raise HTTPException(503, "Configuration des identités indisponible") from None
     header = request.headers.get("Authorization", "")
-    if not header.startswith("Bearer ") or len(header) > 4096:
+    web_actor = request.scope.get("credit.web_actor")
+    if web_actor is not None:
+        return web_actor
+    if configured_actor_id is None and (not header.startswith("Bearer ") or len(header) > 4096):
         raise HTTPException(401, "Authentification requise", headers={"WWW-Authenticate": "Bearer"})
     digest = hashlib.sha256(header[7:].encode()).hexdigest()
     for user in users:
-        if hmac.compare_digest(digest, user["token_sha256"]):
+        if (configured_actor_id is not None and user["id"] == configured_actor_id) or (
+            configured_actor_id is None and hmac.compare_digest(digest, user["token_sha256"])
+        ):
             expired = False
             try:
                 expiration = (

@@ -38,6 +38,7 @@ def create_app(database_url=None):
     )
     engine, factory = sessions(database_url) if database_url else sessions()
     app.state.engine = engine
+    app.state.session_factory = factory
     limiter = Limiter()
     app.add_middleware(
         TrustedHostMiddleware,
@@ -89,7 +90,12 @@ def create_app(database_url=None):
                 status_code=exc.status_code,
                 headers={**(exc.headers or {}), "Cache-Control": "no-store"},
             )
-        if request.scope["path"] not in {"/health", "/docs", "/openapi.json", "/redoc"}:
+        if request.scope["path"].removeprefix(request.scope.get("root_path", "")) not in {
+            "/health",
+            "/docs",
+            "/openapi.json",
+            "/redoc",
+        }:
             try:
                 request.state.actor = authenticate(request)
                 limiter.check(
@@ -214,7 +220,7 @@ def create_app(database_url=None):
         session.info["request"].state.resource_id = record.id
         return record
 
-    def save(session, kind, case, record=None, if_match=None):
+    def save(session, kind, case, record=None, if_match=None, commit=True):
         client_fields(
             case,
             session.info["actor"],
@@ -260,7 +266,7 @@ def create_app(database_url=None):
             )
         record.payload = payload
         session.add(record)
-        session.commit()
+        session.commit() if commit else session.flush()
         session.info["request"].state.resource_id = record.id
         return {
             "id": record.id,
@@ -407,6 +413,9 @@ def create_app(database_url=None):
     from credit.printing.routes import register_print_routes
 
     register_print_routes(app, db, get_record)
+    from credit.web.routes import register_web_routes
+
+    register_web_routes(app, db, get_record, save)
     return app
 
 

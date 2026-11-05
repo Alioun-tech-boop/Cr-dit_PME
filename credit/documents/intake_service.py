@@ -47,7 +47,18 @@ def audit(session, submission, actor, action, detail):
     )
 
 
-def create_submission(session, case, actor, body, policy, quality):
+def create_submission(session, case, actor, body, policy, quality, idempotency_key=None):
+    if idempotency_key:
+        for previous in session.scalars(
+            select(SubmissionRecord).where(SubmissionRecord.case_id == case.id)
+        ):
+            if (
+                previous.data.get("_operation_key") == idempotency_key
+                and previous.data.get("created_by") == actor.id
+            ):
+                if previous.data.get("_request") != body.model_dump(mode="json"):
+                    raise HTTPException(409, "Clé de dépôt incompatible")
+                return previous
     if body.visibility == "analyst" and not actor.reviewer:
         raise HTTPException(403, "Classification interne réservée aux analystes")
     if session.scalar(
@@ -106,6 +117,8 @@ def create_submission(session, case, actor, body, policy, quality):
         if body.exception_reason
         else None,
     }
+    if idempotency_key:
+        data.update(_operation_key=idempotency_key, _request=body.model_dump(mode="json"))
     record = SubmissionRecord(id=identifier(), case_id=case.id, case_kind=case.kind, data=data)
     session.add(record)
     session.flush()
@@ -166,7 +179,13 @@ def enforce_scan(data, inspection):
         )
 
 
-def add_source(session, record, actor, payload, runner):
+def add_source(session, record, actor, payload, runner, idempotency_key=None):
+    sha = hashlib.sha256(payload).hexdigest()
+    previous = record.data.get("_upload_keys", {}).get(idempotency_key) if idempotency_key else None
+    if previous:
+        if previous != sha:
+            raise HTTPException(409, "Clé de fichier incompatible")
+        return record
     draft(record)
     data = deepcopy(record.data)
     if data["source_bytes"] + len(payload) > data["limits"]["max_total_bytes"]:
@@ -230,6 +249,12 @@ def add_source(session, record, actor, payload, runner):
                 page["inspection"]["quality"]["status"] = "warnings"
         previous.add(meta["fingerprint"])
         added.append(page)
+    if idempotency_key:
+        data["_upload_keys"] = {**data.get("_upload_keys", {}), idempotency_key: sha}
+        data["_upload_revisions"] = {
+            **data.get("_upload_revisions", {}),
+            idempotency_key: data["revision"] + 1,
+        }
     data["pages"] += added
     data["source_bytes"] += len(payload)
     data["revision"] += 1

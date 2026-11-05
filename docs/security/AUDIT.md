@@ -1,5 +1,9 @@
 # Audit sécurité et fiabilité — Crédit PME 0.5
 
+> Ce document décrit le périmètre audité le 4 novembre. L’intégration ultérieure
+> du frontend, des mots de passe et des sessions est documentée dans
+> [FRONTEND_BACKEND.md](../FRONTEND_BACKEND.md) et sa validation séparée.
+
 Audit local du 4 novembre 2026. Périmètre : backend FastAPI, deux noyaux,
 extraction PDF/images/OCR, politiques et simulations, éditions HTML/PDF,
 SQLAlchemy/Alembic, Compose, registre de jetons et tests. Aucun frontend, SSO,

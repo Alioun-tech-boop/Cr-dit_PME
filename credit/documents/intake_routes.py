@@ -3,7 +3,7 @@ import json
 import asyncio
 from threading import BoundedSemaphore
 
-from fastapi import Depends, HTTPException, Request, Response, Query
+from fastapi import Depends, HTTPException, Request, Response, Query, Header
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -100,6 +100,10 @@ def register_intake_routes(app, db, get_case):
                 raise HTTPException(404, "Traitement introuvable")
             return run
 
+        def revision(record, expected):
+            if expected is not None and expected.strip('"') != str(record.data["revision"]):
+                raise HTTPException(409, "La pièce a changé ; rechargez ses pages")
+
         @app.post(base + "/structured-inputs", status_code=201, name=f"{kind}_structured")
         def structured(case_id: str, body: StructuredInput, session: Session = Depends(db)):
             get_case(session, kind, case_id)
@@ -143,10 +147,40 @@ def register_intake_routes(app, db, get_case):
             return {"id": record.id, **record.data}
 
         @app.post(path, status_code=201, name=f"{kind}_new_submission")
-        def create(case_id: str, body: NewSubmission, session: Session = Depends(db)):
+        def create(
+            case_id: str,
+            body: NewSubmission,
+            session: Session = Depends(db),
+            idempotency_key: str | None = Header(None, min_length=16, max_length=128),
+        ):
             case = get_case(session, kind, case_id)
             p, q = configuration()
-            return view(service.create_submission(session, case, session.info["actor"], body, p, q))
+            return view(
+                service.create_submission(
+                    session, case, session.info["actor"], body, p, q, idempotency_key
+                )
+            )
+
+        @app.post(path + "/{submission_id}/withdraw", name=f"{kind}_withdraw_submission")
+        def withdraw(
+            case_id: str,
+            submission_id: str,
+            session: Session = Depends(db),
+            if_match: str | None = Header(None),
+        ):
+            record = find(session, case_id, submission_id, True)
+            if if_match is None:
+                raise HTTPException(428, "Révision de la pièce requise")
+            revision(record, if_match)
+            service.draft(record)
+            record.data = {
+                **record.data,
+                "deposit_status": "withdrawn",
+                "revision": record.data["revision"] + 1,
+            }
+            service.audit(session, record, session.info["actor"], "withdrawn", {})
+            service.commit(session)
+            return view(record)
 
         @app.get(path, name=f"{kind}_list_submissions")
         def listing(
@@ -165,9 +199,12 @@ def register_intake_routes(app, db, get_case):
                     .offset(offset)
                     .limit(limit)
                 ).all()
-                if session.info["actor"].reviewer
-                or record.data.get("visibility") == "applicant"
-                or record.data.get("created_by") == session.info["actor"].id
+                if record.data.get("deposit_status") != "withdrawn"
+                and (
+                    session.info["actor"].reviewer
+                    or record.data.get("visibility") == "applicant"
+                    or record.data.get("created_by") == session.info["actor"].id
+                )
             ]
 
         @app.get(path + "/{submission_id}", name=f"{kind}_submission")
@@ -176,11 +213,19 @@ def register_intake_routes(app, db, get_case):
 
         @app.post(path + "/{submission_id}/sources", status_code=201, name=f"{kind}_source")
         async def upload(
-            case_id: str, submission_id: str, request: Request, session: Session = Depends(db)
+            case_id: str,
+            submission_id: str,
+            request: Request,
+            session: Session = Depends(db),
+            idempotency_key: str | None = Header(None, min_length=16, max_length=128),
+            if_match: str | None = Header(None),
         ):
             from starlette.concurrency import run_in_threadpool
 
             record = find(session, case_id, submission_id, True)
+            # Une réponse perdue reste rapprochable par la clé déjà enregistrée.
+            if not (idempotency_key and idempotency_key in record.data.get("_upload_keys", {})):
+                revision(record, if_match)
             service.draft(record)
             if not upload_slots.acquire(blocking=False):
                 raise HTTPException(429, "upload_busy", headers={"Retry-After": "5"})
@@ -198,6 +243,7 @@ def register_intake_routes(app, db, get_case):
                         session.info["actor"],
                         payload,
                         app.state.scan_runner,
+                        idempotency_key,
                     )
                 )
             finally:
@@ -209,8 +255,14 @@ def register_intake_routes(app, db, get_case):
             return view(service.edit_pages(session, record, session.info["actor"], body))
 
         @app.post(path + "/{submission_id}/confirm", name=f"{kind}_confirm")
-        def confirm(case_id: str, submission_id: str, session: Session = Depends(db)):
+        def confirm(
+            case_id: str,
+            submission_id: str,
+            session: Session = Depends(db),
+            if_match: str | None = Header(None),
+        ):
             record = find(session, case_id, submission_id, True)
+            revision(record, if_match)
             return view(
                 service.confirm(session, record, session.info["actor"], app.state.scan_runner)
             )
@@ -257,7 +309,13 @@ def register_intake_routes(app, db, get_case):
             return view(record)
 
         @app.get(path + "/{submission_id}/pages/{page_id}/image", name=f"{kind}_preview")
-        def preview(case_id: str, submission_id: str, page_id: str, session: Session = Depends(db)):
+        def preview(
+            case_id: str,
+            submission_id: str,
+            page_id: str,
+            session: Session = Depends(db),
+            original: bool = Query(False),
+        ):
             record = find(session, case_id, submission_id)
             page = next((p for p in record.data["pages"] if p["id"] == page_id), None)
             if not page:
@@ -265,7 +323,7 @@ def register_intake_routes(app, db, get_case):
             result = service.run_worker(
                 app.state.scan_runner,
                 "preview",
-                {"pages": [page]},
+                {"pages": [{**page, "rotation": 0, "crop": [0, 0, 1, 1]} if original else page]},
                 service.sources_for(session, record, [page]),
             )
             return Response(

@@ -31,6 +31,9 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-credit}:${POSTGRES_PASSWORD:-credit_local}@db:5432/${POSTGRES_DB:-credit}
       CREDIT_ENV: ${CREDIT_ENV:-local}
+      CREDIT_WEB_ORIGIN: ${CREDIT_WEB_ORIGIN:-http://127.0.0.1:8000}
+      CREDIT_ASGI_APP: ${CREDIT_ASGI_APP:-credit.web.application:app}
+      CREDIT_SCAN_QUEUE_WAIT_SECONDS: ${CREDIT_SCAN_QUEUE_WAIT_SECONDS:-5}
       CREDIT_ALLOWED_HOSTS: ${CREDIT_ALLOWED_HOSTS:-localhost,127.0.0.1}
       CREDIT_RATE_REQUESTS: ${CREDIT_RATE_REQUESTS:-600}
       CREDIT_RATE_ACTOR: ${CREDIT_RATE_ACTOR:-600}

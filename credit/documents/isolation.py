@@ -34,7 +34,9 @@ class Runner:
             return True
 
     def run(self, operation, parameters, sources=None):
-        if not self.slots.acquire(blocking=False):
+        if not self.slots.acquire(
+            timeout=min(5, max(0, float(os.getenv("CREDIT_SCAN_QUEUE_WAIT_SECONDS", "5"))))
+        ):
             raise WorkerError("busy")
         task_key = parameters.get("task_key")
         try:

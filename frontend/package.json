@@ -1,0 +1,16 @@
+{
+  "name": "credit-pme-frontend",
+  "version": "1.0.0-rc.1",
+  "private": true,
+  "description": "Interface Crédit PME — parcours, profil, paramètres et adaptation au backend",
+  "scripts": {
+    "build": "node scripts/build-frontend.mjs",
+    "test": "node scripts/check-frontend.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright-core": "1.58.2"
+  }
+}

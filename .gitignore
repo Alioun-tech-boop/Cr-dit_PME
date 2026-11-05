@@ -24,3 +24,7 @@ client_documents/
 *.sqlite
 *.sqlite3
 *.log
+
+frontend/node_modules/
+frontend/tests/output/
+frontend/test-results/

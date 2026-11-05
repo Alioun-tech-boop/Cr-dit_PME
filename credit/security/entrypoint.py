@@ -20,7 +20,7 @@ def main():
                 raise RuntimeError("Rôle applicatif PostgreSQL trop privilégié")
             if (
                 connection.execute(text("SELECT version_num FROM alembic_version")).scalar_one()
-                != "0006"
+                != "0007"
             ):
                 raise RuntimeError("Migration administrative préalable requise")
     else:
@@ -29,7 +29,7 @@ def main():
         "uvicorn",
         [
             "uvicorn",
-            "credit.api:app",
+            os.getenv("CREDIT_ASGI_APP", "credit.web.application:app"),
             "--host",
             "0.0.0.0",
             "--port",

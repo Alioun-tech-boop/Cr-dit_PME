@@ -1,6 +1,12 @@
 # Cr-dit_PME
 
-# Crédit PME — socle backend local
+# Crédit PME — backend et frontend locaux
+
+Le frontend est connecté par une passerelle de même origine : connexion par cookie
+HttpOnly, brouillons persistants, pièces, revue, analyses publiées, simulations et
+PDF. Voir [installation et vérifications](docs/FRONTEND_BACKEND.md).
+Les identités navigateur sont provisionnées côté serveur ; aucun Bearer technique
+n’est envoyé au navigateur.
 
 L’audit v0.5 et les corrections de sécurité/fiabilité sont décrits dans
 [docs/security/AUDIT.md](docs/security/AUDIT.md), avec
@@ -33,7 +39,7 @@ la production.
 Prérequis : Docker avec Compose v2, ports locaux 8000 et 5432 libres.
 
 ```bash
-cp .env.example .env
+[ -f .env ] || cp .env.example .env
 uv sync --locked
 # Une seule fois, si cette identité n’existe pas encore :
 .venv/bin/python scripts/init_local_auth.py --user agent-scans --reviewer
