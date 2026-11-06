@@ -204,3 +204,9 @@ volume PostgreSQL. Le service et les parcours complets sont vérifiés avec Uvic
 natif et PostgreSQL ; le démarrage de l’image doit être revalidé sur un hôte ayant
 suffisamment d’espace. Cette limite ne doit pas être présentée comme un lancement
 Compose réussi.
+
+## Repères de couleur du parcours client
+
+Les accents sont réservés à `body.is-client` : vert pour la progression et le focus, rouge pour les astérisques obligatoires et les contrôles natifs `:user-invalid` après interaction. Les titres, libellés, numéros d’étape et messages restent présents ; la couleur ne remplace pas les indications textuelles. Aucun montant, score ou statut métier n’est calculé à partir de ces couleurs. Les espaces admin et banque ne portent pas cette classe.
+
+Vérifications exécutées : `cd frontend && npm test` (78 contrôles), puis `.venv/bin/python scripts/run_frontend_e2e.py --browser-test client-colours.cjs` (18 contrôles Chromium : deux noyaux, étape, focus, erreur native, astérisque unique et largeur mobile). Captures synthétiques inspectées dans `output/frontend/browser-o2isas8z/`, exclu de Git. Aucune modification du backend financier.

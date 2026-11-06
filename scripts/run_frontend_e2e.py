@@ -20,6 +20,7 @@ parser.add_argument(
         "public-home.cjs",
         "institution-centres.cjs",
         "admin-reviews.cjs",
+        "client-colours.cjs",
     ],
     default="browser-e2e.cjs",
 )
