@@ -8,13 +8,21 @@ from threading import BoundedSemaphore
 from argon2 import PasswordHasher
 from fastapi import Depends, Header, HTTPException, Query
 from fastapi.responses import Response, HTMLResponse
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from credit.security.access import role
 from credit.security.runtime import Limiter, audit
-from credit.persistence import WebUser, WebSession, AssessmentRecord, identifier, now
-from credit.partners.models import Partner, Transmission, InternalReview, Attestation
+from credit.persistence import (
+    WebUser,
+    WebSession,
+    AssessmentRecord,
+    CaseRecord,
+    SubmissionRecord,
+    identifier,
+    now,
+)
+from credit.partners.models import Partner, Transmission, InternalReview, Attestation, CaseGrant
 from credit.partners import service, signing
 from credit.partners.contracts import Reason
 from credit.institutions.models import InstitutionAccount, BankDecisionRecord, ClientMessage
@@ -132,6 +140,77 @@ def register_routes(app, db):
 
     def export_limit(session):
         limits.check(("institution_export", actor(session).id), 30)
+
+    @app.get("/institution-admin/review-cases")
+    def review_cases(
+        core: str | None = Query(None, pattern="^(individuals|businesses)$"),
+        limit: int = Query(30, ge=1, le=100),
+        offset: int = Query(0, ge=0, le=100000),
+        session: Session = Depends(db),
+    ):
+        a = admin(session)
+        stmt = select(CaseRecord).where(CaseRecord.institution_id == a.institution_id)
+        if core:
+            stmt = stmt.where(CaseRecord.kind == core)
+        total = session.scalar(select(func.count()).select_from(stmt.subquery()))
+        rows = []
+        for c in session.scalars(
+            stmt.order_by(CaseRecord.updated_at.desc(), CaseRecord.id).offset(offset).limit(limit)
+        ):
+            latest = session.scalar(
+                select(InternalReview)
+                .where(InternalReview.case_id == c.id)
+                .order_by(InternalReview.created_at.desc())
+                .limit(1)
+            )
+            rows.append(
+                {
+                    "id": c.id,
+                    "kind": c.kind,
+                    "name": c.payload.get("name", "Dossier sans nom"),
+                    "version": c.lock_version,
+                    "updated_at": c.updated_at,
+                    "review_state": latest.state if latest else "not_started",
+                    "review_case_version": latest.case_version if latest else None,
+                    "document_count": session.scalar(
+                        select(func.count())
+                        .select_from(SubmissionRecord)
+                        .where(SubmissionRecord.case_id == c.id)
+                    ),
+                    "analysis_count": session.scalar(
+                        select(func.count())
+                        .select_from(AssessmentRecord)
+                        .where(AssessmentRecord.case_id == c.id)
+                    ),
+                }
+            )
+        return {"items": rows, "total": total, "limit": limit, "offset": offset}
+
+    @app.post("/institution-admin/review-cases/{id}/claim")
+    def claim_review(id: str, body: Expected, session: Session = Depends(db)):
+        a = admin(session)
+        c = session.scalar(select(CaseRecord).where(CaseRecord.id == id).with_for_update())
+        if not c or c.institution_id != a.institution_id:
+            raise HTTPException(404, "Dossier introuvable")
+        if c.lock_version != body.expected_revision:
+            raise HTTPException(
+                409, "Le dossier a changé ; actualisez la file avant sa prise en charge"
+            )
+        if not session.get(CaseGrant, (c.id, a.id)):
+            session.add(CaseGrant(case_id=c.id, actor_id=a.id, granted_by=a.id))
+            service.event(
+                session,
+                a,
+                "admin_review_claimed",
+                {"case_id": c.id, "case_version": c.lock_version},
+            )
+        session.commit()
+        return {
+            "id": c.id,
+            "kind": c.kind,
+            "version": c.lock_version,
+            "status": "assigned_for_review",
+        }
 
     @app.get("/institution-admin/metrics")
     def dashboard(days: int = Query(30, ge=1, le=365), session: Session = Depends(db)):

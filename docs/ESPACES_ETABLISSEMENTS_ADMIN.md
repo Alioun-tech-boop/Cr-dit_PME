@@ -77,3 +77,26 @@ Cette commande prépare des dossiers synthétiques, des approbations, un partage
 Le centre admin agrège les données de **son institution** : dossiers, analyses dans la période, transmissions, offres/refus, comptes et échecs. Le nombre de dossiers est un stock ; la série quotidienne porte sur les analyses horodatées. Ces compteurs ne sont ni des taux de défaut ni une validation bancaire.
 
 Avant utilisation réelle : accords et représentants vérifiés, politiques de conservation, clés bancaires provisionnées et protégées, portée juridique du document validée. Aucun prestataire de certification tierce, KYC bancaire automatique, envoi automatique de courriel ou connexion bancaire externe n’est configuré par ce parcours.
+
+## Administration dédiée et vérifications manuelles
+
+La navigation administrateur contient uniquement **Activité**, **Vérification des dossiers**, **Établissements & accès**, ainsi que son compte et ses paramètres. Les liens de demande de financement, accompagnement, choix de banque, vidéos et simulations du demandeur ne sont pas montés dans cet espace. Un accès direct à leurs anciennes URL renvoie l’administrateur vers son centre d’activité. Le compte conserve sa déconnexion réelle, sans cartes du parcours client.
+
+`#admin-centre/reviews` affiche une file paginée de l’institution, filtrable entre particuliers et entreprises. Elle expose uniquement les métadonnées de suivi. **Prendre en charge et examiner** contrôle la version puis crée une habilitation explicite `CaseGrant` pour l’admin, avec événement `admin_review_claimed`. Aucune habilitation sur une autre institution n’est possible. Cette prise en charge n’approuve ni les données ni le crédit.
+
+Dans le dossier :
+
+1. **Données du dossier** : données enregistrées, sections repliables, montants et inconnus tels que reçus.
+2. **Pièces & transcriptions** : pages autorisées, agrandissement, originaux téléchargeables, états séparés du dépôt, qualité, OCR, revue et authenticité. Une correction exige le choix d’un champ, une valeur, une ou plusieurs références sources, une justification et une confirmation humaine. La révision est contrôlée et l’auteur et la date sont conservés. Aucune valeur n’est automatiquement envoyée au scoring.
+3. **Résultats d’analyse** : choix d’une analyse historique, sous-analyses et sources du serveur, sans calcul navigateur.
+4. **Revue & approbation** : constitution d’un paquet versionné avec sélection explicite des pièces, demande de compléments ou décision interne selon les habilitations et la politique existantes. Une clé et une politique applicables restent nécessaires pour émettre une attestation. Une décision bancaire ne peut pas être prise ici.
+
+Nouvelles opérations serveur : `GET /api/institution-admin/review-cases?core=individuals&limit=30&offset=0` et `POST /api/institution-admin/review-cases/{id}/claim` avec `expected_revision`. Toutes les lectures et mutations ultérieures réutilisent les contrôles d’objet existants. Aucune migration supplémentaire n’est nécessaire.
+
+Vérification synthétique dédiée :
+
+```bash
+.venv/bin/python scripts/run_frontend_e2e.py --browser-test admin-reviews.cjs
+```
+
+Le test prépare les deux noyaux et des relevés synthétiques réellement extraits, puis vérifie menus, protection des URL, prise en charge, consultation des sources, correction humaine, analyses, compléments et largeur mobile. Aucun compte ou dossier réel n’est modifié par ce test.

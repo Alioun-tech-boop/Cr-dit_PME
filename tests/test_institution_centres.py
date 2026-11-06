@@ -445,3 +445,72 @@ def test_analysis_tampering_and_stale_account_versions_are_refused(portal):
         headers=headers("admin"),
     )
     assert response.status_code == 409
+
+
+def test_admin_review_queue_claims_are_scoped_versioned_and_audited(portal):
+    from credit.persistence import CaseRecord
+    from credit.partners.models import CaseGrant, PartnerEvent
+    from sqlalchemy import select
+
+    c = portal
+    case_path, _, _, t = received(c)
+    case_id = t["case_id"]
+    with c.factory() as db:
+        record = db.get(CaseRecord, case_id)
+        # L'admin n'obtient pas une autorisation implicite par la lecture de la file.
+        grant = db.get(CaseGrant, (case_id, "admin"))
+        if grant:
+            db.delete(grant)
+        record.owner_id = "applicant"
+        version = record.lock_version
+        db.commit()
+        version = record.lock_version
+    assert c.get(case_path, headers=headers("admin")).status_code == 404
+    queue = c.get("/institution-admin/review-cases", headers=headers("admin"))
+    assert queue.status_code == 200
+    row = next(x for x in queue.json()["items"] if x["id"] == case_id)
+    assert row["kind"] == "individuals" and row["analysis_count"] >= 1
+    assert "data" not in row and "payload" not in row
+    assert c.get("/institution-admin/review-cases", headers=headers("applicant")).status_code == 403
+    assert (
+        c.get("/institution-admin/review-cases?limit=1000", headers=headers("admin")).status_code
+        == 422
+    )
+    assert (
+        post(
+            c,
+            "/institution-admin/review-cases/" + case_id + "/claim",
+            {"expected_revision": version + 1},
+        ).status_code
+        == 409
+    )
+    claimed = post(
+        c, "/institution-admin/review-cases/" + case_id + "/claim", {"expected_revision": version}
+    )
+    assert claimed.status_code == 200
+    assert c.get(case_path, headers=headers("admin")).status_code == 200
+    assert (
+        post(
+            c,
+            "/institution-admin/review-cases/" + case_id + "/claim",
+            {"expected_revision": version},
+        ).status_code
+        == 200
+    )
+    with c.factory() as db:
+        events = db.scalars(
+            select(PartnerEvent).where(PartnerEvent.action == "admin_review_claimed")
+        ).all()
+        assert len(events) == 1
+        record = db.get(CaseRecord, case_id)
+        record.institution_id = "other-institution"
+        db.commit()
+    assert not c.get("/institution-admin/review-cases", headers=headers("admin")).json()["items"]
+    assert (
+        post(
+            c,
+            "/institution-admin/review-cases/" + case_id + "/claim",
+            {"expected_revision": version},
+        ).status_code
+        == 404
+    )

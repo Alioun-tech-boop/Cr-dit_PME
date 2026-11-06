@@ -19,6 +19,7 @@ parser.add_argument(
         "banking.cjs",
         "public-home.cjs",
         "institution-centres.cjs",
+        "admin-reviews.cjs",
     ],
     default="browser-e2e.cjs",
 )
@@ -45,7 +46,7 @@ env = {
 }
 if (root / ".local/share/tessdata/fra.traineddata").is_file():
     env.setdefault("TESSDATA_PREFIX", str(root / ".local/share/tessdata"))
-if args.browser_test in {"banking.cjs", "institution-centres.cjs"}:
+if args.browser_test in {"banking.cjs", "institution-centres.cjs", "admin-reviews.cjs"}:
     env["CREDIT_PARTNER_ALLOW_DEMO"] = "true"
     env["CREDIT_PARTNER_KEYRING_FILE"] = str(run / "keyring.json")
 # Préparation avant création de l'application, registre absent initialement : aucune connexion HTTP.
@@ -53,7 +54,9 @@ subprocess.run(
     [
         sys.executable,
         "-m",
-        "scripts.prepare_institution_e2e"
+        "scripts.prepare_admin_review_e2e"
+        if args.browser_test == "admin-reviews.cjs"
+        else "scripts.prepare_institution_e2e"
         if args.browser_test == "institution-centres.cjs"
         else "scripts.prepare_partner_e2e"
         if args.browser_test == "banking.cjs"

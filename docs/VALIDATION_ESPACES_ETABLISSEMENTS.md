@@ -16,3 +16,14 @@ Le PDF synthétique de trois pages a été extrait avec PyMuPDF puis chaque page
 Les tests de non-régression couvrent notamment : permissions administrateur, invitation unique et révocation de sessions, compte sans rôle libre, révisions périmées, archive, clés absentes, prévisualisation modifiée, envoi idempotent, refus sans PDF, échec de rendu sans message partiel, source d’analyse altérée, PDF altéré même avec hash de stockage modifié, signature, révocation et accès client/banque/public séparés.
 
 Limites : pas de prestataire de signature certifiée, de notification SMS/e-mail ou de banque réelle configurés. Les contraintes de concurrence PostgreSQL ne sont pas validées par les tests SQLite ; elles requièrent la base de test dédiée documentée dans le README. La signature locale prouve l’intégrité selon les clés administrées, pas une certification juridique par un tiers.
+
+## Refonte de l’administration et revue manuelle — 6 novembre 2026
+
+- Suite complète backend : **328 tests réussis, 2 ignorés**, 2 avertissements Starlette/AnyIO, 196,94 s. Les deux tests ignorés restent les tests de concurrence PostgreSQL nécessitant une base dédiée.
+- Tests ciblés `tests/test_institution_centres.py` : **10 réussis**. Nouveau contrôle : file administrative limitée à son institution, liste sans payload financier, prise en charge explicite, contrôle de version, création unique de l’habilitation et de son événement, refus des autres rôles et institutions.
+- Régression Chromium `institution-centres.cjs` : **19 contrôles réussis** après séparation de la navigation admin ; offres signées, refus et réception client conservés.
+- Chromium `admin-reviews.cjs` : contrôle des menus, redirection des anciennes URL demandeur, absence de nouvelle demande et de bloc de choix de banque, file particuliers/entreprises, pages sources réellement décodées, correction humaine persistée avec auteur, analyse historique et demande de compléments interne. Les captures desktop et mobile sont conservées dans `output/frontend/browser-*/` et exclues de Git.
+
+L’inspection visuelle a conduit à raccourcir l’historique : seules les décisions de transcription sont affichées dans les cartes, au lieu de répéter toute l’extraction. Les sources brutes restent consultables séparément. Le compte admin conserve sa déconnexion et ne comporte plus les cartes de projets demandeur. Les fichiers originaux sont accessibles à partir des références `source_id` des pages, même lorsque le dépôt n’expose pas de tableau `sources` distinct.
+
+Dernière vérification de la refonte : **26 contrôles navigateur admin réussis**, incluant l’accès aux originaux ; **78 contrôles frontend** réussis (30 contrats, 45 livraison/transport et 3 frontières asynchrones). Le formulaire de correction et sa page source sont disposés côte à côte sur ordinateur et empilés sur mobile. La prise en charge de la revue ne modifie pas les faits financiers ni les analyses historiques.
