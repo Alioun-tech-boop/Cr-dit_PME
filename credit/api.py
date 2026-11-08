@@ -440,6 +440,9 @@ def create_app(database_url=None):
     from credit.web.routes import register_web_routes
 
     register_web_routes(app, db, get_record, save)
+    from credit.intelligence.routes import register_routes as register_intelligence_routes
+
+    register_intelligence_routes(app, db, get_record)
     return app
 
 
