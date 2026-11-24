@@ -29,8 +29,8 @@ def _table(table):
     if count == 1:
         widths = [r"\dimexpr\linewidth-2\tabcolsep\relax"]
     else:
-        first = 0.27 if count == 2 else 0.22
-        widths = [f"{first:.4f}\\linewidth"] + [f"{(1-first)/(count-1):.4f}\\linewidth"] * (count-1)
+        first = 0.25 if count == 2 else 0.22
+        widths = [f"{first:.4f}\\linewidth"] + [f"{(0.95-first)/(count-1):.4f}\\linewidth"] * (count-1)
     spec = "|" + "|".join(f">{{\\raggedright\\arraybackslash}}p{{{w}}}" for w in widths) + "|"
     head = " & ".join(r"\textbf{" + tex_escape(c) + "}" for c in table.columns) + r" \\ \hline"
     rows = []
@@ -62,14 +62,14 @@ def latex_source(model, logo_path=None, qr_path=None):
             sections.append(tex_escape(paragraph) + "\n\\par\\medskip\n")
         sections.extend(_table(table) for table in section.tables)
     logo = (
-        r"\includegraphics[width=42mm,height=18mm,keepaspectratio]{" + tex_escape(logo_path) + "}"
+        r"\includegraphics[width=42mm,height=18mm,keepaspectratio]{" + "logo.png" + "}"
         if logo_path else r"{\sffamily\bfseries\fontsize{20}{22}\selectfont CRÉDIX}"
     )
     verification = ""
     if qr_path:
         verification = (
             r"\section*{Vérification de l’édition}\noindent"
-            r"\includegraphics[width=25mm]{" + tex_escape(qr_path) + "}\quad "
+            r"\includegraphics[width=25mm]{" + "verification.pdf" + "}\quad "
             + tex_escape(model.verification_url or "") + "\n"
         )
     signature = ""
@@ -167,7 +167,7 @@ def latex_pdf_document(model: Presentation, max_pages=120):
             qr = root / "verification.pdf"
             renderPDF.drawToFile(verification_qr(model.verification_url), str(qr))
         tex = root / "edition.tex"
-        tex.write_text(latex_source(model, str(logo) if logo else None, str(qr) if qr else None), encoding="utf-8")
+        tex.write_text(latex_source(model, logo.name if logo else None, qr.name if qr else None), encoding="utf-8")
         env = {
             "PATH": os.environ.get("PATH", ""),
             "HOME": str(root),
@@ -178,7 +178,7 @@ def latex_pdf_document(model: Presentation, max_pages=120):
         }
         command = [
             compiler, "-no-shell-escape", "-interaction=nonstopmode",
-            "-halt-on-error", "-file-line-error", "-output-directory", str(root), str(tex),
+            "-halt-on-error", "-file-line-error", "-output-directory", str(root), "edition.tex",
         ]
         for _ in range(2):
             try:
