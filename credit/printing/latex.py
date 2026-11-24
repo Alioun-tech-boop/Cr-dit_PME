@@ -23,6 +23,19 @@ def tex_escape(value):
     return "".join(replacements.get(char, char) for char in value).replace("\n", r"\\ ")
 
 
+def _cell_chunks(value, size=600):
+    remaining = str(value)
+    result = []
+    while len(remaining) > size:
+        cut = remaining.rfind(" ", 0, size)
+        if cut <= 0:
+            cut = size - 1
+        result.append(tex_escape(remaining[:cut + 1]))
+        remaining = remaining[cut + 1:]
+    result.append(tex_escape(remaining))
+    return result or [""]
+
+
 def _table(table):
     if not table.rows:
         return ""
@@ -38,7 +51,7 @@ def _table(table):
     for row in table.rows:
         cells = list(row) + [""] * max(0, count-len(row))
         split = [
-            [tex_escape(str(cell)[i:i+800]) for i in range(0, len(str(cell)) or 1, 800)]
+            _cell_chunks(cell)
             for cell in cells[:count]
         ]
         for part in range(max(map(len, split))):
