@@ -38,7 +38,7 @@ def _table(table):
     for row in table.rows:
         cells = list(row) + [""] * max(0, count-len(row))
         split = [
-            [tex_escape(cell)[i:i+800] for i in range(0, len(tex_escape(cell)) or 1, 800)]
+            [tex_escape(str(cell)[i:i+800]) for i in range(0, len(str(cell)) or 1, 800)]
             for cell in cells[:count]
         ]
         for part in range(max(map(len, split))):
