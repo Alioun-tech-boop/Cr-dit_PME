@@ -84,7 +84,8 @@ def latex_source(model, logo_path=None, qr_path=None):
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-\usepackage{lmodern}\n\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage{textcomp}
 \usepackage{microtype}
 \usepackage[a4paper,top=25mm,bottom=23mm,left=19mm,right=19mm,headheight=15pt,headsep=8mm,footskip=12mm]{geometry}
 \usepackage{graphicx}
