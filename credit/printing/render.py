@@ -2,9 +2,6 @@
 
 import base64
 from html import escape
-from io import BytesIO
-from pathlib import Path
-import re
 
 from credit.printing.contracts import Presentation
 
@@ -90,12 +87,6 @@ def html_document(model: Presentation):
         "<footer>Édition conservée — aucun partage automatique. Pour la pagination garantie, utiliser le PDF téléchargé.</footer></body></html>"
     )
     return "".join(fragments)
-
-
-def chunks(text, size=800):
-    text = str(text)
-    # Longues chaînes et commentaires restent tous présents ; pas de troncature silencieuse.
-    return [text[i : i + size] for i in range(0, len(text), size)] or [""]
 
 
 def pdf_document(model: Presentation, max_pages=120):
