@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10243a">
+<meta name="description" content="Démonstration guidée Crédix : deux dossiers synthétiques, analyse financière et simulations.">
+<title>Crédix — Démonstration guidée</title>
+<link rel="stylesheet" href="demo.css?v=1.0.0">
+<style>
+:root{font-family:Manrope,Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:#10243a;background:#fff}
+*{box-sizing:border-box}body{margin:0;background:#fff}.demo-page{max-width:1120px;margin:0 auto;padding:24px clamp(16px,4vw,42px) 48px}
+.demo-brand{display:flex;justify-content:space-between;align-items:center;padding:12px 0 22px;border-bottom:1px solid #e8ecea}
+.demo-brand a{color:#10243a;text-decoration:none;font-size:22px;font-weight:800;letter-spacing:-1px}
+.demo-brand a span{color:#087e83}.demo-brand small{font-size:10px;color:#748087;letter-spacing:1px;font-weight:700}
+.demo-heading{padding:34px 0 12px}.demo-heading h1{font-size:clamp(25px,4vw,38px);letter-spacing:-1.4px;margin:0 0 8px}.demo-heading p{font-size:12px;color:#68737a;line-height:1.7;margin:0}
+#view{min-height:360px}footer{border-top:1px solid #e8ecea;padding-top:18px;margin-top:32px;color:#7a858a;font-size:10px;line-height:1.7}
+@media(max-width:600px){.demo-page{padding-top:12px}.demo-brand{align-items:flex-start;gap:12px}.demo-brand small{text-align:right}}
+</style>
+</head>
+<body>
+<div class="demo-page">
+<header class="demo-brand"><a href="./index.html" aria-label="Crédix">crédix<span>•</span></a><small>DÉMONSTRATION INDÉPENDANTE · DONNÉES FICTIVES</small></header>
+<header class="demo-heading"><h1 id="page-title">Découvrez Crédix en situation.</h1><p id="page-subtitle">Deux parcours synthétiques, sans inscription et sans création de dossier.</p></header>
+<main id="view" aria-live="polite"></main>
+<footer>© 2026 Crédix · Environnement de démonstration en lecture seule. Les exemples sont synthétiques, les politiques illustratives et non approuvées. Aucun score actif, aucune probabilité de défaut et aucune décision de financement ne sont produits.</footer>
+</div>
+<script src="demo-data.js?v=1.0.0"></script>
+<script src="demo.js?v=1.0.0"></script>
+<script>
+window.renderApp=()=>window.CreditDemo?.render(location.hash||'#demo');
+if(!location.hash.startsWith('#demo'))history.replaceState(null,'',location.pathname+'#demo');
+window.addEventListener('hashchange',window.renderApp);
+window.renderApp();
+</script>
+</body>
+</html>
