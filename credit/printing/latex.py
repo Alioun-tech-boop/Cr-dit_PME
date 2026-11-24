@@ -13,6 +13,7 @@ from credit.printing.contracts import Presentation
 
 def tex_escape(value):
     value = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", str(value))
+    value = value.replace("\u202f", "~").replace("\u00a0", "~")
     replacements = {
         "\\": r"\textbackslash{}",
         "{": r"\{", "}": r"\}", "$": r"\$", "&": r"\&", "%": r"\%",
