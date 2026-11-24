@@ -37,7 +37,6 @@ def _table(table):
     rows = []
     for row in table.rows:
         cells = list(row) + [""] * max(0, count-len(row))
-        split = [tex_escape(cell)[i:i+800] for cell in cells[:count] for i in []]
         split = [
             [tex_escape(cell)[i:i+800] for i in range(0, len(tex_escape(cell)) or 1, 800)]
             for cell in cells[:count]
@@ -50,7 +49,7 @@ def _table(table):
         + r"\rowcolors{2}{CredixPale}{white}" + "\n"
         + f"\\begin{{longtable}}{{{spec}}}\n\\hline\n{head}\n\\endfirsthead\n"
         + r"\hline " + head + "\n\\endhead\n" + "\n".join(rows)
-        + "\n\\end{longtable}\n\\rowcolors{2}{}{}\\normalsize\n"
+        + "\n\\end{longtable}\n\\rowcolors{2}{white}{white}\\normalsize\n"
     )
 
 
