@@ -66,5 +66,5 @@ function render(hash){
  shell(c,n,[dossier,finances,documents,analysis,simulations,restitution][n](c));
 }
 window.CreditDemo={decorateOverview,render};
-if(location.hash==='#demo'||location.hash.startsWith('#demo/'))window.renderApp?.();
+if(location.hash==='#demo'||location.hash.startsWith('#demo/'))window.renderApp?.();else if(location.hash===''||location.hash==='#overview')window.CreditDemo.decorateOverview();
 })();
