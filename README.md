@@ -31,8 +31,8 @@ L’audit v0.5 et les corrections de sécurité/fiabilité sont décrits dans
 [procédure de restauration](docs/security/BACKUP_RESTORE.md).
 Les modifications de dossier exigent désormais `If-Match` avec leur `version`.
 
-Les éditions imprimables v0.4 (HTML, PDF, versions demandeur/analyste) sont décrites
-dans [docs/DOCUMENTS_IMPRIMABLES.md](docs/DOCUMENTS_IMPRIMABLES.md).
+Les éditions imprimables (HTML et PDF LaTeX, versions demandeur/analyste) sont décrites
+dans [docs/DOCUMENTS_IMPRIMABLES.md](docs/DOCUMENTS_IMPRIMABLES.md). Les nouveaux PDF sont composés avec TeX Live / pdfLaTeX : [charte et moteur PDF](docs/PDF_LATEX.md).
 Des [PDF synthétiques](examples/printing/) sont fournis et leurs vérifications sont
 consignées dans [docs/VALIDATION_PRINTING.md](docs/VALIDATION_PRINTING.md).
 

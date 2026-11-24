@@ -9,9 +9,11 @@ Swagger, l’aperçu HTML imprimable et les exemples, sans interface supplément
 ## Installation et lancement Linux
 
 Python 3.12, PostgreSQL 16.6, versions verrouillées dans `uv.lock`.
-ReportLab 4.4.9, déjà utilisé pour les tests, devient une dépendance d’exécution.
-Ses polices Vera intégrées fournissent les caractères français sans téléchargement
-au moment du rendu. Aucun navigateur ni serveur de rendu externe n’est nécessaire.
+Le PDF final est désormais composé par pdfLaTeX (TeX Live) avec Latin Modern,
+Babel français, microtype et une charte graphique Crédix. ReportLab reste utilisé
+pour certains éléments vectoriels de vérification, pas pour la composition des pages.
+Aucun navigateur ni serveur de rendu externe n’est nécessaire. Voir [la documentation
+LaTeX](PDF_LATEX.md).
 
 ```bash
 uv sync --locked

@@ -1,5 +1,11 @@
 # Validation des éditions imprimables — 4 novembre 2026
 
+> **Portée historique :** cette campagne du 4 novembre 2026 valide l’ancien rendu PDF
+> ReportLab. Elle ne constitue pas une validation du nouveau moteur pdfLaTeX ajouté
+> dans la branche de migration. Pour celui-ci, les tests doivent être relancés dans
+> l’image Docker contenant TeX Live et les PDF doivent faire l’objet d’une nouvelle
+> inspection visuelle avant fusion et déploiement.
+
 Environnement : Linux, Python 3.12, PostgreSQL 16.6, ReportLab 4.4.9,
 PyMuPDF 1.26.6. Dossiers et documents exclusivement synthétiques.
 

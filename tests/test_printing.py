@@ -91,7 +91,7 @@ def test_all_templates_real_pdf_and_same_presentation(core, template):
     extracted = text(pdf)
     assert m.title in " ".join(extracted.split())
     assert m.title in html
-    assert "Page 1 /" in extracted and "cas-synthetique" in extracted
+    assert "Page 1 sur" in extracted and "cas-synthetique" in extracted
     assert pdf.startswith(b"%PDF-") and len(pdf) > 1000
     assert "accord de crédit" in extracted
     if template == "financial_declaration":
