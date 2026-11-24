@@ -16,8 +16,17 @@ il ne recalcule aucun ratio, score, seuil ou recommandation.
 ## Installation
 
 L'image Docker installe texlive-latex-base, texlive-latex-recommended,
-texlive-lang-french et lmodern. En local, installer les mêmes paquets système
-avant de lancer l'API. Aucun téléchargement de paquet TeX n'est effectué à l'exécution.
+texlive-latex-extra, texlive-lang-french et lmodern. Sur Debian/Ubuntu, l'installation
+locale équivalente est :
+
+```bash
+sudo apt-get update
+sudo apt-get install -y texlive-latex-base texlive-latex-recommended \
+  texlive-latex-extra texlive-lang-french lmodern
+pdflatex --version
+```
+
+Aucun téléchargement de paquet TeX n'est effectué à l'exécution.
 
 La compilation est exécutée dans le worker isolé, sans shell escape, avec durée,
 mémoire, taille de sortie et nombre de pages bornés. Le rendu HTML d'aperçu reste
