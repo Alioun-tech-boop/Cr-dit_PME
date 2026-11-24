@@ -231,3 +231,30 @@ footer{min-width:0;flex-wrap:wrap;overflow-wrap:anywhere}
 .ca-page .badge.red{background:#fbe9e7;color:#a13c32}
 @media(max-width:980px){.ca-hero{grid-template-columns:1fr;padding:30px}.ca-kpis,.ca-scenarios{grid-template-columns:1fr 1fr}.ca-score-meta{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.ca-hero{padding:24px;border-radius:26px}.ca-section{padding:22px;border-radius:23px}.ca-kpis,.ca-scenarios,.ca-summary-grid,.ca-two-col,.ca-score-meta{grid-template-columns:1fr}.ca-ring{width:132px;height:132px}.ca-ring strong{font-size:30px}.ca-trace{grid-template-columns:1fr}.ca-trace>div:nth-child(odd){border-bottom:0;padding-bottom:2px}.ca-trace>div:nth-child(even){padding-top:2px}.ca-empty{padding:32px 20px}.ca-document{align-items:flex-start}}
+
+
+/* Saisie guidée des flux et des échéances */
+.flow-period-list,.schedule-card-list,.debt-entry-list{display:grid;gap:16px}
+.flow-period-card,.schedule-period-card,.debt-entry-card{min-width:0;margin:0;padding:22px;border:1px solid #deded8;border-radius:18px;background:#fff}
+.flow-period-card legend,.schedule-period-card legend,.debt-entry-card legend{padding:0 8px;font-size:13px;font-weight:700;letter-spacing:-.2px}
+.flow-period-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:17px;border-bottom:1px solid #ecebe6}
+.flow-period-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 18px;padding-top:18px}
+.flow-amount-field{min-width:0;padding:13px;border:1px solid #ecebe6;border-radius:13px;background:#fbfbf9}
+.flow-amount-field input,.schedule-period-card input,.debt-entry-card input{width:100%;min-width:0}
+.flow-period-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:15px;margin-top:8px;border-top:1px solid #ecebe6}
+.flow-period-actions .fine-print{margin:0}
+.flow-remove,.debt-remove{margin-top:13px}
+.schedule-period-card>p{font-size:11px;line-height:1.7;color:#686861;margin:0 0 15px}
+.schedule-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.debt-entry-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.flow-entry-note{padding:18px 20px;border:1px solid #deded8;border-radius:15px;background:#f7f7f3;margin-top:14px}
+.flow-entry-note strong{font-size:12px}
+.flow-entry-note p{font-size:11px;line-height:1.8;color:#62625c;margin:8px 0 0}
+.form-issues{padding:16px 18px;margin:14px 0 20px;border:1px solid #d84a4a;border-left:4px solid #c83d3d;border-radius:13px;background:#fff7f6;color:#702525}
+.form-issues>strong{font-size:13px}
+.form-issues ul{display:grid;gap:9px;padding-left:18px;margin:11px 0 0}
+.form-issues li{font-size:11px;line-height:1.6;padding-left:2px}
+.form-issues li .text-button{display:inline-block;margin-left:7px;color:#9b2727;font-size:10px}
+.has-error{border-color:#c83d3d!important;box-shadow:0 0 0 2px #c83d3d18!important}
+input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#c83d3d!important;background:#fffafa!important}
+@media(max-width:760px){.flow-period-card,.schedule-period-card,.debt-entry-card{padding:16px;border-radius:15px}.flow-period-head,.flow-period-fields,.schedule-fields,.debt-entry-fields{grid-template-columns:1fr;gap:12px}.flow-period-actions{align-items:flex-start;flex-direction:column}.flow-period-actions .text-button{font-size:10px}.flow-entry-note{padding:15px}.form-issues{padding:14px}.form-issues li .text-button{display:block;margin:5px 0 0}}
