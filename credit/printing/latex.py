@@ -77,7 +77,7 @@ def latex_source(model, logo_path=None, qr_path=None):
     )
     sections = []
     for section in model.sections:
-        sections.append(r"\section{" + tex_escape(section.title) + "}")
+        sections.append(r"\Needspace{4\baselineskip}\section{" + tex_escape(section.title) + "}")
         for paragraph in section.paragraphs:
             sections.append(tex_escape(paragraph) + "\n\\par\\medskip\n")
         sections.extend(_table(table) for table in section.tables)
@@ -124,6 +124,7 @@ def latex_source(model, logo_path=None, qr_path=None):
 \hypersetup{colorlinks=true,linkcolor=CredixTeal,urlcolor=CredixTeal,pdftitle={""" + tex_escape(model.title) + r"""},pdfauthor={""" + tex_escape(model.platform_name) + r"""}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
 \setlist{nosep,leftmargin=5mm}
 \titleformat{\section}{\Large\bfseries\sffamily\color{CredixNavy}}{\thesection}{0.7em}{}[\color{CredixTeal}\titlerule]
 \titlespacing*{\section}{0pt}{15pt}{8pt}
