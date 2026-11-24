@@ -56,7 +56,7 @@ def _table(table):
         ]
         for part in range(max(map(len, split))):
             continuation = [values[part] if part < len(values) else "" for values in split]
-            rows.append(" & ".join(continuation) + r" \\ \\hline")
+            rows.append(" & ".join(continuation) + r" \\ \hline")
     return (
         r"\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.22}" + "\n"
         + r"\rowcolors{2}{CredixPale}{white}" + "\n"
@@ -139,7 +139,8 @@ def latex_source(model, logo_path=None, qr_path=None):
 \renewcommand{\headrule}{\hbox to\headwidth{\color{CredixTeal}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrulewidth}{0.4pt}
 \newcommand{\CredixMetaRow}[2]{\textbf{\color{CredixMuted}#1} & #2\\[4pt]\hline}
-\newenvironment{CredixNotice}{\par\smallskip\noindent\colorbox{CredixPale}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small\color{CredixNavy}}}}{\par\smallskip}
+\newsavebox{\CredixNoticeBox}
+\newenvironment{CredixNotice}{\par\smallskip\begin{lrbox}{\CredixNoticeBox}\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}\small\color{CredixNavy}}{\end{minipage}\end{lrbox}\noindent\colorbox{CredixPale}{\usebox{\CredixNoticeBox}}\par\smallskip}
 \begin{document}
 \begin{titlepage}
 \thispagestyle{empty}
