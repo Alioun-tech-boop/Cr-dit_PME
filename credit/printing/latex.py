@@ -37,7 +37,14 @@ def _table(table):
     rows = []
     for row in table.rows:
         cells = list(row) + [""] * max(0, count-len(row))
-        rows.append(" & ".join(tex_escape(c) for c in cells[:count]) + r" \\ \hline")
+        split = [tex_escape(cell)[i:i+800] for cell in cells[:count] for i in []]
+        split = [
+            [tex_escape(cell)[i:i+800] for i in range(0, len(tex_escape(cell)) or 1, 800)]
+            for cell in cells[:count]
+        ]
+        for part in range(max(map(len, split))):
+            continuation = [values[part] if part < len(values) else "" for values in split]
+            rows.append(" & ".join(continuation) + r" \\ \\hline")
     return (
         r"\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.22}" + "\n"
         + r"\rowcolors{2}{CredixPale}{white}" + "\n"
